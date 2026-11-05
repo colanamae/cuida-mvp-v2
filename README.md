@@ -1,4 +1,4 @@
-# Cola na Mãe — MVP web responsivo 
+# Cola na Mãe — MVP web responsivo
 
 **Cuidar é um combinado nosso.** Aplicação React + TypeScript, com dados persistidos no Supabase/PostgreSQL e controles de acesso por rede familiar. Implementação inicial baseada na proposta FACEPE, no Design System V1 e no storyboard do aplicativo fornecidos.
 
