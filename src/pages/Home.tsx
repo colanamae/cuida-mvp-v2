@@ -13,40 +13,58 @@ import {
 import { api } from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
 import { useCollection } from "../hooks/useCollection";
-import { Cuida, Progress } from "../components/UI";
-import { first, today } from "../utils/date";
+import { Cuida } from "../components/UI";
+import { today } from "../utils/date";
+
 export function Home() {
-  const { household, user } = useAuth(),
-    id = household!.id;
+  const { household, user } = useAuth();
+  const id = household!.id;
+
   const { items: tasks } = useCollection(() => api.tasks(id), [id]);
   const { items: events } = useCollection(() => api.events(id), [id]);
   const { items: members } = useCollection(() => api.members(id), [id]);
   const { items: profiles } = useCollection(() => api.profiles(id), [id]);
+
   const { items: checkins } = useCollection(
     () => api.checkins(id, user!.id),
     [id, user?.id],
   );
-  const { items: dreams } = useCollection(() => api.dreams(id), [id]);
-  const due = tasks.filter((t) => t.due_at?.slice(0, 10) === today()),
-    done = due.filter((t) => t.status === "done").length,
-    missing = due.filter((t) => !t.assigned_to && t.status !== "done").length;
-  const myName =
-    members.find((m) => m.user_id === user?.id)?.display_name ||
-    user?.email?.split("@")[0] ||
-    "você";
+
+  const due = tasks.filter((t) => t.due_at?.slice(0, 10) === today());
+  const done = due.filter((t) => t.status === "done").length;
+
+  const missing = due.filter(
+    (t) => !t.assigned_to && t.status !== "done",
+  ).length;
+
+  const memberName = members.find((m) => m.user_id === user?.id)?.display_name;
+
+  const profileName =
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    user?.user_metadata?.display_name;
+
+  const rawName =
+    profileName || memberName || user?.email?.split("@")[0] || "você";
+
+  const myName = rawName
+    .replace(/[._-]+/g, " ")
+    .replace(/\d+$/, "")
+    .trim()
+    .split(/\s+/)[0];
+
+  const greetingName =
+    myName.charAt(0).toUpperCase() + myName.slice(1).toLowerCase();
+
   const todayEvents = events.filter(
     (e) => e.starts_at.slice(0, 10) === today(),
   ).length;
+
+  const waterCount = Math.min(8, Math.max(0, checkins[0]?.water || 0));
+
+  const taskProgress = due.length > 0 ? (done / due.length) * 100 : 0;
+
   const cards = [
-    {
-      url: "/dia",
-      title: "Hoje",
-      sub: `${due.length} tarefas · ${missing} sem dono`,
-      icon: Check,
-      theme: "pink",
-      big: `${done}/${due.length}`,
-      meta: "feitas",
-    },
     {
       url: "/agenda",
       title: "Agenda",
@@ -54,7 +72,9 @@ export function Home() {
       icon: CalendarDays,
       theme: "blue",
       big: new Date().getDate().toString(),
-      meta: new Date().toLocaleDateString("pt-BR", { month: "long" }),
+      meta: new Date().toLocaleDateString("pt-BR", {
+        month: "long",
+      }),
     },
     {
       url: "/rede",
@@ -68,12 +88,11 @@ export function Home() {
       url: "/eu",
       title: "Eu",
       sub: checkins[0]
-        ? `Água: ${checkins[0].water}/8 · movimento: ${checkins[0].movement}min`
+        ? `Água: ${waterCount}/8 · movimento: ${checkins[0].movement}min`
         : "Um momento só seu",
       icon: Heart,
       theme: "white",
       big: checkins[0]?.mood || "♡",
-      meta: "só seu",
     },
     {
       url: "/conquistas",
@@ -83,24 +102,20 @@ export function Home() {
       theme: "peach",
       big: "✦",
     },
-    {
-      url: "/sonhos",
-      title: "Sonhos",
-      sub: `${dreams.length} sonhos em movimento`,
-      icon: Sparkles,
-      theme: "lilac",
-      big: "✧",
-    },
   ];
+
   return (
-    <>
+    <div className="home-dashboard">
       <div className="eyebrow">
         {household?.name.toUpperCase()} · NOSSA EXPERIÊNCIA
       </div>
-      <h1>Oi, {first(myName)}</h1>
+
+      <h1>Oi, {greetingName}</h1>
+
       <p className="lead">
         Tem coisa pra dividir. Você não precisa lembrar de tudo sozinha.
       </p>
+
       <Cuida
         text={`${due.length} coisas hoje, ${due.filter((t) => t.assigned_to).length} com dono. Começo por onde?`}
         action={
@@ -109,34 +124,99 @@ export function Home() {
           </Link>
         }
       />
-      <div className="home-grid">
+
+      <section className="home-grid home-grid-updated">
+        {/* BLOCO HOJE */}
+        <Link to="/dia" className="dashboard-card pink home-today-card">
+          <div className="circle-icon">
+            <Check size={23} />
+          </div>
+
+          <div className="card-bottom">
+            <div
+              className="home-task-progress"
+              style={{
+                background: `conic-gradient(#B85F78 ${taskProgress}%, rgba(255,255,255,0.55) 0%)`,
+              }}
+            >
+              <div className="home-task-progress-inner">
+                <strong>
+                  {done}/{due.length}
+                </strong>
+                <small>feitas</small>
+              </div>
+            </div>
+
+            <strong>Hoje</strong>
+
+            <small>
+              {due.length} tarefas · {missing} sem responsável
+            </small>
+          </div>
+
+          <span className="home-card-arrow">
+            <ArrowRight size={20} />
+          </span>
+        </Link>
+
+        {/* DEMAIS BLOCOS */}
         {cards.map((c) => (
-          <Link to={c.url} className={"dashboard-card " + c.theme} key={c.url}>
+          <Link
+            to={c.url}
+            className={`dashboard-card ${c.theme} home-small-card`}
+            key={c.url}
+          >
             <div className="circle-icon">
               <c.icon size={23} />
             </div>
+
             <div className="card-bottom">
               <div className="card-big">{c.big}</div>
+
+              {/* 8 QUADRINHOS DE ÁGUA */}
               {c.url === "/eu" && (
-                <Progress value={checkins[0]?.water || 0} max={8} />
+                <div
+                  className="home-water-squares"
+                  aria-label={`${waterCount} de 8 copos de água`}
+                >
+                  {Array.from({ length: 8 }, (_, index) => (
+                    <span
+                      key={index}
+                      className={
+                        index < waterCount
+                          ? "home-water-square filled"
+                          : "home-water-square"
+                      }
+                    />
+                  ))}
+                </div>
               )}
+
               <strong>{c.title}</strong>
               <small>{c.sub}</small>
             </div>
           </Link>
         ))}
-      </div>
+      </section>
+
+      {/* ATALHOS MENORES */}
       <div className="quick-links">
+        <Link to="/sonhos">
+          <Sparkles size={18} /> Sonhos
+        </Link>
+
         <Link to="/refeicoes">
           <Utensils size={18} /> Refeições
         </Link>
+
         <Link to="/financas">
           <Wallet size={18} /> Finanças
         </Link>
+
         <Link to="/cuida">
           <Flower2 size={18} /> Conversar com a Cuida
         </Link>
       </div>
-    </>
+    </div>
   );
 }
