@@ -1,0 +1,7 @@
+[functions.google-calendar]
+verify_jwt = true
+
+# The provider redirects without a Supabase bearer token.
+# This callback is protected by expiring single-use OAuth state stored server-side.
+[functions.google-calendar-callback]
+verify_jwt = false

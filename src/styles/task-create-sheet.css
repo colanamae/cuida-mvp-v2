@@ -1,0 +1,41 @@
+/* Painel inferior para nova tarefa — referência visual Cola. */
+.task-sheet-backdrop{position:fixed;inset:0;background:rgba(42,7,22,.44);display:flex;align-items:flex-end;justify-content:center;z-index:150;padding:0 14px 0;}
+.task-sheet{width:min(100%,560px);max-height:min(88dvh,880px);overflow-y:auto;overscroll-behavior:contain;background:var(--raised);border:1px solid var(--border);border-radius:34px 34px 0 0;box-shadow:0 -15px 60px #2A071633;padding:12px 22px max(24px,env(safe-area-inset-bottom));}
+.task-sheet-grip{display:block;width:45px;height:5px;border-radius:9px;background:#D6CDD0;margin:0 auto 9px;}
+.task-sheet-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.task-sheet-header h2{font-size:19px;margin:0;}
+.task-sheet-close{border:0;background:var(--surface);border-radius:50%;height:36px;width:36px;display:grid;place-items:center;color:var(--primary)}
+.task-sheet-form{display:flex;flex-direction:column;gap:14px;}
+.task-sheet-title-label{position:absolute;width:1px;height:1px;clip:rect(0,0,0,0);overflow:hidden}
+.task-sheet-title-input{min-height:55px;border:1px solid #A58995;border-radius:18px;font-size:16px;background:var(--raised);font-weight:450;padding:15px;}
+.task-sheet-section{display:flex;flex-direction:column;gap:10px;}
+.task-sheet-section>strong,.task-sheet-people legend{font-size:13px;font-weight:700;color:var(--ink)}
+.task-sheet-chips{display:flex;gap:8px;flex-wrap:wrap;}
+.task-sheet-chip{border:0;background:#F0EDEC;min-height:44px;padding:10px 16px;border-radius:999px;font-size:13px;font-weight:650;color:var(--ink);flex:1;white-space:nowrap;}
+.task-sheet-chip.selected{background:var(--primary);color:var(--on-primary);}
+.task-sheet-date-tools{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.task-sheet-link{border:0;background:transparent;padding:5px 0;color:var(--primary);font-weight:650;font-size:12px;text-align:left;}
+.task-sheet-date-label,.task-sheet-details label{display:flex;flex-direction:column;gap:7px;font-size:12px;color:var(--muted);font-weight:600;}
+.task-sheet-date-label input{min-height:46px;}
+.task-sheet-people{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+.task-sheet-people fieldset{margin:0;padding:0;border:0;min-width:0;}
+.task-sheet-people legend{margin-bottom:10px;}
+.task-sheet-avatar-row{display:flex;gap:8px;flex-wrap:wrap;}
+.task-sheet-avatar-choice{padding:0;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--muted);min-width:39px;max-width:60px;}
+.task-sheet-avatar-choice>span:last-child{font-size:10px;max-width:58px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.task-sheet-avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:750;border:3px solid transparent;color:var(--ink);}
+.task-sheet-avatar.selected{border:2px solid var(--primary);outline:2px solid var(--raised);box-shadow:0 0 0 3px var(--primary);}
+.task-sheet-profiles .task-sheet-chip{flex:1 1 28%;}
+.task-sheet-details textarea{min-height:76px;border-radius:14px;}
+.task-sheet-submit{border:0;border-radius:999px;background:var(--primary);color:var(--on-primary);min-height:52px;font-size:14px;font-weight:750;width:100%;}
+.task-sheet-submit:disabled{opacity:.55;cursor:not-allowed;}
+.task-sheet-note{font-size:11px;line-height:1.4;color:var(--muted);margin:-7px 0 0;text-align:center;}
+@media(min-width:721px){.task-sheet-backdrop{align-items:center;}.task-sheet{border-radius:28px;max-height:88dvh;padding-bottom:24px;}}
+@media(max-width:420px){.task-sheet-backdrop{padding:0;}.task-sheet{border-radius:28px 28px 0 0;padding:12px 18px max(24px,env(safe-area-inset-bottom));}.task-sheet-chip{padding:9px 12px;font-size:12px;}.task-sheet-people{gap:12px;}}
+@media(prefers-reduced-motion:reduce){.task-sheet *{scroll-behavior:auto}}
+
+/* Campos atualizados: categoria e seleção múltipla. */
+.task-sheet-people{display:block}
+.task-sheet-optional{font-size:11px;font-weight:400;color:var(--muted)}
+.task-sheet-categories .task-sheet-chip{flex:0 1 auto}
+.task-sheet-avatar-choice[aria-pressed="true"]{color:var(--primary);font-weight:700}

@@ -1,2 +1,143 @@
-import {useState} from 'react';import {Heart,Plus,Minus,LockKeyhole} from 'lucide-react';import {useAuth} from '../contexts/AuthContext';import {api} from '../services/api';import {useCollection} from '../hooks/useCollection';import {Cuida,Notice,useFeedback,Progress} from '../components/UI';import {today} from '../utils/date';
-export function Wellbeing(){const {user,household}=useAuth(),id=household!.id;const {items,reload}=useCollection(()=>api.checkins(id,user!.id),[id,user?.id]);const current=items.find(i=>i.day===today());const [sleep,setSleep]=useState('');const {error,success,run}=useFeedback();async function update(changes:Record<string,unknown>){await run(async()=>{await api.save('wellbeing_checkins',{household_id:id,user_id:user!.id,day:today(),mood:current?.mood||'ok',water:current?.water||0,movement:current?.movement||0,sleep_minutes:current?.sleep_minutes||null,...changes},current?.id);await reload()})}return <><span className="eyebrow">SÓ SEU · NINGUÉM DA REDE VÊ</span><h1>Eu</h1><p className="lead">Um momento para cuidar de quem também cuida.</p><Cuida text="Como você está chegando hoje? Vale qualquer resposta."/><div className="panel"><h2>Como você chega hoje?</h2><div className="moods">{[['leve','Leve'],['ok','Ok'],['cansada','Cansada'],['no_limite','No limite']].map(([key,label])=><button className={current?.mood===key?'selected':''} key={key} onClick={()=>update({mood:key})}><Heart size={22}/>{label}</button>)}</div></div><div className="two-columns"><div className="panel wellness-card"><h2>Água</h2><strong>{current?.water||0} <small>de 8 copos</small></strong><Progress value={current?.water||0} max={8}/><div className="counter-buttons"><button className="button outline" onClick={()=>update({water:Math.max(0,(current?.water||0)-1)})}><Minus size={17}/></button><button className="button primary" onClick={()=>update({water:Math.min(50,(current?.water||0)+1)})}><Plus size={17}/></button></div></div><div className="panel wellness-card"><h2>Movimento</h2><strong>{current?.movement||0} <small>de 30 min</small></strong><Progress value={current?.movement||0} max={30}/><button className="button outline" onClick={()=>update({movement:(current?.movement||0)+10})}>+10 minutos</button></div></div><div className="panel"><h2>Sono</h2><p>{current?.sleep_minutes?`${Math.floor(current.sleep_minutes/60)}h${String(current.sleep_minutes%60).padStart(2,'0')} registrados hoje`:'Ainda não registrado hoje.'}</p><div className="inline-form"><label>Horas de sono<input type="number" min="0" max="24" step="0.25" value={sleep} onChange={e=>setSleep(e.target.value)} placeholder="Ex.: 7.5"/></label><button className="button primary" onClick={()=>update({sleep_minutes:Math.round(Number(sleep)*60)})}>Salvar</button></div></div><div className="notice info"><LockKeyhole size={17}/> Seus check-ins são privados. Não aparecem para outras pessoas da rede.</div><Notice error={error} success={success}/></>}
+import { useState } from "react";
+import { Heart, Plus, Minus, LockKeyhole } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
+import { api } from "../../src/services/api.ts";
+import { useCollection } from "../hooks/useCollection";
+import { Cuida, Notice, useFeedback, Progress } from "../components/UI";
+import { today } from "../../src/utils/date.ts";
+
+export function Wellbeing() {
+  const { user, household } = useAuth(),
+    id = household!.id;
+  const { items, reload } = useCollection(
+    () => api.checkins(id, user!.id),
+    [id, user?.id],
+  );
+  const current = items.find((i) => i.day === today());
+  const [sleep, setSleep] = useState("");
+  const { error, success, run } = useFeedback();
+
+  async function update(changes: Record<string, unknown>) {
+    await run(async () => {
+      await api.save(
+        "wellbeing_checkins",
+        {
+          household_id: id,
+          user_id: user!.id,
+          day: today(),
+          mood: current?.mood || "ok",
+          water: current?.water || 0,
+          movement: current?.movement || 0,
+          sleep_minutes: current?.sleep_minutes || null,
+          ...changes,
+        },
+        current?.id,
+      );
+      await reload();
+    });
+  }
+
+  return (
+    <>
+      <span className="eyebrow">SÓ SEU · NINGUÉM DA REDE VÊ</span>
+      <h1>Eu</h1>
+      <p className="lead">Um momento para cuidar de quem também cuida.</p>
+      <Cuida text="Como você está chegando hoje? Vale qualquer resposta." />
+      <div className="panel">
+        <h2>Como você chega hoje?</h2>
+        <div className="moods">
+          {[
+            ["leve", "Leve"],
+            ["ok", "Ok"],
+            ["cansada", "Cansada"],
+            ["no_limite", "No limite"],
+          ].map(([key, label]) => (
+            <button
+              className={current?.mood === key ? "selected" : ""}
+              key={key}
+              onClick={() => update({ mood: key })}
+            >
+              <Heart size={22} />
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="two-columns">
+        <div className="panel wellness-card">
+          <h2>Água</h2>
+          <strong>
+            {current?.water || 0} <small>de 8 copos</small>
+          </strong>
+          <Progress value={current?.water || 0} max={8} />
+          <div className="counter-buttons">
+            <button
+              className="button outline"
+              onClick={() =>
+                update({ water: Math.max(0, (current?.water || 0) - 1) })
+              }
+            >
+              <Minus size={17} />
+            </button>
+            <button
+              className="button primary"
+              onClick={() =>
+                update({ water: Math.min(50, (current?.water || 0) + 1) })
+              }
+            >
+              <Plus size={17} />
+            </button>
+          </div>
+        </div>
+        <div className="panel wellness-card">
+          <h2>Movimento</h2>
+          <strong>
+            {current?.movement || 0} <small>de 30 min</small>
+          </strong>
+          <Progress value={current?.movement || 0} max={30} />
+          <button
+            className="button outline"
+            onClick={() => update({ movement: (current?.movement || 0) + 10 })}
+          >
+            +10 minutos
+          </button>
+        </div>
+      </div>
+      <div className="panel">
+        <h2>Sono</h2>
+        <p>
+          {current?.sleep_minutes
+            ? `${Math.floor(current.sleep_minutes / 60)}h${String(current.sleep_minutes % 60).padStart(2, "0")} registrados hoje`
+            : "Ainda não registrado hoje."}
+        </p>
+        <div className="inline-form">
+          <label>
+            Horas de sono
+            <input
+              type="number"
+              min="0"
+              max="24"
+              step="0.25"
+              value={sleep}
+              onChange={(e) => setSleep(e.target.value)}
+              placeholder="Ex.: 7.5"
+            />
+          </label>
+          <button
+            className="button primary"
+            onClick={() =>
+              update({ sleep_minutes: Math.round(Number(sleep) * 60) })
+            }
+          >
+            Salvar
+          </button>
+        </div>
+      </div>
+      <div className="notice info">
+        <LockKeyhole size={17} /> Seus check-ins são privados. Não aparecem para
+        outras pessoas da rede.
+      </div>
+      <Notice error={error} success={success} />
+    </>
+  );
+}

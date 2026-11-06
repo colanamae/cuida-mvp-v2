@@ -1,0 +1,62 @@
+/* Card da assistente Cola — dashboard. */
+.cola-ai-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--cuida-surface);
+  border: 1px solid #E3CBFF;
+  border-radius: 24px;
+  padding: 18px 22px;
+  margin: 22px 0 24px;
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+.cola-ai-card:hover { background: #E9D6FF; border-color: #D3AFFE; transform: translateY(-1px); }
+.cola-ai-card:focus-visible { outline: 2px solid var(--focus, #C2410C); outline-offset: 3px; }
+.cola-ai-avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 76px;
+  width: 76px;
+  height: 76px;
+  background: #FFFCF8;
+  border: 1px solid #E3CBFF;
+  border-radius: 22px;
+}
+.cola-ai-copy { flex: 1; min-width: 0; }
+.cola-ai-eyebrow {
+  display: block;
+  font-size: 10px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--cuida-ink);
+  margin-bottom: 4px;
+}
+.cola-ai-copy h2 {
+  font-size: clamp(20px, 2.5vw, 26px);
+  line-height: 1.15;
+  margin: 0 0 5px;
+  color: var(--ink);
+}
+.cola-ai-copy p {
+  font-size: 15px;
+  line-height: 1.45;
+  margin: 0;
+  color: var(--cuida-ink);
+}
+
+@media (max-width: 720px) {
+  .cola-ai-card { gap: 12px; padding: 16px; align-items: flex-start; flex-wrap: wrap; border-radius: 22px; }
+  .cola-ai-avatar { flex-basis: 62px; width: 62px; height: 62px; border-radius: 18px; }
+  .cola-ai-avatar svg { width: 55px; height: 55px; }
+  .cola-ai-copy { align-self: center; }
+  .cola-ai-copy h2 { font-size: 21px; }
+  .cola-ai-copy p { font-size: 14px; }
+
+}
+@media (prefers-reduced-motion: reduce) {
+  .cola-ai-card { transition: none; }
+}

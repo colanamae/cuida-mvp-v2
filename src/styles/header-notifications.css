@@ -1,0 +1,22 @@
+/* Cabeçalho e notificações — Design System Cola na Mãe */
+.top-actions{margin-left:auto}
+.notifications{position:relative}
+.notifications-trigger{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--border);background:var(--raised);border-radius:50%;color:var(--primary);position:relative}
+.notifications-trigger:hover{background:var(--surface)}
+.notification-count{position:absolute;right:-5px;top:-6px;background:var(--primary);color:var(--on-primary);border:2px solid var(--raised);border-radius:99px;min-width:21px;height:21px;padding:0 4px;display:grid;place-items:center;font-size:10px;font-weight:800}
+.notifications-popover{position:absolute;right:0;top:calc(100% + 12px);width:min(360px,calc(100vw - 32px));max-height:min(65vh,480px);overflow:auto;z-index:90;border:1px solid var(--border);background:var(--raised);border-radius:20px;box-shadow:0 16px 45px rgba(42,7,22,.16);padding:14px}
+.notifications-heading{display:flex;justify-content:space-between;align-items:center;padding:3px 4px 12px;color:var(--ink);font-size:17px}
+.notifications-close{border:0;background:transparent;color:var(--muted);display:grid;place-items:center;width:34px;height:34px;border-radius:10px}
+.notification-entry{display:flex;align-items:flex-start;gap:11px;border-radius:12px;padding:12px;color:var(--ink);border-top:1px solid var(--border)}
+.notification-entry svg{color:var(--primary);flex-shrink:0;margin-top:1px}
+.notification-entry strong{font-size:14px;display:block;line-height:1.35}
+.notification-entry small{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+.notification-entry.is-unread{background:#F8EEE5}
+.notifications-mark{background:none;border:0;color:var(--primary);font-weight:700;font-size:13px;padding:12px;width:100%;text-align:center}
+.notification-empty,.notification-error{color:var(--muted);font-size:13px;line-height:1.5;padding:9px 5px}
+.notification-error{color:#9C312D}
+.preferred-name label{font-size:14px;font-weight:500;display:block;margin:14px 0 7px}
+.preferred-name-actions{display:flex;gap:10px}
+.preferred-name-actions input{flex:1;min-width:0}
+.preferred-name-feedback{font-size:13px;color:var(--muted);margin-bottom:0}
+@media(max-width:720px){.notifications-popover{position:fixed;right:16px;top:68px}.preferred-name-actions{flex-direction:column}}
