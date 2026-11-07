@@ -750,6 +750,7 @@ textarea {
   justify-content: space-between;
   align-items: center;
 }
+<<<<<<< Updated upstream
 .finance-row {
   display: flex;
   gap: 13px;
@@ -1525,4 +1526,600 @@ textarea {
   .home-task-progress-inner strong {
     font-size: 23px;
   }
+=======
+
+/* Título e selo do cozinheiro na mesma linha */
+.meal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.meal-header h3 {
+  margin: 0;
+  min-height: 0;
+  flex: 1;
+}
+.meal-header .tag {
+  flex-shrink: 0;
+}
+
+.finance-row {
+  display: flex;
+  gap: 13px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+.finance-row div {
+  flex: 1;
+}
+.finance-row small {
+  display: block;
+  color: var(--muted);
+  margin-top: 4px;
+  font-size: 11px;
+}
+.positive {
+  color: #526b26;
+}
+.negative {
+  color: #a02a2a;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 22px 0;
+}
+.stat {
+  background: var(--raised);
+  padding: 23px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.stat small {
+  color: var(--muted);
+}
+.stat strong {
+  font: 700 25px "Bricolage Grotesque";
+}
+.stat.highlight {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+.stat.highlight small {
+  color: var(--on-primary);
+}
+.category-row {
+  margin-bottom: 22px;
+}
+.category-row > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.dream h3 {
+  font-size: 23px;
+  min-height: 55px;
+}
+.dream .progress {
+  margin: 15px 0;
+}
+.dream-0 {
+  background: #dcebff;
+}
+.dream-1 {
+  background: #e4ebc4;
+}
+.dream-2 {
+  background: #fbe0dc;
+}
+.big-number {
+  font: 800 65px "Bricolage Grotesque";
+  color: var(--primary);
+}
+.metrics {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 9px;
+  color: var(--muted);
+}
+.care-row {
+  margin-bottom: 22px;
+}
+.care-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+  font-weight: 750;
+}
+.care-label small {
+  margin-left: auto;
+  color: var(--muted);
+}
+.dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+.chat-panel {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--raised);
+  overflow: hidden;
+}
+.chat-messages {
+  min-height: 320px;
+  max-height: 480px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 23px;
+}
+.chat-bubble {
+  max-width: 82%;
+  padding: 14px 18px;
+  border-radius: 18px;
+  line-height: 1.5;
+  font-size: 14px;
+  display: flex;
+  gap: 11px;
+}
+.chat-bubble.assistant {
+  background: var(--cuida-surface);
+  color: var(--cuida-ink);
+  align-self: flex-start;
+}
+.chat-bubble.user {
+  background: var(--primary);
+  color: var(--on-primary);
+  align-self: flex-end;
+}
+.suggestions {
+  padding: 10px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.chat-input {
+  padding: 16px 20px;
+  display: flex;
+  gap: 9px;
+  border-top: 1px solid var(--border);
+}
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 23px 0;
+}
+.option-card {
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-radius: 19px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-height: 145px;
+  color: var(--primary);
+}
+.option-card:nth-child(3n + 1) {
+  background: #e7dfb2;
+}
+.option-card:nth-child(3n + 2) {
+  background: #fbe0dc;
+}
+.option-card:nth-child(3n + 3) {
+  background: #efe2ff;
+}
+.calendar-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.calendar-toolbar h2 {
+  text-transform: capitalize;
+  margin: 0;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+.calendar-week {
+  text-align: center;
+  font-weight: 800;
+  font-size: 12px;
+  padding: 8px;
+}
+.calendar-day {
+  min-height: 100px;
+  background: var(--surface);
+  padding: 9px;
+  border-radius: 8px;
+  font-size: 12px;
+  overflow: hidden;
+}
+.calendar-day.blank {
+  background: transparent;
+}
+.calendar-day b {
+  display: block;
+  margin-bottom: 6px;
+}
+.calendar-event {
+  background: #b7d9fe;
+  border-radius: 4px;
+  padding: 3px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 3px;
+}
+.loading {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  gap: 12px;
+  color: var(--primary);
+  font-weight: 800;
+}
+.auth-shell {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+.auth-info {
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.auth-info h1 {
+  font-size: clamp(42px, 5vw, 80px);
+  max-width: 610px;
+}
+.auth-info p {
+  font-size: 19px;
+  max-width: 500px;
+}
+.auth-info .eyebrow {
+  color: #d3affe;
+}
+.auth-logo {
+  font: 800 22px "Bricolage Grotesque";
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.auth-form-wrap {
+  display: grid;
+  place-items: center;
+  padding: 35px;
+  background:
+    radial-gradient(ellipse at top right, #bdd5f7, transparent 55%),
+    var(--surface);
+}
+.auth-form {
+  background: var(--raised);
+  padding: 38px;
+  border: 1px solid var(--border);
+  border-radius: 27px;
+  width: min(100%, 450px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.auth-form h2 {
+  font-size: 35px;
+  margin: 0;
+}
+.auth-form p {
+  margin: 0 0 6px;
+  color: var(--muted);
+}
+.mobile-brand-auth {
+  display: none;
+}
+.onboarding {
+  max-width: 560px;
+  margin: 10vh auto;
+  text-align: center;
+  padding: 30px;
+}
+.onboard-art {
+  color: var(--cuida);
+  margin-bottom: 25px;
+}
+.onboarding h1 {
+  font-size: 44px;
+}
+.onboard-form {
+  max-width: 400px;
+  margin: 26px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.onboarding p {
+  color: var(--muted);
+}
+
+@media (max-width: 1000px) {
+  .sidebar {
+    width: 220px;
+  }
+  .app-right {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+  }
+  .topbar {
+    padding: 0 24px;
+  }
+  .page {
+    padding: 15px 25px 90px;
+  }
+  .dashboard-card {
+    min-height: 215px;
+  }
+  .top-meta {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .sidebar {
+    display: none;
+  }
+  .app-right {
+    margin-left: 0;
+    width: 100%;
+  }
+  .topbar {
+    height: 74px;
+    padding: 0 17px;
+  }
+  .mobile-brand {
+    display: flex;
+    margin: 0;
+  }
+  .mobile-brand .brand-icon {
+    width: 37px;
+    height: 37px;
+  }
+  .mobile-brand strong {
+    font-size: 17px;
+  }
+  .top-actions .pill {
+    display: none;
+  }
+  .page {
+    padding: 17px 16px 100px;
+  }
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-around;
+    align-items: center;
+    background: #fffcf8;
+    border-top: 1px solid var(--border);
+    height: 73px;
+    z-index: 30;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .bottom-nav a {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    color: #765463;
+    font-weight: 700;
+    padding: 8px;
+    font-size: 11px;
+  }
+  .bottom-nav a.selected {
+    color: var(--primary);
+  }
+  .bottom-nav a[href="/cuida"] {
+    background: var(--cuida-surface);
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    justify-content: center;
+    color: var(--cuida-ink);
+    margin-top: -26px;
+    box-shadow: 0 3px 18px #6c003433;
+  }
+  .bottom-nav a[href="/cuida"] small {
+    display: none;
+  }
+  .dashboard-card {
+    min-height: 192px;
+    padding: 19px;
+    border-radius: 23px;
+  }
+  .home-grid {
+    gap: 10px;
+  }
+  .card-big {
+    font-size: 29px;
+  }
+  .card-bottom strong {
+    font-size: 21px;
+  }
+  .card-bottom small {
+    font-size: 11px;
+  }
+  .circle-icon {
+    height: 40px;
+    width: 40px;
+  }
+  .cuida-banner {
+    padding: 13px;
+    gap: 9px;
+  }
+  .cuida-banner .button {
+    font-size: 11px;
+    padding: 9px;
+    min-height: 37px;
+  }
+  .page-head {
+    align-items: start;
+    flex-direction: column;
+  }
+  .two-columns,
+  .meal-grid,
+  .dream-grid {
+    grid-template-columns: 1fr;
+  }
+  .stats-grid {
+    gap: 7px;
+  }
+  .stat {
+    padding: 13px;
+  }
+  .stat strong {
+    font-size: 17px;
+  }
+  .options-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .task-item {
+    padding: 13px 9px;
+    gap: 8px;
+  }
+  .task-item .assignee small {
+    display: none;
+  }
+  .task-content strong {
+    font-size: 14px;
+  }
+  .task-content small {
+    font-size: 11px;
+  }
+  .calendar-day {
+    min-height: 73px;
+    padding: 4px;
+  }
+  .calendar-event {
+    font-size: 9px;
+  }
+  .calendar-toolbar .button {
+    font-size: 11px;
+    padding: 7px;
+    min-height: 35px;
+  }
+  .calendar-toolbar h2 {
+    font-size: 17px;
+  }
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+  .auth-info {
+    display: none;
+  }
+  .auth-form-wrap {
+    min-height: 100vh;
+    padding: 17px;
+  }
+  .mobile-brand-auth {
+    display: flex;
+    align-items: center;
+    color: var(--primary);
+    gap: 8px;
+    font: 800 20px "Bricolage Grotesque";
+  }
+  .auth-form {
+    padding: 25px;
+  }
+  .moods button {
+    padding: 12px;
+  }
+  .top-actions select {
+    max-width: 105px;
+  }
+  .page .page-head h1 {
+    font-size: 36px;
+  }
+}
+
+.auth-logo-cola span {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.cola-mark {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+.cola-mark dotlottie-player {
+  width: 100%;
+  height: 100%;
+}
+.auth-info small {
+  color: #f8eee5;
+  opacity: 0.88;
+  font-size: 14px;
+}
+.mobile-brand-auth.auth-logo-cola {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .mobile-brand-auth.auth-logo-cola {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary);
+    font: 800 20px "Bricolage Grotesque";
+  }
+  .mobile-brand-auth.auth-logo-cola .cola-mark {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+.auth-form .text-button {
+  font-size: 14px;
+  line-height: 1.2;
+}
+.auth-form label {
+  font-weight: 600;
+}
+
+/* Sem subtítulo da casa no cabeçalho; ações alinhadas à direita. */
+.topbar {
+  justify-content: flex-end;
+}
+.topbar .mobile-brand {
+  margin-right: auto;
+}
+.home-date {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+>>>>>>> Stashed changes
 }
