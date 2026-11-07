@@ -1,10 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Check, Eye, EyeOff, X } from "lucide-react";
-import {
-  supabase,
-  configured,
-} from "../../../plataforma-v5/src/services/supabase.ts";
+import { supabase, configured } from "../services/supabase";
 import { Notice, useFeedback } from "../components/UI";
 
 const TERMS_VERSION = "2026-11-05-v1";

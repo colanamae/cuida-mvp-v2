@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { CalendarDays, ExternalLink, MapPin, X } from "lucide-react";
-import type { Member } from "../../../plataforma-v5/src/types/models.ts";
-import type { GoogleCalendarEntry } from "../../../plataforma-v5/src/services/googleCalendar.ts";
-import { calendarEventTime } from "./CalendarTimeline.tsx";
-import { saveCalendarResponsibility } from "../../../plataforma-v5/src/services/calendarResponsibilities.ts";
-import "../../../plataforma-v5/src/styles/commitment-sheet.css";
+import type { Member } from "../types/models";
+import type { GoogleCalendarEntry } from "../services/googleCalendar";
+import { calendarEventTime } from "./CalendarTimeline";
+import { saveCalendarResponsibility } from "../services/calendarResponsibilities";
+import "../styles/commitment-sheet.css";
 
 const longDate = (date: Date) =>
   new Intl.DateTimeFormat("pt-BR", {

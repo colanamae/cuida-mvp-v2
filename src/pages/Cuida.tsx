@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Flower2, Send, LockKeyhole } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
-import { api } from "../../../plataforma-v5/src/services/api.ts";
+import { api } from "../services/api";
 import { useCollection } from "../hooks/useCollection";
 import { Notice, useFeedback } from "../components/UI";
 

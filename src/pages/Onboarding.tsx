@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { api, message } from "../../../plataforma-v5/src/services/api.ts";
+import { api, message } from "../services/api";
 import { Users } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 

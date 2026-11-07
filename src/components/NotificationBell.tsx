@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Bell, CalendarDays, CheckCheck, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../../plataforma-v5/src/contexts/AuthContext.tsx";
-import { api } from "../../../plataforma-v5/src/services/api.ts";
-import type { Task, Event } from "../../../plataforma-v5/src/types/models.ts";
+import { useAuth } from "../contexts/AuthContext";
+import { api } from "../services/api";
+import type { Task, Event } from "../types/models";
 
 const dateKey = (date: Date) =>
   [

@@ -1,29 +1,34 @@
 import { useState, type FormEvent } from "react";
 import { Plus, Trash2, Check, Utensils } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
-import { api } from "../../../plataforma-v5/src/services/api.ts";
+import { api } from "../services/api";
 import { useCollection } from "../hooks/useCollection";
 import { Cuida, Empty, Modal, Notice, useFeedback } from "../components/UI";
-import { today } from "../../../plataforma-v5/src/utils/date.ts";
+import { today } from "../utils/date";
 
 export function Meals() {
   const { household, user } = useAuth(),
     id = household!.id;
+
   const { items: meals, reload: reloadMeals } = useCollection(
     () => api.meals(id),
     [id],
   );
+
   const { items: shopping, reload: reloadShopping } = useCollection(
     () => api.shopping(id),
     [id],
   );
+
   const { items: members } = useCollection(() => api.members(id), [id]);
+
   const [tab, setTab] = useState<"menu" | "shopping">("menu"),
     [modal, setModal] = useState(false),
     [title, setTitle] = useState(""),
     [day, setDay] = useState(today()),
     [cook, setCook] = useState(""),
     [item, setItem] = useState("");
+
   const { error, success, run } = useFeedback();
 
   async function save(e: FormEvent) {
@@ -65,12 +70,14 @@ export function Meals() {
             Refeição também tem quem planeja e quem prepara.
           </p>
         </div>
+
         {tab === "menu" && (
           <button className="button primary" onClick={() => setModal(true)}>
             <Plus size={17} /> Adicionar dia
           </button>
         )}
       </div>
+
       <div className="tabs">
         <button
           className={tab === "menu" ? "selected" : ""}
@@ -78,6 +85,7 @@ export function Meals() {
         >
           Cardápio
         </button>
+
         <button
           className={tab === "shopping" ? "selected" : ""}
           onClick={() => setTab("shopping")}
@@ -85,6 +93,7 @@ export function Meals() {
           Lista de compras
         </button>
       </div>
+
       <Cuida
         text={
           tab === "menu"
@@ -92,6 +101,7 @@ export function Meals() {
             : "Uma lista compartilhada ajuda a não esquecer o que falta."
         }
       />
+
       {tab === "menu" ? (
         meals.length ? (
           <div className="meal-grid">
@@ -106,13 +116,18 @@ export function Meals() {
                       month: "short",
                     })}
                   </small>
-                  <h3>{m.title}</h3>
-                  <div className="meal-footer">
+
+                  <div className="meal-header">
+                    <h3>{m.title}</h3>
+
                     <span className={"tag " + (m.cook_id ? "info" : "warning")}>
                       {m.cook_id
                         ? `Cozinha: ${members.find((u) => u.user_id === m.cook_id)?.display_name || "Alguém"}`
                         : "Sem cozinheiro"}
                     </span>
+                  </div>
+
+                  <div className="meal-footer">
                     <button
                       className="icon-button danger-text"
                       onClick={async () => {
@@ -141,10 +156,12 @@ export function Meals() {
               onChange={(e) => setItem(e.target.value)}
               placeholder="Adicionar item à lista"
             />
+
             <button className="button primary">
               <Plus size={17} /> Adicionar
             </button>
           </form>
+
           {shopping.length === 0 ? (
             <Empty title="Lista de compras vazia" />
           ) : (
@@ -166,9 +183,11 @@ export function Meals() {
                   >
                     {s.checked && <Check size={16} />}
                   </button>
+
                   <strong className={s.checked ? "struck" : ""}>
                     {s.title}
                   </strong>
+
                   <button
                     className="icon-button danger-text"
                     onClick={() =>
@@ -186,7 +205,9 @@ export function Meals() {
           )}
         </>
       )}
+
       <Notice error={error} success={success} />
+
       {modal && (
         <Modal title="Adicionar refeição" onClose={() => setModal(false)}>
           <form className="form-stack" onSubmit={save}>
@@ -198,6 +219,7 @@ export function Meals() {
                 onChange={(e) => setTitle(e.target.value)}
               />
             </label>
+
             <label>
               Dia
               <input
@@ -207,6 +229,7 @@ export function Meals() {
                 onChange={(e) => setDay(e.target.value)}
               />
             </label>
+
             <label>
               Quem cozinha?
               <select value={cook} onChange={(e) => setCook(e.target.value)}>
@@ -218,7 +241,9 @@ export function Meals() {
                 ))}
               </select>
             </label>
+
             <Notice error={error} />
+
             <button className="button primary">
               <Utensils size={17} /> Salvar refeição
             </button>

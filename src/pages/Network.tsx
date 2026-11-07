@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Plus, Copy, UserRoundPlus, LockKeyhole, Trash2 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
-import { api } from "../../../plataforma-v5/src/services/api.ts";
+import { api } from "../services/api";
 import { useCollection } from "../hooks/useCollection";
 import { Avatar, Empty, Modal, Notice, useFeedback } from "../components/UI";
 

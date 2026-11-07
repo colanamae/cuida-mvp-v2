@@ -1,16 +1,14 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useCollection } from "../hooks/useCollection";
-import { api } from "../../../plataforma-v5/src/services/api.ts";
-import {
-  greetingForHour,
-  preferredName,
-  fullDate,
-} from "../../../plataforma-v5/src/utils/greeting.ts";
-import { today } from "../../../plataforma-v5/src/utils/date.ts";
+import { api } from "../services/api";
+
+import { greetingForHour, preferredName, fullDate } from "../utils/greeting";
+
+import { today } from "../utils/date";
 import { ColaAsterisk } from "../components/ColaAsterisk";
-import type { Member, Task } from "../../../plataforma-v5/src/types/models.ts";
-import "../../../plataforma-v5/src/styles/home-compact-cards.css";
+import type { Member, Task } from "../types/models";
+import "../styles/home-compact-cards.css";
 
 function asValidDate(value: string | null | undefined): Date | null {
   if (!value) return null;

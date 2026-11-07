@@ -4,9 +4,9 @@ import {
   createGoogleCalendarEvent,
   getGoogleCalendarEvents,
   type GoogleCalendarEntry,
-} from "../../../plataforma-v5/src/services/googleCalendar.ts";
-import { overlappingCalendarEvents } from "../../../plataforma-v5/src/services/calendarConflicts.ts";
-import "../../../plataforma-v5/src/styles/new-commitment.css";
+} from "../services/googleCalendar";
+import { overlappingCalendarEvents } from "../services/calendarConflicts";
+import "../styles/new-commitment.css";
 
 function formatInput(date: Date) {
   const two = (value: number) => String(value).padStart(2, "0");

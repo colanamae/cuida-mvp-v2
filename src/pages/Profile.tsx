@@ -8,8 +8,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { supabase } from "../../../plataforma-v5/src/services/supabase.ts";
-import "../../../plataforma-v5/src/styles/profile.css";
+import { supabase } from "../services/supabase";
+import "../styles/profile.css";
 
 export function Profile() {
   const { user } = useAuth();

@@ -13,7 +13,7 @@ import type {
   Task,
   TaskAcceptance,
   Transaction,
-} from "../../../plataforma-v5/src/types/models.ts";
+} from "../types/models";
 
 export function message(error: unknown): string {
   return error instanceof Error ? error.message : String(error);

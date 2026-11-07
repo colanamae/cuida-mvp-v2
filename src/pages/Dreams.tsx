@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
-import { api } from "../../../plataforma-v5/src/services/api.ts";
+import { api } from "../services/api";
 import { useCollection } from "../hooks/useCollection";
 import {
   Cuida,
@@ -11,8 +11,7 @@ import {
   useFeedback,
   Progress,
 } from "../components/UI";
-import { money } from "../../../plataforma-v5/src/utils/date.ts";
-
+import { money } from "../utils/date";
 export function Dreams() {
   const { household, user } = useAuth(),
     id = household!.id;

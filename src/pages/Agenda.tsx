@@ -15,17 +15,17 @@ import {
   connectGoogleCalendar,
   disconnectGoogleCalendar,
   type GoogleCalendarEntry,
-} from "../../../plataforma-v5/src/services/googleCalendar.ts";
+} from "../services/googleCalendar";
 import { NewCommitmentModal } from "../components/NewCommitmentModal";
 import { CalendarTimeline } from "../components/CalendarTimeline";
 import { CommitmentSheet } from "../components/CommitmentSheet";
 import {
   getCalendarResponsibilities,
   type CalendarResponsibility,
-} from "../../../plataforma-v5/src/services/calendarResponsibilities.ts";
-import { api } from "../../../plataforma-v5/src/services/api.ts";
-import type { Member } from "../../../plataforma-v5/src/types/models.ts";
-import "../../../plataforma-v5/src/styles/commitments.css";
+} from "../services/calendarResponsibilities";
+import { api } from "../services/api";
+import type { Member } from "../types/models";
+import "../styles/commitments.css";
 
 type View = "day" | "week" | "month";
 const WEEKDAYS = ["D", "S", "T", "Q", "Q", "S", "S"];

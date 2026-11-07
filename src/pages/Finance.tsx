@@ -1,10 +1,10 @@
 import { useState, type FormEvent } from "react";
 import { Plus, Trash2, LockKeyhole } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
-import { api } from "../../../plataforma-v5/src/services/api.ts";
+import { api } from "../services/api";
 import { useCollection } from "../hooks/useCollection";
 import { Empty, Modal, Notice, useFeedback } from "../components/UI";
-import { money, today } from "../../../plataforma-v5/src/utils/date.ts";
+import { money, today } from "../utils/date";
 
 export function Finance() {
   const { household, user } = useAuth(),

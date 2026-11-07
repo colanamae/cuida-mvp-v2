@@ -9,9 +9,9 @@ import {
   ShoppingCart,
   Sparkles,
 } from "lucide-react";
-import type { Member, Task } from "../../../plataforma-v5/src/types/models.ts";
+import type { Member, Task } from "../types/models";
 import { ColaAsterisk } from "./ColaAsterisk.tsx";
-import "../../../plataforma-v5/src/styles/unassigned-task-queue.css";
+import "../styles/unassigned-task-queue.css";
 
 type Props = {
   tasks: Task[];

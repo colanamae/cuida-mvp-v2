@@ -14,21 +14,16 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { api } from "../../../plataforma-v5/src/services/api.ts";
+import { api } from "../services/api";
 import { useCollection } from "../hooks/useCollection";
 import { Notice, useFeedback } from "../components/UI";
 import { UnassignedTaskQueue } from "../components/UnassignedTaskQueue";
-import {
-  isoFromLocal,
-  localInput,
-} from "../../../plataforma-v5/src/utils/date.ts";
-import type {
-  Member,
-  Task,
-  TaskAcceptance,
-} from "../../../plataforma-v5/src/types/models.ts";
-import "../../../plataforma-v5/src/styles/tasks-redesign.css";
-import "../../../plataforma-v5/src/styles/task-create-sheet.css";
+import { isoFromLocal, localInput } from "../utils/date";
+
+import type { Member, Task, TaskAcceptance } from "../types/models";
+
+import "../styles/tasks-redesign.css";
+import "../styles/task-create-sheet.css";
 
 type OwnerFilter = "mine" | "network" | "unassigned";
 type DateFilter = "all" | "today" | "upcoming";
