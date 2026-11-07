@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { api } from "../services/api";
 import { useCollection } from "../hooks/useCollection";
 import { Avatar, Empty, Modal, Notice, useFeedback } from "../components/UI";
+
 export function Network() {
   const { household, user } = useAuth(),
     id = household!.id;
@@ -22,6 +23,7 @@ export function Network() {
   const { error, success, run } = useFeedback();
   const me = members.find((m) => m.user_id === user?.id);
   const admin = me?.role === "admin";
+
   async function save(e: FormEvent) {
     e.preventDefault();
     const ok = await run(async () => {
@@ -50,12 +52,13 @@ export function Network() {
       setName("");
     }
   }
+
   return (
     <>
       <div className="page-head">
         <div>
           <span className="eyebrow">QUEM CUIDA E QUEM É CUIDADO</span>
-          <h1>Nossa rede</h1>
+          <h1>Minha rede</h1>
           <p className="lead">
             Quem cuida, quem recebe cuidado e o que cada pessoa pode acessar.
           </p>

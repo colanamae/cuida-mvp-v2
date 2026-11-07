@@ -1,0 +1,15 @@
+.commitment-sheet-backdrop{position:fixed;inset:0;z-index:140;background:rgba(30,10,19,.48);display:flex;align-items:flex-end;justify-content:center;padding:12px}
+.commitment-sheet{position:relative;width:min(100%,650px);max-height:90dvh;overflow:auto;background:var(--raised);border-radius:28px 28px 22px 22px;padding:17px clamp(20px,4vw,32px) 28px;box-shadow:0 -12px 40px #23051230}
+.commitment-sheet-grip{width:44px;height:5px;border-radius:99px;background:var(--border);margin:0 auto 24px}
+.commitment-sheet-close{position:absolute;top:26px;right:22px;border:0;background:var(--sunken);color:var(--ink);width:42px;height:42px;display:grid;place-items:center;border-radius:50%}
+.commitment-sheet-title{display:flex;align-items:flex-start;gap:12px;padding-right:43px}.commitment-sheet-title h2{font-size:clamp(23px,4vw,30px);line-height:1.2;margin:0 0 14px}.commitment-sheet-dot{height:18px;width:18px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.commitment-sheet>p{display:flex;align-items:center;gap:8px;color:var(--muted);margin:5px 0 9px;font-size:14px}.commitment-sheet>p svg{flex-shrink:0}
+.commitment-sheet-organizer{font-size:12px!important}.commitment-sheet-guests{font-size:13px;margin:16px 0}.commitment-sheet-guests p{color:var(--muted);overflow-wrap:anywhere}
+.commitment-sheet-cola{margin:23px 0 22px;background:var(--cuida-surface);color:var(--cuida-ink);border-radius:18px;padding:17px;font-size:14px;line-height:1.6}
+.commitment-sheet-question{display:block;margin-bottom:13px;font-size:14px}
+.commitment-sheet-members{display:flex;gap:9px;overflow-x:auto;padding:2px 2px 10px}
+.commitment-sheet-members button{flex-shrink:0;display:flex;align-items:center;gap:8px;border:2px solid transparent;border-radius:999px;background:var(--surface);padding:8px 12px;color:var(--ink);font-weight:700;font-size:13px;min-height:46px}
+.commitment-sheet-members button.selected{border-color:var(--primary)}.commitment-sheet-avatar{width:31px;height:31px;border-radius:50%;display:grid;place-items:center;color:var(--ink);font-size:12px}
+.commitment-sheet-privacy{display:block;line-height:1.5;margin-top:8px;color:var(--muted)}
+.commitment-sheet-google{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-size:13px;color:var(--primary);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:720px){.commitment-sheet-backdrop{padding:0}.commitment-sheet{border-radius:30px 30px 0 0;padding-bottom:calc(36px + env(safe-area-inset-bottom));max-height:88dvh}}

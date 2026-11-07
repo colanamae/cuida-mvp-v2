@@ -1,10 +1,72 @@
-import {useEffect,useState,type ReactNode} from 'react';
-import {Check,AlertCircle,X,Flower2} from 'lucide-react';
-export function Cuida({text,action}:{text:string;action?:ReactNode}){return <div className="cuida-banner"><span className="cuida-flower"><Flower2 size={25}/></span><div><strong>Cuida</strong><p>{text}</p></div>{action}</div>}
-export function Empty({title='Nada por aqui ainda',description='Quando você adicionar algo, vai aparecer aqui.'}:{title?:string;description?:string}){return <div className="empty"><Flower2 size={46}/><h3>{title}</h3><p>{description}</p></div>}
-export function Notice({error,success}:{error?:string;success?:string}){return error?<div className="notice error"><AlertCircle size={17}/>{error}</div>:success?<div className="notice success"><Check size={17}/>{success}</div>:null}
-export function Modal({title,children,onClose}:{title:string;children:ReactNode;onClose:()=>void}){useEffect(()=>{const listener=(e:KeyboardEvent)=>{if(e.key==='Escape')onClose()};window.addEventListener('keydown',listener);return()=>window.removeEventListener('keydown',listener)},[onClose]);return <div className="modal-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)onClose()}}><div className="modal" role="dialog" aria-modal="true" aria-label={title}><div className="modal-head"><h2>{title}</h2><button className="icon-button" aria-label="Fechar" onClick={onClose}><X size={20}/></button></div>{children}</div></div>}
-export function Avatar({name,color,size=40}:{name:string;color?:string;size?:number}){return <span className="avatar" style={{background:color||'#FEB7B7',width:size,height:size,fontSize:size*.35}} title={name}>{name.split(' ').map(n=>n[0]).slice(0,2).join('').toUpperCase()}</span>}
-export function Progress({value,max=100}:{value:number;max?:number}){return <div className="progress" role="progressbar" aria-valuenow={value} aria-valuemax={max}><span style={{width:`${Math.min(100,Math.max(0,100*value/(max||1)))}%`}}/></div>}
-export function Loading(){return <div className="loading"><Flower2 size={35}/> Carregando...</div>}
-export function useFeedback(){const [error,setError]=useState('');const [success,setSuccess]=useState('');const run=async(action:()=>Promise<unknown>,done='Salvo com sucesso')=>{setError('');setSuccess('');try{await action();setSuccess(done);return true}catch(e){setError(e instanceof Error?e.message:String(e));return false}};return {error,success,run,setError,setSuccess}}
+import {useEffect, useState, type ReactNode} from 'react';
+import {Check, AlertCircle, X, Flower2} from 'lucide-react';
+
+export function Cuida({text, action}: { text: string; action?: ReactNode }) {
+    return <div className="cuida-banner"><span className="cuida-flower"><Flower2 size={25}/></span>
+        <div><strong>Cuida</strong><p>{text}</p></div>
+        {action}</div>
+}
+
+export function Empty({title = 'Nada por aqui ainda', description = 'Quando você adicionar algo, vai aparecer aqui.'}: {
+    title?: string;
+    description?: string
+}) {
+    return <div className="empty"><Flower2 size={46}/><h3>{title}</h3><p>{description}</p></div>
+}
+
+export function Notice({error, success}: { error?: string; success?: string }) {
+    return error ? <div className="notice error"><AlertCircle size={17}/>{error}</div> : success ?
+        <div className="notice success"><Check size={17}/>{success}</div> : null
+}
+
+export function Modal({title, children, onClose}: { title: string; children: ReactNode; onClose: () => void }) {
+    useEffect(() => {
+        const listener = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') onClose()
+        };
+        window.addEventListener('keydown', listener);
+        return () => window.removeEventListener('keydown', listener)
+    }, [onClose]);
+    return <div className="modal-backdrop" onMouseDown={e => {
+        if (e.target === e.currentTarget) onClose()
+    }}>
+        <div className="modal" role="dialog" aria-modal="true" aria-label={title}>
+            <div className="modal-head"><h2>{title}</h2>
+                <button className="icon-button" aria-label="Fechar" onClick={onClose}><X size={20}/></button>
+            </div>
+            {children}</div>
+    </div>
+}
+
+export function Avatar({name, color, size = 40}: { name: string; color?: string; size?: number }) {
+    return <span className="avatar"
+                 style={{background: color || '#FEB7B7', width: size, height: size, fontSize: size * .35}}
+                 title={name}>{name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase()}</span>
+}
+
+export function Progress({value, max = 100}: { value: number; max?: number }) {
+    return <div className="progress" role="progressbar" aria-valuenow={value} aria-valuemax={max}><span
+        style={{width: `${Math.min(100, Math.max(0, 100 * value / (max || 1)))}%`}}/></div>
+}
+
+export function Loading() {
+    return <div className="loading"><Flower2 size={35}/> Carregando...</div>
+}
+
+export function useFeedback() {
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const run = async (action: () => Promise<unknown>, done = 'Salvo com sucesso') => {
+        setError('');
+        setSuccess('');
+        try {
+            await action();
+            setSuccess(done);
+            return true
+        } catch (e) {
+            setError(e instanceof Error ? e.message : String(e));
+            return false
+        }
+    };
+    return {error, success, run, setError, setSuccess}
+}
