@@ -1,0 +1,46 @@
+/* Campos e ações: mesmos tokens de autenticação para toda a plataforma. */
+.form-stack label,
+.onboard-form label,
+.inline-form label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  gap: 9px;
+}
+.form-stack input,
+.form-stack textarea,
+.form-stack select,
+.onboard-form input {
+  border-radius: 13px;
+  border: 1px solid var(--border-strong, #8F7782);
+  padding: 12px 15px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+.form-stack input,
+.form-stack select,
+.onboard-form input { min-height: 50px; }
+.form-stack input::placeholder,
+.form-stack textarea::placeholder { color: var(--muted); opacity: .85; font-weight: 400; }
+.form-stack input:hover,
+.form-stack textarea:hover,
+.form-stack select:hover { border-color: var(--primary); }
+.form-stack input:focus-visible,
+.form-stack textarea:focus-visible,
+.form-stack select:focus-visible { outline: 2px solid #C2410C; outline-offset: 2px; }
+.form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 8px; }
+.form-actions .button,
+.form-actions .text-button {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  min-height: 48px;
+}
+.form-actions .button { border-radius: 12px; padding: 14px 22px; }
+.form-actions .text-button { border-radius: 12px; padding: 12px 18px; }
+@media (max-width: 480px) {
+  .form-actions { flex-direction: column; align-items: stretch; }
+  .form-actions .button, .form-actions .text-button { width: 100%; }
+}

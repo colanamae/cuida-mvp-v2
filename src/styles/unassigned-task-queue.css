@@ -1,0 +1,30 @@
+/* V4.4 — fila de distribuição para tarefas sem responsável */
+.unassigned-queue{width:min(100%,570px);margin:0 auto 32px}
+.unassigned-carousel-controls{display:flex;justify-content:center;align-items:center;gap:13px;margin:0 0 9px}
+.unassigned-carousel-controls button{background:#FFFCF8;border:1px solid var(--border);border-radius:50%;height:36px;width:36px;color:var(--primary);display:grid;place-items:center}
+.unassigned-carousel-controls button:disabled{opacity:.4}
+.unassigned-counter{background:#FFFCF8;border-radius:999px;padding:5px 14px;color:#765463;font-size:13px;font-weight:750}
+.unassigned-focus-card{background:#FFD8D9;border:1px solid rgba(255,255,255,.9);border-radius:34px;min-height:316px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;text-align:center;padding:34px 23px;box-shadow:0 14px 30px #2a07161c}
+.unassigned-task-symbol{height:106px;width:106px;border-radius:50%;display:grid;place-items:center;background:#FFFCF8;color:var(--primary)}
+.unassigned-focus-card h2{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(23px,4vw,29px);line-height:1.2;margin:0;max-width:430px;overflow-wrap:anywhere}
+.unassigned-date{display:inline-flex;align-items:center;gap:6px;background:#FFFCF8;color:#765463;padding:8px 15px;border-radius:999px;font-size:13px;font-weight:750}
+.unassigned-category{font-size:12px;color:var(--primary);margin-top:-9px}
+.unassigned-pickers{padding:20px 5px;text-align:center}
+.unassigned-pickers>p{font-size:14px;font-weight:750;margin:0 0 14px;color:var(--ink)}
+.unassigned-people{display:flex;justify-content:center;align-items:flex-start;flex-wrap:wrap;gap:18px}
+.unassigned-person{border:0;background:transparent;padding:3px;display:flex;flex-direction:column;align-items:center;gap:7px;min-width:65px;max-width:110px;color:var(--ink);font-size:13px;font-weight:600}
+.unassigned-person-avatar{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;color:var(--ink);font-size:21px;font-weight:800;outline:3px solid transparent;outline-offset:2px;transition:outline-color .15s}
+.unassigned-person-avatar.is-selected{outline-color:var(--primary)}
+.unassigned-assign{width:100%;min-height:48px;margin-top:19px;background:var(--primary);border:0;border-radius:999px;color:var(--on-primary);font-size:14px;font-weight:750}
+.unassigned-assign:disabled{opacity:.5;cursor:not-allowed}
+.unassigned-pickers>small{display:block;margin-top:11px;color:var(--muted);font-size:12px;line-height:1.5}
+.unassigned-no-members{font-size:12px!important;font-weight:400!important;color:var(--muted)!important;margin-top:10px!important}
+.unassigned-empty{text-align:center;padding:28px;background:var(--raised);border:1px dashed var(--border);border-radius:22px;color:var(--muted);font-size:14px}
+@media(max-width:720px){.unassigned-queue{width:100%;}.unassigned-focus-card{min-height:280px;border-radius:32px;padding:28px 20px}.unassigned-task-symbol{width:100px;height:100px}.unassigned-people{gap:10px}.unassigned-person-avatar{width:58px;height:58px}}
+@media(prefers-reduced-motion:reduce){.unassigned-person-avatar{transition:none}}
+
+/* V4.5 — estado vazio positivo da aba Sem responsável */
+.unassigned-empty-success{width:min(100%,570px);min-height:290px;margin:0 auto 30px;padding:36px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#FFFCF8;border:1px solid #fff;border-radius:36px;box-shadow:0 10px 26px rgba(42,7,22,.07);text-align:center}
+.unassigned-empty-success svg{display:block;flex-shrink:0}
+.unassigned-empty-success h2{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(21px,4vw,26px);line-height:1.25;margin:0;color:var(--ink);font-weight:800;letter-spacing:-.03em}
+@media(max-width:720px){.unassigned-empty-success{min-height:255px;padding:30px 18px;border-radius:32px}.unassigned-empty-success svg{width:105px;height:105px}}

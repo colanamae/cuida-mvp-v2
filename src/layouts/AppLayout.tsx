@@ -1,5 +1,168 @@
-import {NavLink,Outlet,useNavigate} from 'react-router-dom';
-import {Home,CalendarDays,CheckCheck,Users,Heart,Sparkles,Wallet,Utensils,MoreHorizontal,LogOut,Flower2,SunMoon,ClipboardList} from 'lucide-react';
-import {useAuth} from '../contexts/AuthContext';import {supabase} from '../services/supabase';
-const navigation=[['/','Casa',Home],['/dia','O dia da família',CheckCheck],['/agenda','Agenda',CalendarDays],['/tarefas','Tarefas',ClipboardList],['/rede','Nossa rede',Users],['/eu','Eu',Heart],['/conquistas','Conquistas',Sparkles],['/sonhos','Mapa dos sonhos',Sparkles],['/financas','Finanças',Wallet],['/refeicoes','Refeições',Utensils],['/mais','Mais opções',MoreHorizontal]] as const;
-export function AppLayout(){const {user,household,households,setHousehold}=useAuth();const navigate=useNavigate();return <div className="app-shell"><aside className="sidebar"><div className="brand"><span className="brand-icon"><Flower2/></span><span><strong>Cola na Mãe</strong><small>Cuidar é um combinado nosso.</small></span></div><div className="side-label">Sua casa</div><nav className="side-nav">{navigation.map(([path,label,Icon],i)=><NavLink key={path} to={path} end={path==='/'} className={({isActive})=>'nav-item '+(isActive?'active ':'')+(i===5||i===10?'spaced':'')}><Icon size={18}/>{label}</NavLink>)}</nav><div className="side-footer"><div className="side-cuida-card" style={{display:'flex',gap:12,alignItems:'center',padding:16,background:'var(--cuida-surface)',borderRadius:16,color:'var(--cuida-ink)'}}><Flower2 size={40}/>Cuida · sempre por aqui</div><button className="logout" onClick={async()=>{await supabase.auth.signOut();navigate('/entrar')}}><LogOut size={17}/> Sair da conta</button></div></aside><div className="app-right"><header className="topbar"><div className="brand mobile-brand"><span className="brand-icon"><Flower2 size={21}/></span><strong>Cola na Mãe</strong></div><div className="top-meta">{household?.name||'Nossa casa'} · nosso cuidado</div><div className="top-actions">{households.length>1&&<select aria-label="Selecionar casa" value={household?.id||''} onChange={e=>setHousehold(e.target.value)}>{households.map(h=><option key={h.id} value={h.id}>{h.name}</option>)}</select>}<button className="pill" onClick={()=>navigate('/dia')}><SunMoon size={16}/> Briefing do dia</button><span className="avatar" style={{background:'#FEB7B7'}}>{user?.email?.[0]?.toUpperCase()}</span></div></header><main className="page"><Outlet/></main></div><nav className="bottom-nav">{[['/','Casa',Home],['/sonhos','Sonhos',Sparkles],['/cuida','Cuida',Flower2],['/financas','Finanças',Wallet],['/mais','Mais',MoreHorizontal]].map(([url,label,Icon])=><NavLink key={String(url)} to={String(url)} end={url==='/'} className={({isActive})=>isActive?'selected':''}><Icon size={23}/><small>{label as string}</small></NavLink>)}</nav></div>}
+import {NotificationBell} from '../components/NotificationBell';
+import {NavLink, Outlet, useNavigate, useLocation} from 'react-router-dom';
+import {useEffect, useRef, useState} from 'react';
+import {
+    Home,
+    CalendarDays,
+    Users,
+    Sparkles,
+    Wallet,
+    Utensils,
+    MoreHorizontal,
+    LogOut,
+    Flower2,
+    ClipboardList,
+    Soup,
+    Star,
+    Menu,
+    X,
+    UserRound
+} from 'lucide-react';
+import {useAuth} from '../contexts/AuthContext';
+import {supabase} from '../services/supabase.ts';
+
+const navigation = [['/', 'Início', Home], ['/agenda', 'Compromissos', CalendarDays], ['/tarefas', 'Tarefas', ClipboardList], ['/rede', 'Minha rede', Users], ['/sonhos', 'Mapa dos sonhos', Sparkles], ['/financas', 'Finanças', Wallet], ['/refeicoes', 'Refeições', Utensils]] as const;
+
+export function AppLayout() {
+    const {household, households, setHousehold} = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const drawerCloseRef = useRef<HTMLButtonElement>(null);
+    const drawerTriggerRef = useRef<HTMLButtonElement>(null);
+    useEffect(() => {
+        setDrawerOpen(false)
+    }, [location.pathname]);
+    useEffect(() => {
+        if (!drawerOpen) return;
+        const onEscape = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setDrawerOpen(false);
+                drawerTriggerRef.current?.focus()
+            }
+        };
+        const onResize = () => {
+            if (window.innerWidth > 720) setDrawerOpen(false)
+        };
+        document.addEventListener('keydown', onEscape);
+        window.addEventListener('resize', onResize);
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        drawerCloseRef.current?.focus();
+        return () => {
+            document.removeEventListener('keydown', onEscape);
+            window.removeEventListener('resize', onResize);
+            document.body.style.overflow = previousOverflow
+        };
+    }, [drawerOpen]);
+    return <div className="app-shell">
+        <aside className="sidebar">
+            <div className="brand"><span
+                className="brand-icon"><Flower2/></span><span><strong>Cola na Mãe</strong><small>Cuidar é um combinado nosso.</small></span>
+            </div>
+            <nav className="side-nav">{navigation.map(([path, label, Icon]) => <NavLink key={path} to={path}
+                                                                                        end={path === '/'}
+                                                                                        className={({isActive}) => 'nav-item ' + (isActive ? 'active ' : '')}><Icon
+                size={18}/>{label}</NavLink>)}</nav>
+            <div className="side-footer"><NavLink to="/perfil"
+                                                  className={({isActive}) => 'nav-item' + (isActive ? ' active' : '')}><UserRound
+                size={18}/> Perfil</NavLink>
+                <div className="side-cuida-card" style={{
+                    display: 'flex',
+                    gap: 12,
+                    alignItems: 'center',
+                    padding: 16,
+                    background: 'var(--cuida-surface)',
+                    borderRadius: 16,
+                    color: 'var(--cuida-ink)'
+                }}><Flower2 size={40}/>Cuida · sempre por aqui
+                </div>
+                <button className="logout" onClick={async () => {
+                    await supabase.auth.signOut();
+                    navigate('/entrar')
+                }}><LogOut size={17}/> Sair da conta
+                </button>
+            </div>
+        </aside>
+        <div className="app-right">
+            <header className="topbar">
+                <button ref={drawerTriggerRef} type="button" className="drawer-trigger"
+                        aria-label="Abrir menu de módulos" aria-expanded={drawerOpen}
+                        aria-controls="mobile-module-drawer" onClick={() => setDrawerOpen(true)}><Menu size={23}/>
+                </button>
+                <div className="brand mobile-brand"><span className="brand-icon"><Flower2 size={21}/></span><strong>Cola
+                    na Mãe</strong></div>
+                <div className="top-actions">{households.length > 1 &&
+                    <select aria-label="Selecionar casa" value={household?.id || ''}
+                            onChange={e => setHousehold(e.target.value)}>{households.map(h => <option key={h.id}
+                                                                                                      value={h.id}>{h.name}</option>)}</select>}<NotificationBell/>
+                </div>
+            </header>
+            <main className="page"><Outlet/></main>
+        </div>
+        {drawerOpen && <div className="drawer-layer">
+            <button className="drawer-backdrop" aria-label="Fechar menu" onClick={() => setDrawerOpen(false)}
+                    type="button"/>
+            <aside id="mobile-module-drawer" className="mobile-drawer" role="dialog" aria-modal="true"
+                   aria-label="Menu de módulos">
+                <div className="drawer-head">
+                    <div className="drawer-brand"><span className="drawer-brand-animation"><dotlottie-player
+                        src="/cola-animation.lottie" background="transparent" speed="1" autoplay
+                        loop></dotlottie-player></span>
+                        <div><strong>Cola</strong><small>Cuidar é um combinado nosso.</small></div>
+                    </div>
+                    <button ref={drawerCloseRef} className="drawer-close" type="button" aria-label="Fechar menu"
+                            onClick={() => {
+                                setDrawerOpen(false);
+                                drawerTriggerRef.current?.focus()
+                            }}><X size={22}/></button>
+                </div>
+                <div className="drawer-content">
+                    <nav className="drawer-nav"
+                         aria-label="Módulos da plataforma">{navigation.map(([path, label, Icon]) => <NavLink key={path}
+                                                                                                              to={path}
+                                                                                                              end={path === '/'}
+                                                                                                              className={({isActive}) => 'drawer-link' + (isActive ? ' active' : '')}
+                                                                                                              onClick={() => setDrawerOpen(false)}><Icon
+                        size={20}/><span>{label}</span></NavLink>)}</nav>
+                    <NavLink to="/perfil"
+                             className={({isActive}) => 'drawer-link drawer-profile-link' + (isActive ? ' active' : '')}
+                             onClick={() => setDrawerOpen(false)}><UserRound
+                        size={20}/><span>Perfil</span></NavLink><NavLink to="/cuida" className="drawer-cuia-link"
+                                                                         onClick={() => setDrawerOpen(false)}><span
+                    className="drawer-cuia-icon"><dotlottie-player src="/cola-animation.lottie" background="transparent"
+                                                                   speed="1" autoplay
+                                                                   loop></dotlottie-player></span><span>Conversar com a Cola</span></NavLink>
+                </div>
+                <div className="drawer-footer">
+                    <button type="button" className="drawer-logout" onClick={async () => {
+                        setDrawerOpen(false);
+                        await supabase.auth.signOut();
+                        navigate('/entrar')
+                    }}><LogOut size={18}/> Sair da conta
+                    </button>
+                </div>
+            </aside>
+        </div>}
+        <nav className="bottom-nav" aria-label="Navegação principal no celular">
+            <div className="bottom-nav-pill">
+                {([['/', 'Início', Soup], ['/sonhos', 'Sonhos', Star]] as const).map(([url, label, Icon]) => <NavLink
+                    key={url} to={url}
+                    className={({isActive}) => 'bottom-nav-item' + (isActive ? ' selected' : '')}><Icon size={24}
+                                                                                                        strokeWidth={2.2}/><small>{label}</small></NavLink>)}
+                <NavLink to="/cuida" aria-label="Conversar com a Cola"
+                         className={({isActive}) => 'bottom-nav-center' + (isActive ? ' selected' : '')}><span
+                    className="bottom-nav-center-inner"><dotlottie-player src="/cola-animation.lottie"
+                                                                          background="transparent" speed="1" autoplay
+                                                                          loop></dotlottie-player></span></NavLink>
+                <NavLink to="/financas"
+                         className={({isActive}) => 'bottom-nav-item' + (isActive ? ' selected' : '')}><Wallet size={24}
+                                                                                                               strokeWidth={2.2}/><small>Finanças</small></NavLink>
+                <button type="button" className="bottom-nav-item" aria-label="Abrir mais módulos"
+                        aria-expanded={drawerOpen} onClick={() => setDrawerOpen(true)}><MoreHorizontal size={24}
+                                                                                                       strokeWidth={2.2}/><small>Mais</small>
+                </button>
+            </div>
+        </nav>
+    </div>
+}
