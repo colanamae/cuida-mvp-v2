@@ -10,9 +10,9 @@ import {
   Download,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
-import { api, message } from "../../../plataforma-v5/src/services/api.ts";
+import { api, message } from "../services/api";
 import { useEffect, useState, type FormEvent } from "react";
-import { supabase } from "../../../plataforma-v5/src/services/supabase.ts";
+import { supabase } from "../services/supabase";
 
 export function More() {
   const { user, household } = useAuth();
