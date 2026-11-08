@@ -103,21 +103,18 @@ export function AppLayout() {
           >
             <UserRound size={18} /> Perfil
           </NavLink>
-          <div
-            className="side-cuida-card"
-            style={{
-              display: "flex",
-              gap: 12,
-              alignItems: "center",
-              padding: 16,
-              background: "var(--cuida-surface)",
-              borderRadius: 16,
-              color: "var(--cuida-ink)",
-            }}
-          >
-            <Flower2 size={40} />
-            Cuida · sempre por aqui
+
+          <div className="side-cuida-card">
+            <span className="side-cuida-icon">
+              <ColaAsterisk size={40} />
+            </span>
+
+            <span className="side-cuida-text">
+              Cuida
+              <small>Sempre por aqui</small>
+            </span>
           </div>
+
           <button
             className="logout"
             onClick={async () => {

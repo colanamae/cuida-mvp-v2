@@ -70,6 +70,100 @@
 }
 
 /* ==========================================
+   CARD CUIDA - RODAPÉ DA SIDEBAR
+   ========================================== */
+
+.app-shell .sidebar .side-cuida-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  min-height: 78px;
+  padding: 14px;
+
+  background: var(--cuida-surface);
+  border-radius: 16px;
+  color: var(--cuida-ink);
+}
+
+/* Ícone Cola */
+.app-shell .sidebar .side-cuida-icon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+}
+
+/* Dimensão do símbolo */
+.app-shell .sidebar .side-cuida-icon svg {
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+
+/* Textos */
+.app-shell .sidebar .side-cuida-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  min-width: 0;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--cuida-ink);
+}
+
+.app-shell .sidebar .side-cuida-text small {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--cuida-ink);
+}
+
+/* ==========================================
+   COLA ASTERISK — COMPONENTES UI
+   ========================================== */
+
+/* Banner Cuida */
+.cuida-banner .cuida-flower {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  color: var(--cuida-ink);
+}
+
+.cuida-banner .cuida-flower svg {
+  width: 25px;
+  height: 25px;
+  display: block;
+}
+
+/* Estado vazio */
+.empty > svg {
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 0 auto 12px;
+}
+
+/* Carregamento */
+.loading > svg {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+/* ==========================================
    MOBILE
    ========================================== */
 
