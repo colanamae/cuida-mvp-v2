@@ -1,0 +1,99 @@
+/* ==========================================
+   COLA NA MÃE - APP LAYOUT BRAND
+   Estilos isolados da identidade visual
+   ========================================== */
+
+/* Marca principal */
+.app-shell .brand--cola-layout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+/* Contêiner do símbolo */
+.app-shell .brand-icon--cola-layout {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+
+  color: var(--cuida-ink);
+}
+
+/* Símbolo */
+.app-shell .brand-icon--cola-layout svg {
+  display: block;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+}
+
+/* Bloco de textos */
+.app-shell .brand-text--cola-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+/* Título */
+.app-shell .brand-text--cola-layout strong {
+  display: block;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.15;
+  white-space: nowrap;
+  color: var(--primary);
+}
+
+/* Subtítulo */
+.app-shell .brand-text--cola-layout small {
+  display: block;
+  margin: 0;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 720px) {
+  .app-shell .mobile-brand.brand--cola-layout {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0;
+  }
+
+  .app-shell .mobile-brand .brand-icon--cola-layout {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+  }
+
+  .app-shell .mobile-brand .brand-icon--cola-layout svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .app-shell .mobile-brand.brand--cola-layout strong {
+    font-size: 17px;
+    line-height: 1.2;
+  }
+}
