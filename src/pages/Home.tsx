@@ -76,8 +76,14 @@ function PreviewCard({
 }: PreviewCardProps) {
   return (
     <Link className={`home-preview-card home-preview-card--${tone}`} to={url}>
-      <span className="home-preview-heading">{heading}</span>
-      <h2>{title}</h2>
+      {kind === "tasks" ? (
+        <h2>{title}</h2>
+      ) : (
+        <>
+          <span className="home-preview-heading">{heading}</span>
+          <h2>{title}</h2>
+        </>
+      )}
       <div className="home-preview-items">
         {items.length ? (
           items.slice(0, 3).map((item) => (
@@ -189,7 +195,7 @@ export function Home() {
       </Link>
       <div className="home-compact-grid">
         <PreviewCard
-          heading="TAREFAS"
+          heading=""
           title="Tarefas"
           url="/tarefas"
           tone="pink"
@@ -205,8 +211,7 @@ export function Home() {
           className="home-preview-card home-preview-card--blue home-google-calendar"
           to="/agenda"
         >
-          <span className="home-preview-heading">COMPROMISSOS</span>
-          <h2>Google Agenda</h2>
+          <h2>Compromissos</h2>{" "}
           <div className="home-preview-empty" role="status">
             <strong>Integração em preparação</strong>
             <span>

@@ -6,6 +6,7 @@ import { Notice, useFeedback } from "../components/UI";
 
 const TERMS_VERSION = "2026-11-05-v1";
 const PRIVACY_VERSION = "2026-11-05-v1";
+
 const rules = [
   {
     id: "length",
@@ -42,10 +43,13 @@ function LegalDialog({
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
+
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [onClose]);
+
   const terms = kind === "terms";
+
   return (
     <div
       className="legal-backdrop"
@@ -73,6 +77,7 @@ function LegalDialog({
             <X size={20} />
           </button>
         </div>
+
         {terms ? (
           <div className="legal-copy">
             <p>
@@ -162,9 +167,11 @@ function LegalDialog({
             </p>
           </div>
         )}
+
         <p className="legal-version">
           Versão inicial para revisão: {terms ? TERMS_VERSION : PRIVACY_VERSION}
         </p>
+
         <button
           type="button"
           className="button primary legal-done"
@@ -177,7 +184,7 @@ function LegalDialog({
   );
 }
 
-function ColaBrand({ mobile = false }: { mobile?: boolean }) {
+export function ColaBrand({ mobile = false }: { mobile?: boolean }) {
   return (
     <div
       className={
@@ -207,12 +214,15 @@ export function AuthPage() {
   const [accepted, setAccepted] = useState(false);
   const [legal, setLegal] = useState<LegalKind | null>(null);
   const [submitted, setSubmitted] = useState(false);
+
   const { error, success, run } = useFeedback();
   const navigate = useNavigate();
   const location = useLocation();
+
   const redirect = location.search.includes("convite=")
     ? "/convite" + location.search
     : "/";
+
   const validName = name.trim().length >= 2 && name.trim().length <= 100;
   const validPassword = rules.every((rule) => rule.test(password));
   const canRegister = validName && validPassword && accepted && !!email.trim();
@@ -228,7 +238,9 @@ export function AuthPage() {
   async function submit(e: FormEvent) {
     e.preventDefault();
     setSubmitted(true);
+
     if (register && !canRegister) return;
+
     const ok = await run(
       async () => {
         const response = register
@@ -248,7 +260,9 @@ export function AuthPage() {
               email: email.trim(),
               password,
             });
+
         if (response.error) throw response.error;
+
         if (register) {
           navigate("/cadastro/sucesso", {
             replace: true,
@@ -263,6 +277,7 @@ export function AuthPage() {
       },
       register ? undefined : "Bem-vinda!",
     );
+
     if (ok && !register) navigate(redirect);
   }
 
@@ -270,6 +285,7 @@ export function AuthPage() {
     <div className="auth-shell">
       <div className="auth-info">
         <ColaBrand />
+
         <div>
           <span className="eyebrow">
             UMA PLATAFORMA DE CUIDADO COMPARTILHADO
@@ -280,11 +296,14 @@ export function AuthPage() {
             compartilhe responsabilidades e encontre tempo pra você.
           </p>
         </div>
+
         <small>A experiência da família começa com a Cola.</small>
       </div>
+
       <div className="auth-form-wrap">
-        <form className="auth-form" onSubmit={submit} noValidate={false}>
+        <form className="auth-form" onSubmit={submit}>
           <ColaBrand mobile />
+
           <div className="auth-intro">
             <span className="eyebrow">BEM-VINDA À NOSSA CASA</span>
             <h2>{register ? "Vamos começar?" : "Que bom ter você aqui!"}</h2>
@@ -294,9 +313,11 @@ export function AuthPage() {
                 : "Entre na sua conta para ver o que a família combinou."}
             </p>
           </div>
+
           {!configured && (
             <Notice error="Configure o Supabase no arquivo .env para ativar o login e os dados reais." />
           )}
+
           {register && (
             <label className="auth-field">
               Nome
@@ -318,6 +339,7 @@ export function AuthPage() {
               )}
             </label>
           )}
+
           <label className="auth-field">
             E-mail
             <input
@@ -329,8 +351,10 @@ export function AuthPage() {
               placeholder="voce@exemplo.com"
             />
           </label>
-          <div className="auth-field">
+
+          <div className="auth-field auth-password-field">
             <label htmlFor="auth-password">Senha</label>
+
             <div className="auth-password-wrap">
               <input
                 id="auth-password"
@@ -344,6 +368,7 @@ export function AuthPage() {
                 aria-describedby={register ? "password-rules" : undefined}
                 aria-invalid={submitted && register && !validPassword}
               />
+
               <button
                 className="auth-password-toggle"
                 type="button"
@@ -354,6 +379,17 @@ export function AuthPage() {
                 {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
               </button>
             </div>
+
+            {!register && (
+              <button
+                type="button"
+                className="auth-text-link"
+                onClick={() => navigate("/recuperar-senha")}
+              >
+                Esqueci a senha
+              </button>
+            )}
+
             {register && (
               <div
                 id="password-rules"
@@ -374,6 +410,7 @@ export function AuthPage() {
               </div>
             )}
           </div>
+
           {register && (
             <section
               className="auth-consent"
@@ -387,6 +424,7 @@ export function AuthPage() {
                 Você decide com quem compartilhar informações da família. Dados
                 pessoais e de crianças merecem atenção especial.
               </p>
+
               <div className="legal-links">
                 <button
                   type="button"
@@ -403,6 +441,7 @@ export function AuthPage() {
                   Ler o Aviso de Privacidade
                 </button>
               </div>
+
               <label className="consent-check">
                 <input
                   type="checkbox"
@@ -415,6 +454,7 @@ export function AuthPage() {
                   de Privacidade.
                 </span>
               </label>
+
               {submitted && !accepted && (
                 <span className="auth-hint error">
                   Precisamos da sua confirmação para criar a conta.
@@ -422,22 +462,25 @@ export function AuthPage() {
               )}
             </section>
           )}
+
           <Notice error={error} success={success} />
+
           <button
+            type="submit"
             className="button primary auth-submit"
             disabled={!configured || (register && !canRegister)}
           >
             {register ? "Criar conta" : "Entrar"}
           </button>
-          <button
-            type="button"
-            className="text-button auth-secondary"
-            onClick={toggleMode}
-          >
-            {register ? "Já tenho conta" : "Ainda não tenho conta"}
+
+          <button type="button" className="auth-text-link" onClick={toggleMode}>
+            {register
+              ? "Já tenho conta? Entrar"
+              : "Ainda não tem conta? Criar conta"}
           </button>
         </form>
       </div>
+
       {legal && <LegalDialog kind={legal} onClose={() => setLegal(null)} />}
     </div>
   );

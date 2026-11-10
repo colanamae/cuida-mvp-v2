@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { Flower2, Send, LockKeyhole } from "lucide-react";
+import { Send, LockKeyhole } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { api } from "../services/api";
 import { useCollection } from "../hooks/useCollection";
@@ -94,9 +94,9 @@ export function CuidaPage() {
       <div className="chat-panel">
         <div className="chat-messages">
           <div className="chat-bubble assistant">
-            <Flower2 size={22} /> Oi! Sou a Cuida. Posso consultar suas tarefas
-            e agenda. Ainda não sou uma IA generativa: esta versão usa respostas
-            baseadas em regras.
+            <img src="/florzinha.png" alt="" className="cuida-flower" /> Oi! Sou
+            a Cuida. Posso consultar suas tarefas e agenda. Ainda não sou uma IA
+            generativa: esta versão usa respostas baseadas em regras.
           </div>
           {messages.map((m) => (
             <div
@@ -106,7 +106,9 @@ export function CuidaPage() {
                 (m.sender === "assistant" ? "assistant" : "user")
               }
             >
-              {m.sender === "assistant" && <Flower2 size={18} />}
+              {m.sender === "assistant" && (
+                <img src="/florzinha.png" alt="" className="cuida-flower" />
+              )}
               <span>{m.content}</span>
             </div>
           ))}
