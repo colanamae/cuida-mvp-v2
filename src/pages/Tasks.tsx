@@ -570,7 +570,7 @@ function TaskSheet({
   );
 }
 
-export function Tasks() {
+export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
   const { household, user } = useAuth();
   const id = household!.id;
   const { items, reload, loading } = useCollection(() => api.tasks(id), [id]);
@@ -761,7 +761,7 @@ export function Tasks() {
           <Link to="/" className="tasks-back" aria-label="Voltar ao início">
             <ChevronLeft size={27} />
           </Link>
-          <h1>Tarefas</h1>
+          <h1>{dayOnly ? "O dia da família" : "Tarefas"}</h1>{" "}
         </div>
         <button
           type="button"

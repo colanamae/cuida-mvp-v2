@@ -325,7 +325,6 @@ export function Agenda() {
     <div className="commitments-page">
       <div className="commitments-topbar">
         <div className="commitments-topline">
-          <span className="eyebrow">O TEMPO É DE TODOS</span>
           <h1>Compromissos</h1>
         </div>
         <button
