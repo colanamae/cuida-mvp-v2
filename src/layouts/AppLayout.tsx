@@ -10,8 +10,6 @@ import {
   MoreHorizontal,
   LogOut,
   ClipboardList,
-  Soup,
-  Star,
   Menu,
   X,
   UserRound,
@@ -19,6 +17,7 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { supabase } from "../services/supabase";
 import { ColaAsterisk } from "../components/ColaAsterisk";
+import { NotificationBell } from "../components/NotificationBell";
 import "../styles/app-layout-brand.css";
 
 const navigation = [
@@ -107,7 +106,14 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
           <div className="side-footer">
             <div className="side-cuida-card">
               <span className="side-cuida-icon">
-                <ColaAsterisk size={40} />
+                <dotlottie-player
+                  src="/cola-animation.lottie"
+                  background="transparent"
+                  speed="1"
+                  autoplay
+                  loop
+                  style={{ width: "44px", height: "44px" }}
+                ></dotlottie-player>
               </span>
               <span className="side-cuida-text">
                 Cuida
@@ -268,6 +274,8 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
           </div>
 
           <div className="top-actions">
+            <NotificationBell />
+
             {households.length > 1 && (
               <select
                 aria-label="Selecionar casa"
@@ -308,13 +316,15 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
             <div className="drawer-head">
               <div className="drawer-brand">
                 <span className="drawer-brand-animation">
-                  <dotlottie-player
-                    src="/cola-animation.lottie"
-                    background="transparent"
-                    speed="1"
-                    autoplay
-                    loop
-                  ></dotlottie-player>
+                  <img
+                    src="/flor2.png"
+                    alt=""
+                    style={{
+                      width: "49px",
+                      height: "49px",
+                      objectFit: "contain",
+                    }}
+                  />
                 </span>
 
                 <div>
@@ -373,13 +383,15 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
                 onClick={() => setDrawerOpen(false)}
               >
                 <span className="drawer-cuia-icon">
-                  <dotlottie-player
-                    src="/cola-animation.lottie"
-                    background="transparent"
-                    speed="1"
-                    autoplay
-                    loop
-                  ></dotlottie-player>
+                  <img
+                    src="/flor3.png"
+                    alt=""
+                    style={{
+                      width: "55px",
+                      height: "55px",
+                      objectFit: "contain",
+                    }}
+                  />
                 </span>
                 <span>Conversar com a Cola</span>
               </NavLink>
@@ -406,13 +418,14 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
         <div className="bottom-nav-pill">
           {(
             [
-              ["/", "Início", Soup],
-              ["/sonhos", "Sonhos", Star],
+              ["/", "Início", Home],
+              ["/agenda", "Compromissos", CalendarDays],
             ] as const
           ).map(([url, label, Icon]) => (
             <NavLink
               key={url}
               to={url}
+              end={url === "/"}
               className={({ isActive }) =>
                 "bottom-nav-item" + (isActive ? " selected" : "")
               }
@@ -430,23 +443,31 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
             }
           >
             <span className="bottom-nav-center-inner">
-              <img src="/florzinha.png" alt="" />{" "}
+              <img
+                src="/flor2.png"
+                alt=""
+                style={{
+                  width: "75px",
+                  height: "90px",
+                  objectFit: "contain",
+                }}
+              />
             </span>
           </NavLink>
 
           <NavLink
-            to="/financas"
+            to="/tarefas"
             className={({ isActive }) =>
               "bottom-nav-item" + (isActive ? " selected" : "")
             }
           >
-            <Wallet size={24} strokeWidth={2.2} />
-            <small>Finanças</small>
+            <ClipboardList size={24} strokeWidth={2.2} />
+            <small>Tarefas</small>
           </NavLink>
 
           <button
             type="button"
-            className="bottom-nav-item"
+            className="bottom-nav-item bottom-nav-more"
             aria-label="Abrir mais módulos"
             aria-expanded={drawerOpen}
             onClick={() => setDrawerOpen(true)}

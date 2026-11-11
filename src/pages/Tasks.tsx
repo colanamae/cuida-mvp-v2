@@ -18,7 +18,6 @@ import { api } from "../services/api";
 import { useCollection } from "../hooks/useCollection";
 import { Notice, useFeedback } from "../components/UI";
 import { UnassignedTaskQueue } from "../components/UnassignedTaskQueue";
-import { NotificationBell } from "../components/NotificationBell";
 import { isoFromLocal, localInput } from "../utils/date";
 
 import type { Member, Task, TaskAcceptance } from "../types/models";
@@ -775,7 +774,6 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
             flexShrink: 0,
           }}
         >
-          <NotificationBell />
           <button
             type="button"
             className="button primary tasks-create-button"

@@ -7,7 +7,6 @@ import { greetingForHour, preferredName, fullDate } from "../utils/greeting";
 
 import { today } from "../utils/date";
 import { ColaAsterisk } from "../components/ColaAsterisk";
-import { NotificationBell } from "../components/NotificationBell";
 import type { Member, Task } from "../types/models";
 import "../styles/home-compact-cards.css";
 
@@ -29,7 +28,7 @@ function shortDate(value: string | null | undefined): string {
 function timeOrDate(value: string | null | undefined): string {
   const date = asValidDate(value);
   if (!date) return "sem data";
-  // A data só ganha horário quando o registro inclui a hora de fato.
+
   return /T\d\d:\d\d/.test(value || "")
     ? new Intl.DateTimeFormat("pt-BR", {
         hour: "2-digit",
@@ -55,7 +54,9 @@ type PreviewItem = {
   date?: string;
   responsible?: string;
 };
+
 type PreviewKind = "tasks" | "general";
+
 type PreviewCardProps = {
   heading: string;
   title: string;
@@ -85,6 +86,7 @@ function PreviewCard({
           <h2>{title}</h2>
         </>
       )}
+
       <div className="home-preview-items">
         {items.length ? (
           items.slice(0, 3).map((item) => (
@@ -95,8 +97,10 @@ function PreviewCard({
                     {kind === "tasks" ? item.date || "sem data" : item.date}
                   </span>
                 )}
+
                 <strong>{item.title}</strong>
               </div>
+
               {(kind === "tasks" || item.responsible) && (
                 <span className="home-preview-responsible">
                   {kind === "tasks"
@@ -134,29 +138,26 @@ function taskPreview(task: Task, members: Member[]): PreviewItem {
 export function Home() {
   const { household, user } = useAuth();
   const id = household!.id;
+
   const { items: tasks, loading: tasksLoading } = useCollection(
     () => api.tasks(id),
     [id],
   );
+
   const { items: members, loading: membersLoading } = useCollection(
     () => api.members(id),
     [id],
   );
-  const { items: profiles, loading: profilesLoading } = useCollection(
-    () => api.profiles(id),
-    [id],
-  );
-  const { items: dreams, loading: dreamsLoading } = useCollection(
-    () => api.dreams(id),
-    [id],
-  );
 
   const now = new Date();
+
   const name = preferredName(
     user?.user_metadata,
     members.find((member) => member.user_id === user?.id)?.display_name,
   );
+
   const currentDay = today();
+
   const tasksForToday = tasks
     .filter(
       (task) =>
@@ -164,35 +165,17 @@ export function Home() {
         (!task.due_at || task.due_at.slice(0, 10) === currentDay),
     )
     .sort((a, b) => (a.due_at ?? "").localeCompare(b.due_at ?? ""));
-  const careMembers = members.map((member) => ({
-    id: member.id,
-    title: member.display_name,
-    responsible: "Pessoa da rede",
-  }));
-  const dreamItems: PreviewItem[] = dreams.map((dream) => ({
-    id: dream.id,
-    title: dream.title,
-    responsible: `Criado por: ${responsibleName(dream.created_by, members)}`,
-  }));
 
   return (
     <>
-      <div
-        className="home-page-heading"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "16px",
-        }}
-      >
+      <div className="home-page-heading">
         <div>
           <div className="eyebrow home-date">{fullDate(now)}</div>
+
           <h1>
             {greetingForHour(now.getHours())}, {name}
           </h1>
         </div>
-        <NotificationBell />
       </div>
 
       <Link
@@ -203,62 +186,29 @@ export function Home() {
         <div className="cola-ai-avatar">
           <ColaAsterisk size={70} />
         </div>
+
         <div className="cola-ai-copy">
           <h2 id="cola-ai-title">Esvazie a sua mente</h2>
           <p>Me fale tudo, que separo e organizo.</p>
         </div>
       </Link>
+
       <div className="home-compact-grid">
-        <PreviewCard
-          heading=""
-          title="Tarefas"
-          url="/tarefas"
-          tone="pink"
-          kind="tasks"
-          items={tasksForToday.map((task) => taskPreview(task, members))}
-          emptyText={
-            tasksLoading || membersLoading
-              ? "Carregando tarefas..."
-              : "Nenhuma tarefa pendente para hoje."
-          }
-        />
-        <Link
-          className="home-preview-card home-preview-card--blue home-google-calendar"
-          to="/agenda"
-        >
-          <h2>Compromissos</h2>{" "}
-          <div className="home-preview-empty" role="status">
-            <strong>Integração em preparação</strong>
-            <span>
-              Os compromissos do Google Agenda aparecerão aqui após a integração
-              ser configurada.
-            </span>
-          </div>
-        </Link>
-        <PreviewCard
-          heading="MINHA REDE"
-          title={`${members.length} cuidam · ${profiles.length} são cuidados`}
-          url="/rede"
-          tone="olive"
-          items={careMembers}
-          emptyText={
-            membersLoading || profilesLoading
-              ? "Carregando rede..."
-              : "Sua rede ainda não tem integrantes."
-          }
-        />
-        <PreviewCard
-          heading="MAPA DOS SONHOS"
-          title="Sonhos da família"
-          url="/sonhos"
-          tone="lilac"
-          items={dreamItems}
-          emptyText={
-            dreamsLoading
-              ? "Carregando sonhos..."
-              : "Que tal adicionar o primeiro sonho?"
-          }
-        />
+        {!tasksLoading && tasksForToday.length > 0 && (
+          <PreviewCard
+            heading=""
+            title="Tarefas"
+            url="/tarefas"
+            tone="pink"
+            kind="tasks"
+            items={tasksForToday.map((task) => taskPreview(task, members))}
+            emptyText={
+              membersLoading
+                ? "Carregando responsáveis..."
+                : "Nenhuma tarefa pendente para hoje."
+            }
+          />
+        )}
       </div>
     </>
   );
