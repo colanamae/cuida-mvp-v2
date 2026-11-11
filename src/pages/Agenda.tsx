@@ -1,3 +1,4 @@
+import { NotificationBell } from "../components/NotificationBell";
 import { useEffect, useMemo, useState } from "react";
 import {
   CalendarDays,
@@ -103,6 +104,7 @@ export function Agenda() {
   const [createdMessage, setCreatedMessage] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
   const [refresh, setRefresh] = useState(0);
+
   useEffect(() => {
     let active = true;
     if (!household?.id) {
@@ -134,12 +136,13 @@ export function Agenda() {
       active = false;
     };
   }, [household?.id]);
+
   const range = useMemo(() => {
     const first = new Date(selected.getFullYear(), selected.getMonth(), 1);
     const last = new Date(selected.getFullYear(), selected.getMonth() + 1, 1);
-    // Fetch adjacent weeks/months so browsing between views is seamless.
     return { start: addDays(first, -14), end: addDays(last, 14) };
   }, [selected.getFullYear(), selected.getMonth()]);
+
   useEffect(() => {
     let active = true;
     setStatus("loading");
@@ -183,6 +186,7 @@ export function Agenda() {
           )
         : addDays(prev, direction * (view === "week" ? 7 : 1)),
     );
+
   const calendarIds = Array.from(new Set(entries.map((e) => e.calendarId)));
   const monthStart = new Date(selected.getFullYear(), selected.getMonth(), 1);
   const monthEnd = new Date(selected.getFullYear(), selected.getMonth() + 1, 0);
@@ -198,6 +202,7 @@ export function Agenda() {
   const weekDays = Array.from({ length: 7 }, (_, i) =>
     addDays(startOfWeek(selected), i),
   );
+
   const filteredEntries =
     activeFilter === "all"
       ? entries
@@ -209,6 +214,7 @@ export function Agenda() {
             ? !assigned
             : assigned === activeFilter;
         });
+
   const eventColor = (event: GoogleCalendarEntry) => {
     const assigned = responsibilities.find(
       (item) => item.google_event_id === event.id,
@@ -218,9 +224,11 @@ export function Agenda() {
       colorFor(event.calendarId, calendarIds)
     );
   };
+
   const selectedEvents = filteredEntries
     .filter((e) => matchesDay(e, selected))
     .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
+
   const label =
     view === "month"
       ? displayDate(selected, { month: "long", year: "numeric" })
@@ -228,7 +236,11 @@ export function Agenda() {
         ? `${displayDate(weekDays[0], {
             day: "2-digit",
             month: "short",
-          })} – ${displayDate(weekDays[6], { day: "2-digit", month: "short", year: "numeric" })}`
+          })} – ${displayDate(weekDays[6], {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          })}`
         : displayDate(selected, {
             day: "numeric",
             month: "long",
@@ -286,6 +298,7 @@ export function Agenda() {
     const isSelected = isoDay(selected) === isoDay(day);
     const isToday = isoDay(TODAY()) === isoDay(day);
     const otherMonth = day.getMonth() !== selected.getMonth();
+
     return (
       <button
         type="button"
@@ -327,17 +340,25 @@ export function Agenda() {
         <div className="commitments-topline">
           <h1>Compromissos</h1>
         </div>
-        <button
-          type="button"
-          className="commitments-create-button"
-          onClick={create}
-          disabled={working || status === "loading"}
-          aria-label="Novo compromisso"
-        >
-          <Plus size={18} />
-          <span>Novo compromisso</span>
-        </button>
+
+        <div className="commitments-topbar-actions">
+          <div className="commitments-notifications">
+            <NotificationBell />
+          </div>
+
+          <button
+            type="button"
+            className="commitments-create-button"
+            onClick={create}
+            disabled={working || status === "loading"}
+            aria-label="Novo compromisso"
+          >
+            <Plus size={18} />
+            <span>Novo compromisso</span>
+          </button>
+        </div>
       </div>
+
       <div
         className="commitments-tabs"
         role="group"
@@ -361,6 +382,7 @@ export function Agenda() {
           </button>
         ))}
       </div>
+
       <div
         className="commitments-member-filters"
         aria-label="Filtrar compromissos por participante"
@@ -397,6 +419,7 @@ export function Agenda() {
           Sem responsável
         </button>
       </div>
+
       <section
         className="commitment-calendar"
         aria-label="Calendário de compromissos"
@@ -429,6 +452,7 @@ export function Agenda() {
             </button>
           </div>
         </div>
+
         <div className="commitments-calendar-days">
           {view === "month" && (
             <div className="commitments-weekdays">
@@ -464,6 +488,7 @@ export function Agenda() {
           )}
         </div>
       </section>
+
       {googleError && (
         <div className="notice error" role="alert">
           {googleError}
@@ -479,6 +504,7 @@ export function Agenda() {
           {createdMessage}
         </div>
       )}
+
       {status !== "connected" ? (
         <div className="commitments-connect" role="status">
           <CalendarDays size={22} />
@@ -550,6 +576,7 @@ export function Agenda() {
           </button>
         </div>
       )}
+
       <section
         className="commitments-agenda"
         aria-label="Compromissos da data selecionada"
@@ -607,6 +634,7 @@ export function Agenda() {
           </div>
         )}
       </section>
+
       {activeEvent && household?.id && (
         <CommitmentSheet
           key={activeEvent.id}
@@ -632,6 +660,7 @@ export function Agenda() {
           }
         />
       )}
+
       {modalOpen && (
         <NewCommitmentModal
           date={selected}
