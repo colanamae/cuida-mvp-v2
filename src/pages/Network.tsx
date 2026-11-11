@@ -4,8 +4,6 @@ import { useAuth } from "../contexts/AuthContext";
 import { api } from "../services/api";
 import { useCollection } from "../hooks/useCollection";
 import { Avatar, Empty, Modal, Notice, useFeedback } from "../components/UI";
-import { NotificationBell } from "../components/NotificationBell";
-
 export function Network() {
   const { household, user } = useAuth(),
     id = household!.id;
@@ -72,7 +70,6 @@ export function Network() {
             flexShrink: 0,
           }}
         >
-          <NotificationBell />
           {admin && (
             <button
               className="button primary"

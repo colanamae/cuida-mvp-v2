@@ -1,4 +1,3 @@
-import { NotificationBell } from "../components/NotificationBell";
 import { useEffect, useMemo, useState } from "react";
 import {
   CalendarDays,
@@ -342,10 +341,6 @@ export function Agenda() {
         </div>
 
         <div className="commitments-topbar-actions">
-          <div className="commitments-notifications">
-            <NotificationBell />
-          </div>
-
           <button
             type="button"
             className="commitments-create-button"

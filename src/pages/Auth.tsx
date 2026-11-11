@@ -306,7 +306,19 @@ export function AuthPage() {
 
           <div className="auth-intro">
             <span className="eyebrow">BEM-VINDA À NOSSA CASA</span>
-            <h2>{register ? "Vamos começar?" : "Que bom ter você aqui!"}</h2>
+
+            <h2>
+              {register ? (
+                "Vamos começar?"
+              ) : (
+                <>
+                  Que bom ter você
+                  <br />
+                  aqui!
+                </>
+              )}
+            </h2>
+
             <p>
               {register
                 ? "Crie sua conta para compartilhar o cuidado com quem você confia."
