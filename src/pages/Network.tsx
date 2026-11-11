@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { api } from "../services/api";
 import { useCollection } from "../hooks/useCollection";
 import { Avatar, Empty, Modal, Notice, useFeedback } from "../components/UI";
+import { NotificationBell } from "../components/NotificationBell";
 
 export function Network() {
   const { household, user } = useAuth(),
@@ -63,17 +64,27 @@ export function Network() {
             Quem cuida, quem recebe cuidado e o que cada pessoa pode acessar.
           </p>
         </div>
-        {admin && (
-          <button
-            className="button primary"
-            onClick={() => {
-              setInviteLink("");
-              setModal("invite");
-            }}
-          >
-            <UserRoundPlus size={18} /> Convidar
-          </button>
-        )}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            flexShrink: 0,
+          }}
+        >
+          <NotificationBell />
+          {admin && (
+            <button
+              className="button primary"
+              onClick={() => {
+                setInviteLink("");
+                setModal("invite");
+              }}
+            >
+              <UserRoundPlus size={18} /> Convidar
+            </button>
+          )}
+        </div>
       </div>
       <div className="panel">
         <h2>Quem cuida</h2>

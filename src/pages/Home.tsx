@@ -7,6 +7,7 @@ import { greetingForHour, preferredName, fullDate } from "../utils/greeting";
 
 import { today } from "../utils/date";
 import { ColaAsterisk } from "../components/ColaAsterisk";
+import { NotificationBell } from "../components/NotificationBell";
 import type { Member, Task } from "../types/models";
 import "../styles/home-compact-cards.css";
 
@@ -176,10 +177,24 @@ export function Home() {
 
   return (
     <>
-      <div className="eyebrow home-date">{fullDate(now)}</div>
-      <h1>
-        {greetingForHour(now.getHours())}, {name}
-      </h1>
+      <div
+        className="home-page-heading"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "16px",
+        }}
+      >
+        <div>
+          <div className="eyebrow home-date">{fullDate(now)}</div>
+          <h1>
+            {greetingForHour(now.getHours())}, {name}
+          </h1>
+        </div>
+        <NotificationBell />
+      </div>
+
       <Link
         to="/cuida"
         className="cola-ai-card"

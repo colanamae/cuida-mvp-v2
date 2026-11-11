@@ -11,6 +11,7 @@ const dateKey = (date: Date) =>
     String(date.getMonth() + 1).padStart(2, "0"),
     String(date.getDate()).padStart(2, "0"),
   ].join("-");
+
 type Alert = {
   id: string;
   title: string;
@@ -26,8 +27,11 @@ export function NotificationBell() {
   const [events, setEvents] = useState<Event[]>([]);
   const [error, setError] = useState("");
   const [seen, setSeen] = useState<string[]>([]);
+
   const containerRef = useRef<HTMLDivElement>(null);
+
   const storageKey = `cola-notifications-seen:${user?.id || "unknown"}:${household?.id || "unknown"}`;
+
   useEffect(() => {
     try {
       setSeen(JSON.parse(localStorage.getItem(storageKey) || "[]") as string[]);
@@ -35,55 +39,72 @@ export function NotificationBell() {
       setSeen([]);
     }
   }, [storageKey]);
+
   useEffect(() => {
     if (!household) return;
+
     let live = true;
+
     const load = async () => {
       try {
         const [allTasks, allEvents] = await Promise.all([
           api.tasks(household.id),
           api.events(household.id),
         ]);
+
         if (live) {
           setTasks(allTasks);
           setEvents(allEvents);
           setError("");
         }
       } catch {
-        if (live)
+        if (live) {
           setError("Não conseguimos carregar os avisos. Tente novamente.");
+        }
       }
     };
+
     void load();
-    // Keep notifications current when returning to the tab.
+
     const onFocus = () => {
       void load();
     };
+
     window.addEventListener("focus", onFocus);
+
     return () => {
       live = false;
       window.removeEventListener("focus", onFocus);
     };
   }, [household?.id]);
+
   useEffect(() => {
     const close = (event: MouseEvent) => {
-      if (!containerRef.current?.contains(event.target as Node)) setOpen(false);
+      if (!containerRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
     };
+
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
+
     document.addEventListener("mousedown", close);
     document.addEventListener("keydown", onKey);
+
     return () => {
       document.removeEventListener("mousedown", close);
       document.removeEventListener("keydown", onKey);
     };
   }, []);
+
   const alerts = useMemo(() => {
     if (!user) return [];
+
     const now = new Date();
     const today = dateKey(now);
     const items: Alert[] = [];
+
     for (const task of tasks) {
       if (
         task.status === "done" ||
@@ -91,10 +112,14 @@ export function NotificationBell() {
         ((task.assignees?.length ?? 0) > 0
           ? !task.assignees!.includes(user.id)
           : Boolean(task.assigned_to && task.assigned_to !== user.id))
-      )
+      ) {
         continue;
+      }
+
       const date = task.due_at.slice(0, 10);
+
       if (date > today) continue;
+
       items.push({
         id: `task:${task.id}:${date}`,
         title: task.title,
@@ -103,12 +128,15 @@ export function NotificationBell() {
         kind: "task",
       });
     }
+
     for (const event of events) {
       if (
         event.starts_at.slice(0, 10) !== today ||
         (event.assigned_to && event.assigned_to !== user.id)
-      )
+      ) {
         continue;
+      }
+
       items.push({
         id: `event:${event.id}:${today}`,
         title: event.title,
@@ -123,13 +151,17 @@ export function NotificationBell() {
         kind: "event",
       });
     }
+
     return items.slice(0, 30);
   }, [tasks, events, user?.id]);
+
   const unread = alerts.filter((a) => !seen.includes(a.id)).length;
 
   function markAll() {
     const ids = Array.from(new Set([...seen, ...alerts.map((a) => a.id)]));
+
     setSeen(ids);
+
     try {
       localStorage.setItem(storageKey, JSON.stringify(ids));
     } catch {}
@@ -146,12 +178,14 @@ export function NotificationBell() {
         onClick={() => setOpen((x) => !x)}
       >
         <Bell size={21} strokeWidth={1.9} />
+
         {unread > 0 && (
           <span className="notification-count">
             {unread > 9 ? "9+" : unread}
           </span>
         )}
       </button>
+
       {open && (
         <div
           className="notifications-popover"
@@ -161,6 +195,7 @@ export function NotificationBell() {
         >
           <div className="notifications-heading">
             <strong>Notificações</strong>
+
             <button
               type="button"
               className="notifications-close"
@@ -170,13 +205,16 @@ export function NotificationBell() {
               <X size={18} />
             </button>
           </div>
+
           {error && <p className="notification-error">{error}</p>}
+
           {!error && alerts.length === 0 && (
             <p className="notification-empty">
               Tudo em dia por aqui. Quando houver tarefas ou compromissos para
               acompanhar, eles aparecem aqui.
             </p>
           )}
+
           {!error &&
             alerts.map((alert) => (
               <Link
@@ -196,12 +234,14 @@ export function NotificationBell() {
                 ) : (
                   <CalendarDays size={19} />
                 )}
+
                 <span>
                   <strong>{alert.title}</strong>
                   <small>{alert.detail}</small>
                 </span>
               </Link>
             ))}
+
           {unread > 0 && (
             <button
               type="button"

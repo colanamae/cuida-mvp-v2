@@ -1,4 +1,3 @@
-import { NotificationBell } from "../components/NotificationBell";
 import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -282,8 +281,6 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
                 ))}
               </select>
             )}
-
-            <NotificationBell />
           </div>
         </header>
 

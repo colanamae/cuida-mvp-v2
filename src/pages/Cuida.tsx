@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { api } from "../services/api";
 import { useCollection } from "../hooks/useCollection";
 import { Notice, useFeedback } from "../components/UI";
+import { NotificationBell } from "../components/NotificationBell";
 
 const suggestions = [
   "O que está sem dono?",
@@ -87,7 +88,17 @@ export function CuidaPage() {
   return (
     <>
       <span className="eyebrow">SUA ASSISTENTE DE CUIDADO</span>
-      <h1>Cuida</h1>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "16px",
+        }}
+      >
+        <h1>Cuida</h1>
+        <NotificationBell />
+      </div>
       <p className="lead">
         Sempre por aqui, pra ajudar a organizar a nossa rede.
       </p>
