@@ -1,0 +1,510 @@
+/* Scoped solely to CuidaPage. Does not override global .brand/.chat-panel styles. */
+.cuida-page {
+  max-width: 980px;
+  margin: 0 auto;
+  min-width: 0;
+}
+.cuida-page-heading {
+  margin-bottom: 16px;
+}
+.cuida-page-heading h1 {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(23px, 3vw, 32px);
+  margin: 4px 0;
+  line-height: 1.15;
+}
+.cuida-chat-panel {
+  height: min(75dvh, 780px);
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  overflow: hidden;
+  background: #faf5fd;
+  border: 1px solid #e9dbea;
+  box-shadow: 0 12px 35px #6c003412;
+}
+.cuida-chat-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overscroll-behavior: contain;
+}
+.cuida-welcome {
+  margin: auto;
+  max-width: 350px;
+  min-height: 260px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--primary);
+}
+.cuida-welcome svg {
+  color: var(--cuida-ink);
+}
+.cuida-welcome h2 {
+  margin: 0;
+  font-size: 22px;
+}
+.cuida-welcome p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+.cuida-chat-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: 86%;
+}
+.cuida-chat-line.user {
+  align-self: flex-end;
+}
+.cuida-chat-line.assistant {
+  align-self: flex-start;
+}
+.cuida-chat-line.assistant > svg {
+  flex: 0 0 auto;
+  margin-top: 5px;
+  color: var(--cuida-ink);
+}
+.cuida-chat-message {
+  padding: 11px 14px;
+  border-radius: 15px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  background: white;
+}
+.cuida-chat-line.user .cuida-chat-message {
+  background: #613ca0;
+  color: white;
+  border-top-right-radius: 5px;
+}
+.cuida-inline-attachment {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 7px;
+  margin-bottom: 7px;
+  border-radius: 8px;
+  background: #ffffff33;
+}
+.cuida-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #7851ac;
+  font-size: 12px;
+}
+.cuida-status span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: 14px;
+  background: white;
+}
+.cuida-spin {
+  animation: cuida-spin 1s linear infinite;
+}
+@keyframes cuida-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.cuida-compose-area {
+  flex: 0 0 auto;
+  padding: 10px 14px 14px;
+  border-top: 1px solid #f0e6f6;
+  background: #fffcff;
+}
+.cuida-suggestions {
+  font-size: 11px;
+  padding-bottom: 9px;
+}
+.cuida-suggestions > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 5px;
+}
+.cuida-suggestions button {
+  border: 1px solid #dfc6fc;
+  color: #6a459b;
+  background: white;
+  border-radius: 20px;
+  padding: 6px 10px;
+  font-size: 11px;
+}
+.cuida-composer,
+.cuida-recording {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #b89ce0;
+  border-radius: 22px;
+  padding: 5px 6px;
+  background: white;
+  min-height: 45px;
+}
+.cuida-composer textarea {
+  flex: 1;
+  min-width: 0;
+  min-height: 34px;
+  max-height: 110px;
+  resize: none;
+  padding: 8px 3px;
+  border: 0;
+  box-shadow: none;
+  font-size: 13px;
+  background: transparent;
+}
+.cuida-composer textarea:focus {
+  outline: none;
+}
+.cuida-plain,
+.cuida-round,
+.cuida-submit,
+.cuida-recording button {
+  width: 31px;
+  height: 31px;
+  border: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.cuida-plain {
+  background: transparent;
+  color: #8156b9;
+}
+.cuida-round {
+  background: #f0e5ff;
+  color: #7951ad;
+}
+.cuida-submit {
+  background: #68449f;
+  color: white;
+}
+.cuida-submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.cuida-picker-wrap {
+  position: relative;
+}
+.cuida-picker {
+  position: absolute;
+  bottom: 44px;
+  left: 0;
+  width: 255px;
+  padding: 8px;
+  border-radius: 13px;
+  background: white;
+  border: 1px solid #eee0f3;
+  box-shadow: 0 8px 28px #30113d28;
+  z-index: 20;
+}
+.cuida-picker button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px;
+  border: 0;
+  background: transparent;
+  color: #573976;
+  text-align: left;
+}
+.cuida-picker button:hover {
+  background: #f7efff;
+  border-radius: 9px;
+}
+.cuida-picker span {
+  font-size: 12px;
+  font-weight: 700;
+}
+.cuida-picker small {
+  display: block;
+  font-size: 10px;
+  color: #7e7185;
+  font-weight: 400;
+}
+.cuida-file-preview {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: white;
+  border: 1px solid #e2cafc;
+  padding: 9px;
+  margin-bottom: 7px;
+  border-radius: 12px;
+}
+.cuida-file-preview div {
+  flex: 1;
+  min-width: 0;
+}
+.cuida-file-preview strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.cuida-file-preview small {
+  display: block;
+  color: #75687f;
+  font-size: 10px;
+}
+.cuida-file-preview button {
+  border: 0;
+  background: transparent;
+  color: #624282;
+}
+.cuida-file-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #e9dbfa;
+  display: grid;
+  place-items: center;
+  color: #6c469f;
+}
+.cuida-upload-state,
+.cuida-transcript-hint {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #69419d;
+  font-size: 11px;
+  padding: 4px 2px 8px;
+}
+.cuida-recording {
+  color: #69419d;
+  padding-left: 12px;
+}
+.cuida-recording .cuida-wave {
+  flex: 1;
+  letter-spacing: 2px;
+}
+.cuida-record-dot {
+  background: #e8a5b0;
+  width: 7px;
+  height: 7px;
+  border-radius: 100%;
+}
+.cuida-recording button {
+  background: #efe4fc;
+  color: #654098;
+}
+.cuida-recording .cuida-submit {
+  background: #654098;
+  color: white;
+}
+.cuida-review {
+  background: #faf5f9;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid #eee1e7;
+  max-width: 690px;
+  width: 100%;
+  align-self: flex-start;
+}
+.cuida-review > p {
+  font-size: 13px;
+  margin: 0 0 10px;
+}
+.cuida-review-item {
+  border: 1px solid #eadde2;
+  background: #fffaf6;
+  border-radius: 12px;
+  padding: 11px;
+  margin: 8px 0;
+}
+.cuida-review-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 7px;
+}
+.cuida-review-top label {
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.cuida-review-top input {
+  width: 16px;
+  height: 16px;
+  min-height: 16px;
+  accent-color: #740541;
+}
+.cuida-review-top select {
+  width: auto;
+  min-height: 30px;
+  font-size: 11px;
+  padding: 4px;
+}
+.cuida-review-item > input,
+.cuida-review-item > textarea {
+  width: 100%;
+  min-height: 34px;
+  font-size: 12px;
+  margin-bottom: 6px;
+  padding: 7px;
+}
+.cuida-review-item small {
+  color: #7c6270;
+  font-size: 10px;
+}
+.cuida-review-actions,
+.cuida-error-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.cuida-review-actions button,
+.cuida-error-actions button {
+  flex: 1;
+  min-height: 38px;
+  padding: 8px;
+  background: white;
+  color: #643f6e;
+  border: 1px solid #cfb8c8;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.cuida-review-actions .primary,
+.cuida-error-actions button:last-child {
+  background: #b98ba6;
+  color: white;
+  border-color: #b98ba6;
+}
+.cuida-review-actions button:disabled {
+  opacity: 0.5;
+}
+.cuida-error {
+  max-width: 100%;
+}
+.cuida-privacy {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--muted);
+  padding: 12px 4px 20px;
+}
+@media (max-width: 720px) {
+  .cuida-page-heading {
+    margin-bottom: 10px;
+  }
+  .cuida-page-heading h1 {
+    font-size: 22px;
+  }
+  .cuida-chat-panel {
+    height: calc(100dvh - 215px - env(safe-area-inset-bottom));
+    min-height: 340px;
+    border-radius: 18px;
+  }
+  .cuida-chat-scroll {
+    padding: 12px 9px;
+    gap: 10px;
+  }
+  .cuida-welcome {
+    max-width: 230px;
+    min-height: 220px;
+  }
+  .cuida-welcome h2 {
+    font-size: 16px;
+  }
+  .cuida-welcome p {
+    font-size: 11px;
+  }
+  .cuida-chat-line {
+    max-width: 94%;
+  }
+  .cuida-chat-message {
+    font-size: 11px;
+    padding: 9px 10px;
+  }
+  .cuida-compose-area {
+    padding: 7px 7px 9px;
+  }
+  .cuida-suggestions button {
+    font-size: 10px;
+  }
+  .cuida-review {
+    padding: 8px;
+  }
+  .cuida-review-item {
+    padding: 7px;
+  }
+  .cuida-privacy {
+    font-size: 10px;
+  }
+}
+
+.cuida-review-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 5px 0;
+}
+.cuida-review-fields label {
+  font-size: 10px;
+  color: #7b5268;
+  min-width: 0;
+}
+.cuida-review-fields input {
+  display: block;
+  font-size: 11px;
+  padding: 5px;
+  min-height: 33px;
+  width: 100%;
+}
+@media (max-width: 480px) {
+  .cuida-review-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Campos adicionados na revisão V2 — limitados à Cuida */
+.cuida-page .cuida-review-fields select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 34px;
+  padding: 5px;
+  margin-top: 4px;
+  font-size: 11px;
+}
+.cuida-page .cuida-care-profile {
+  display: block;
+  margin-top: 8px;
+  color: #7b5268;
+  font-size: 11px;
+}
+.cuida-page .cuida-care-profile select {
+  width: 100%;
+  min-height: 34px;
+  font-size: 11px;
+  padding: 5px;
+  margin-top: 4px;
+}
