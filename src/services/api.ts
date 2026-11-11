@@ -15,10 +15,28 @@ import type {
   Transaction,
 } from "../types/models";
 
+export type CuidaNote = {
+  id: string;
+  household_id: string;
+  user_id: string;
+  title: string;
+  content: string | null;
+  created_at: string;
+};
+export type CuidaReminder = {
+  id: string;
+  household_id: string;
+  user_id: string;
+  title: string;
+  details: string | null;
+  remind_at: string | null;
+  completed: boolean;
+  created_at: string;
+};
+
 export function message(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
-
 async function list<T>(table: string, householdId: string): Promise<T[]> {
   const { data, error } = await supabase
     .from(table)
@@ -28,7 +46,6 @@ async function list<T>(table: string, householdId: string): Promise<T[]> {
   if (error) throw error;
   return data as T[];
 }
-
 export const api = {
   async households(): Promise<Household[]> {
     const { data, error } = await supabase
@@ -73,6 +90,9 @@ export const api = {
   shopping: (id: string) => list<Shopping>("shopping_items", id),
   dreams: (id: string) => list<Dream>("dreams", id),
   transactions: (id: string) => list<Transaction>("transactions", id),
+  // Tabelas pessoais criadas pela migration V2; RLS restringe ao dono.
+  cuidaNotes: (id: string) => list<CuidaNote>("cuida_notes", id),
+  cuidaReminders: (id: string) => list<CuidaReminder>("cuida_reminders", id),
   async checkins(id: string, userId: string) {
     const { data, error } = await supabase
       .from("wellbeing_checkins")
