@@ -1995,32 +1995,80 @@ textarea {
     box-shadow: none;
     background: transparent;
   }
-  /* Alinhamento da saudação com a logo no desktop */
-  @media (min-width: 721px) {
-    .page:has(.home-page-heading) {
-      padding-top: 0 !important;
-    }
+}
+/* Alinhamento da saudação com a logo no desktop */
+@media (min-width: 721px) {
+  .page:has(.home-page-heading) {
+    padding-top: 0 !important;
+  }
 
-    .home-page-heading {
-      position: relative !important;
-      top: -65px !important;
-      transform: none !important;
-      margin-bottom: -65px !important;
-    }
-    /* Remove o fundo e a borda da imagem da flor no menu lateral mobile */
-    .drawer-cuia-link,
-    .drawer-cuia-icon {
-      border: none !important;
-      outline: none !important;
-      box-shadow: none !important;
-      background: transparent !important;
-    }
+  .home-page-heading {
+    position: relative !important;
+    top: -65px !important;
+    transform: none !important;
+    margin-bottom: -65px !important;
+  }
+}
 
-    .drawer-cuia-icon img {
-      border: none !important;
-      outline: none !important;
-      box-shadow: none !important;
-      background: transparent !important;
-    }
+/* Remove bordas da imagem da flor no menu lateral */
+.drawer-cuia-link,
+.drawer-cuia-icon {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.drawer-cuia-icon img {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Tarefas: manter a tela fixa quando todas forem concluídas */
+@media (max-width: 720px) {
+  .app-shell:has(.page .tasks-empty-state) {
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .app-shell:has(.page .tasks-empty-state) .app-right {
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .app-shell:has(.page .tasks-empty-state) .page {
+    flex: 1;
+    min-height: 0;
+    height: auto;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+
+  .app-shell:has(.page .tasks-empty-state) .tasks-redesign-page {
+    height: 100%;
+    min-height: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+
+  .app-shell:has(.page .tasks-empty-state) .tasks-empty-state {
+    min-height: 0;
+  }
+  /* Recupera o fundo lilás do botão Cuida no menu lateral */
+  .drawer-cuia-link {
+    background: var(--cuida-surface) !important;
+    color: var(--cuida-ink) !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .drawer-cuia-link:hover {
+    background: var(--cuida) !important;
   }
 }
