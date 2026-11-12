@@ -188,19 +188,24 @@ export function ColaBrand({ mobile = false }: { mobile?: boolean }) {
   return (
     <div
       className={
-        mobile ? "mobile-brand-auth auth-logo-cola" : "auth-logo auth-logo-cola"
+        mobile
+          ? "mobile-brand-auth auth-logo2-cola"
+          : "auth-logo2 auth-logo2-cola"
       }
     >
-      <div className="cola-mark" aria-hidden="true">
-        <dotlottie-player
-          src="/cola-animation.lottie"
-          background="transparent"
-          speed="1"
-          autoplay
-          loop
-        ></dotlottie-player>
-      </div>
-      <span>Cola</span>
+      <img
+        src="/logo2.png"
+        alt="Cola"
+        className="cola-logo2-image"
+        style={{
+          width: "38px",
+          height: "38px",
+          objectFit: "contain",
+        }}
+      />
+      <span style={{ position: "relative", top: "-10px", marginLeft: "5px" }}>
+        Cola
+      </span>
     </div>
   );
 }

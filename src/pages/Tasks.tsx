@@ -28,12 +28,14 @@ import "../styles/task-create-sheet.css";
 type OwnerFilter = "mine" | "network" | "unassigned";
 type DateFilter = "all" | "today" | "upcoming";
 type TaskStatus = "open" | "in_progress" | "done";
+
 const TASK_CATEGORIES = [
   "Saúde",
   "Escola",
   "Casa",
   "Cuidados pessoais",
 ] as const;
+
 const assignedIds = (task: Task): string[] =>
   Array.isArray(task.assignees)
     ? task.assignees
@@ -43,26 +45,35 @@ const assignedIds = (task: Task): string[] =>
 
 function taskDate(value: string | null): string {
   if (!value) return "sem data";
+
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "sem data";
-  const day = new Intl.DateTimeFormat("pt-BR", { weekday: "short" })
+
+  const day = new Intl.DateTimeFormat("pt-BR", {
+    weekday: "short",
+  })
     .format(date)
     .replace(".", "");
+
   const dateLabel = new Intl.DateTimeFormat("pt-BR", {
     day: "2-digit",
     month: "2-digit",
   }).format(date);
+
   const time = new Intl.DateTimeFormat("pt-BR", {
     hour: "2-digit",
     minute: "2-digit",
   }).format(date);
+
   return `${day}, ${dateLabel} · ${time}`;
 }
 
 function isToday(value: string | null): boolean {
   if (!value) return false;
+
   const date = new Date(value);
   const now = new Date();
+
   return (
     date.getFullYear() === now.getFullYear() &&
     date.getMonth() === now.getMonth() &&
@@ -73,7 +84,6 @@ function isToday(value: string | null): boolean {
 function TasksCard({
   task,
   owners,
-  //   author,
   acceptances,
   currentUserId,
   onAccept,
@@ -96,23 +106,28 @@ function TasksCard({
   onRemove: (task: Task) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+
   const done = task.status === "done";
   const date = task.due_at ? new Date(task.due_at) : null;
+
   const overdue =
     !done &&
     date &&
     Number.isFinite(date.getTime()) &&
     date.getTime() < Date.now();
+
   const pendingOwners = owners.filter(
     (owner) =>
       !acceptances.some(
         (a) => a.task_id === task.id && a.user_id === owner.user_id,
       ),
   );
+
   const canAccept =
     !done &&
     owners.some((o) => o.user_id === currentUserId) &&
     pendingOwners.some((o) => o.user_id === currentUserId);
+
   const initials = (name: string) =>
     name
       .trim()
@@ -121,6 +136,7 @@ function TasksCard({
       .map((p) => p[0])
       .join("")
       .toUpperCase();
+
   return (
     <article
       className={`tasks-list-card task-compact-card${done ? " is-done" : ""}`}
@@ -134,14 +150,17 @@ function TasksCard({
       >
         {done && <Check size={16} strokeWidth={3} />}
       </button>
+
       <div className="tasks-list-body">
         <strong className="tasks-list-title">{task.title}</strong>
+
         <div className="task-compact-meta">
           {owners.length ? (
             owners.map((owner) => {
               const accepted = !pendingOwners.some(
                 (p) => p.user_id === owner.user_id,
               );
+
               return (
                 <span
                   className={`task-person-pill${accepted ? "" : " awaiting"}`}
@@ -154,7 +173,9 @@ function TasksCard({
                   >
                     {initials(owner.display_name)}
                   </span>
+
                   <span>{owner.display_name}</span>
+
                   {!accepted && (
                     <span className="task-awaiting">Aguardando</span>
                   )}
@@ -164,7 +185,9 @@ function TasksCard({
           ) : (
             <span className="task-person-pill awaiting">Sem responsável</span>
           )}
+
           <span className="task-compact-date">{taskDate(task.due_at)}</span>
+
           {done ? (
             <span className="task-label-pill completed">
               <Check size={12} /> Feito
@@ -176,10 +199,12 @@ function TasksCard({
               <Clock3 size={12} /> Vence hoje
             </span>
           ) : null}
+
           {task.category && (
             <span className="task-label-pill category">{task.category}</span>
           )}
         </div>
+
         {canAccept && (
           <button
             type="button"
@@ -189,17 +214,20 @@ function TasksCard({
             Aceitar tarefa
           </button>
         )}
+
         <div className="tasks-status-actions">
           {task.status === "open" && (
             <button type="button" onClick={() => onStart(task)}>
               <Play size={13} /> Iniciar
             </button>
           )}
+
           {task.status === "in_progress" && (
             <button type="button" onClick={() => onReopen(task)}>
               <RotateCcw size={13} /> Voltar a fazer
             </button>
           )}
+
           {done && (
             <button type="button" onClick={() => onReopen(task)}>
               <RotateCcw size={13} /> Reabrir
@@ -207,6 +235,7 @@ function TasksCard({
           )}
         </div>
       </div>
+
       <div className="tasks-item-actions">
         <button
           type="button"
@@ -217,6 +246,7 @@ function TasksCard({
         >
           <MoreHorizontal size={20} />
         </button>
+
         {menuOpen && (
           <div className="tasks-actions-popover">
             <button
@@ -228,6 +258,7 @@ function TasksCard({
             >
               <Pencil size={15} /> Editar
             </button>
+
             <button
               type="button"
               className="danger-text"
@@ -247,17 +278,20 @@ function TasksCard({
 
 function defaultQuickDate(day: Date): string {
   const at = new Date(day.getFullYear(), day.getMonth(), day.getDate(), 18, 0);
+
   return `${at.getFullYear()}-${String(at.getMonth() + 1).padStart(2, "0")}-${String(at.getDate()).padStart(2, "0")}T18:00`;
 }
 
 function quickDate(kind: "today" | "tomorrow" | "week"): string {
   const d = new Date();
+
   if (kind === "tomorrow") d.setDate(d.getDate() + 1);
+
   if (kind === "week") {
-    // Choose the end of this week; never pick a day in the past.
     const daysToSunday = (7 - d.getDay()) % 7;
     d.setDate(d.getDate() + daysToSunday);
   }
+
   return defaultQuickDate(d);
 }
 
@@ -312,27 +346,31 @@ function TaskSheet({
     const esc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
+
     document.addEventListener("keydown", esc);
+
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+
     return () => {
       document.removeEventListener("keydown", esc);
       document.body.style.overflow = previous;
     };
   }, [onClose]);
+
   const [expanded, setExpanded] = useState(Boolean(details));
   const [customDate, setCustomDate] = useState(Boolean(editing?.due_at));
+
   const shortcuts = [
     { id: "today", label: "Hoje" },
     { id: "tomorrow", label: "Amanhã" },
-    {
-      id: "week",
-      label: "Essa semana",
-    },
+    { id: "week", label: "Essa semana" },
   ] as const;
+
   const selectedShortcut = shortcuts.find(({ id }) =>
     isSameLocalDay(due, quickDate(id)),
   )?.id;
+
   const avatar = (name: string, color: string, active: boolean) => (
     <span
       className={`task-sheet-avatar${active ? " selected" : ""}`}
@@ -341,6 +379,7 @@ function TaskSheet({
       {name.trim()[0]?.toUpperCase() || "?"}
     </span>
   );
+
   return (
     <div
       className="task-sheet-backdrop"
@@ -356,10 +395,12 @@ function TaskSheet({
         onMouseDown={(e) => e.stopPropagation()}
       >
         <span className="task-sheet-grip" aria-hidden="true" />
+
         <div className="task-sheet-header">
           <h2 id="task-sheet-heading">
             {editing ? "Editar tarefa" : "Nova tarefa"}
           </h2>
+
           <button
             type="button"
             className="task-sheet-close"
@@ -369,10 +410,12 @@ function TaskSheet({
             <X size={20} />
           </button>
         </div>
+
         <form className="task-sheet-form" onSubmit={onSave}>
           <label className="task-sheet-title-label" htmlFor="task-title">
             O que precisa ser feito?
           </label>
+
           <input
             id="task-title"
             className="task-sheet-title-input"
@@ -383,8 +426,10 @@ function TaskSheet({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+
           <div className="task-sheet-section">
             <strong>Quando</strong>
+
             <div className="task-sheet-chips task-sheet-dates">
               {shortcuts.map((item) => (
                 <button
@@ -400,6 +445,7 @@ function TaskSheet({
                 </button>
               ))}
             </div>
+
             <div className="task-sheet-date-tools">
               <button
                 type="button"
@@ -411,6 +457,7 @@ function TaskSheet({
               >
                 {customDate ? "Ocultar data e hora" : "Escolher data e hora"}
               </button>
+
               {due && (
                 <button
                   type="button"
@@ -424,6 +471,7 @@ function TaskSheet({
                 </button>
               )}
             </div>
+
             {customDate && (
               <label className="task-sheet-date-label" htmlFor="task-date">
                 Data e horário
@@ -436,8 +484,10 @@ function TaskSheet({
               </label>
             )}
           </div>
+
           <div className="task-sheet-section">
             <strong>Categoria (opcional)</strong>
+
             <div
               className="task-sheet-chips task-sheet-categories"
               role="group"
@@ -456,6 +506,7 @@ function TaskSheet({
               ))}
             </div>
           </div>
+
           <div className="task-sheet-people">
             <fieldset>
               <legend>
@@ -464,6 +515,7 @@ function TaskSheet({
                   (pode escolher mais de uma pessoa)
                 </span>
               </legend>
+
               <div className="task-sheet-avatar-row">
                 {members.map((member) => (
                   <button
@@ -486,6 +538,7 @@ function TaskSheet({
                       member.color || "#FEB7B7",
                       assigned.includes(member.user_id),
                     )}
+
                     <span>
                       {member.user_id === currentUserId
                         ? "Eu"
@@ -494,6 +547,7 @@ function TaskSheet({
                   </button>
                 ))}
               </div>
+
               <button
                 type="button"
                 className="task-sheet-link"
@@ -503,8 +557,10 @@ function TaskSheet({
               </button>
             </fieldset>
           </div>
+
           <div className="task-sheet-section">
             <strong>Pra quem</strong>
+
             <div className="task-sheet-chips task-sheet-profiles">
               {profiles.map((item) => (
                 <button
@@ -517,6 +573,7 @@ function TaskSheet({
                   {item.name}
                 </button>
               ))}
+
               <button
                 type="button"
                 aria-pressed={!profile}
@@ -527,6 +584,7 @@ function TaskSheet({
               </button>
             </div>
           </div>
+
           <div className="task-sheet-details">
             <button
               type="button"
@@ -535,6 +593,7 @@ function TaskSheet({
             >
               {expanded ? "Ocultar descrição" : "+ Adicionar descrição"}
             </button>
+
             {expanded && (
               <label htmlFor="task-details">
                 Descrição (opcional)
@@ -548,7 +607,9 @@ function TaskSheet({
               </label>
             )}
           </div>
+
           {error && <Notice error={error} />}
+
           <button
             type="submit"
             className="task-sheet-submit"
@@ -560,6 +621,7 @@ function TaskSheet({
                 ? "Salvar alterações"
                 : "Salvar tarefa"}
           </button>
+
           <p className="task-sheet-note">
             A tarefa fica disponível na rede conforme as permissões. Avisos
             externos não são enviados automaticamente.
@@ -573,14 +635,19 @@ function TaskSheet({
 export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
   const { household, user } = useAuth();
   const id = household!.id;
+
   const { items, reload, loading } = useCollection(() => api.tasks(id), [id]);
+
   const { items: members } = useCollection(() => api.members(id), [id]);
+
   const {
     items: acceptances,
     reload: reloadAcceptances,
     error: acceptanceError,
   } = useCollection(() => api.taskAcceptances(id), [id]);
+
   const { items: profiles } = useCollection(() => api.profiles(id), [id]);
+
   const [ownerFilter, setOwnerFilter] = useState<OwnerFilter>("mine");
   const [dateFilter, setDateFilter] = useState<DateFilter>("all");
   const [filterOpen, setFilterOpen] = useState(false);
@@ -593,15 +660,22 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
   const [category, setCategory] = useState("");
   const [profile, setProfile] = useState("");
   const [busy, setBusy] = useState(false);
+
+  // Controla a visualização da próxima semana.
+  const [showNextWeek, setShowNextWeek] = useState(false);
+
   const { error, success, run, setError } = useFeedback();
 
   // Grupos exclusivos: atribuídas à pessoa, atribuídas somente a outras pessoas, e sem responsáveis.
   // Tarefas com múltiplos responsáveis que incluem a pessoa atual ficam em "Comigo".
   const ownerGroup = (task: Task): OwnerFilter => {
     const owners = assignedIds(task);
+
     if (!owners.length) return "unassigned";
+
     return owners.includes(user?.id || "") ? "mine" : "network";
   };
+
   const counts = useMemo(
     () => ({
       mine: items.filter((t) => ownerGroup(t) === "mine").length,
@@ -610,40 +684,84 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
     }),
     [items, user?.id],
   );
-  const filtered = useMemo(
-    () =>
-      items
-        .filter((task) => {
-          if (ownerGroup(task) !== ownerFilter) return false;
-          if (dateFilter !== "all") {
-            if (!task.due_at) return false;
-            const due = new Date(task.due_at);
-            if (Number.isNaN(due.getTime())) return false;
-            const now = new Date();
-            const today = new Date(
-              now.getFullYear(),
-              now.getMonth(),
-              now.getDate(),
-            );
-            const tomorrow = new Date(today);
-            tomorrow.setDate(today.getDate() + 1);
-            const horizon = new Date(today);
-            horizon.setDate(today.getDate() + 8);
-            if (dateFilter === "today" && (due < today || due >= tomorrow))
-              return false;
-            if (dateFilter === "upcoming" && (due < tomorrow || due >= horizon))
-              return false;
+
+  // Calcula a próxima semana, de segunda-feira a domingo.
+  const filtered = useMemo(() => {
+    const now = new Date();
+
+    const nextWeekStart = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+    );
+
+    const day = nextWeekStart.getDay();
+
+    nextWeekStart.setDate(nextWeekStart.getDate() + (day === 0 ? 1 : 8 - day));
+
+    const nextWeekEnd = new Date(nextWeekStart);
+    nextWeekEnd.setDate(nextWeekEnd.getDate() + 7);
+
+    return items
+      .filter((task) => {
+        if (ownerGroup(task) !== ownerFilter) return false;
+
+        if (showNextWeek) {
+          if (!task.due_at) return false;
+
+          const dueDate = new Date(task.due_at);
+
+          if (Number.isNaN(dueDate.getTime())) return false;
+
+          return dueDate >= nextWeekStart && dueDate < nextWeekEnd;
+        }
+
+        if (dateFilter !== "all") {
+          if (!task.due_at) return false;
+
+          const dueDate = new Date(task.due_at);
+
+          if (Number.isNaN(dueDate.getTime())) return false;
+
+          const today = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate(),
+          );
+
+          const tomorrow = new Date(today);
+          tomorrow.setDate(today.getDate() + 1);
+
+          const horizon = new Date(today);
+          horizon.setDate(today.getDate() + 8);
+
+          if (
+            dateFilter === "today" &&
+            (dueDate < today || dueDate >= tomorrow)
+          ) {
+            return false;
           }
-          return true;
-        })
-        .sort((a, b) => {
-          if (a.status === "done" && b.status !== "done") return 1;
-          if (b.status === "done" && a.status !== "done") return -1;
-          return (a.due_at ?? "9999").localeCompare(b.due_at ?? "9999");
-        }),
-    [items, ownerFilter, dateFilter, user?.id],
-  );
+
+          if (
+            dateFilter === "upcoming" &&
+            (dueDate < tomorrow || dueDate >= horizon)
+          ) {
+            return false;
+          }
+        }
+
+        return true;
+      })
+      .sort((a, b) => {
+        if (a.status === "done" && b.status !== "done") return 1;
+        if (b.status === "done" && a.status !== "done") return -1;
+
+        return (a.due_at ?? "9999").localeCompare(b.due_at ?? "9999");
+      });
+  }, [items, ownerFilter, dateFilter, user?.id, showNextWeek]);
+
   const activeFilters = Number(dateFilter !== "all");
+
   const TABS: { value: OwnerFilter; label: string }[] = [
     { value: "mine", label: "Comigo" },
     { value: "network", label: "Rede" },
@@ -664,8 +782,11 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
 
   async function save(event: FormEvent) {
     event.preventDefault();
+
     if (!title.trim() || busy) return;
+
     setBusy(true);
+
     const ok = await run(
       async () => {
         await api.save(
@@ -682,13 +803,17 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
           },
           editing?.id,
         );
+
         await reload();
       },
       editing ? "Alterações salvas" : "Tarefa criada",
     );
+
     setBusy(false);
+
     if (ok) {
       setModal(false);
+
       setOwnerFilter(
         assigned.includes(user!.id)
           ? "mine"
@@ -696,7 +821,9 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
             ? "network"
             : "unassigned",
       );
+
       setDateFilter("all");
+      setShowNextWeek(false);
     }
   }
 
@@ -705,14 +832,18 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
     userIds: string[],
   ): Promise<boolean> {
     if (!userIds.length || busy || assignedIds(task).length) return false;
+
     setBusy(true);
+
     const ok = await run(async () => {
       // A atribuição é feita no Supabase; os aceites permanecem pendentes até a confirmação individual.
       await api.save("tasks", { assignees: userIds }, task.id);
       await reload();
       await reloadAcceptances();
     }, "Tarefa distribuída. Aguardando aceite das pessoas responsáveis.");
+
     setBusy(false);
+
     return Boolean(ok);
   }
 
@@ -725,6 +856,7 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
 
   async function changeStatus(task: Task, status: TaskStatus) {
     if (task.status === status) return;
+
     await run(
       async () => {
         await api.save(
@@ -736,6 +868,7 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
           },
           task.id,
         );
+
         await reload();
       },
       status === "done"
@@ -748,6 +881,7 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
 
   async function remove(task: Task) {
     if (!window.confirm(`Remover "${task.title}"?`)) return;
+
     await run(async () => {
       await api.remove("tasks", task.id);
       await reload();
@@ -761,6 +895,7 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
           <Link to="/" className="tasks-back" aria-label="Voltar ao início">
             <ChevronLeft size={27} />
           </Link>
+
           <h1>{dayOnly ? "O dia da família" : "Tarefas"}</h1>
         </div>
 
@@ -797,7 +932,10 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
             role="tab"
             aria-selected={ownerFilter === tab.value}
             className={ownerFilter === tab.value ? "active" : ""}
-            onClick={() => setOwnerFilter(tab.value)}
+            onClick={() => {
+              setOwnerFilter(tab.value);
+              setShowNextWeek(false);
+            }}
           >
             <span>{tab.label}</span>
             <small>{counts[tab.value]}</small>
@@ -818,15 +956,20 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
             <span className="tasks-filter-count">{activeFilters}</span>
           )}
         </button>
+
         {activeFilters > 0 && (
           <button
             type="button"
             className="tasks-filter-clear"
-            onClick={() => setDateFilter("all")}
+            onClick={() => {
+              setDateFilter("all");
+              setShowNextWeek(false);
+            }}
           >
             Limpar prazo
           </button>
         )}
+
         {filterOpen && (
           <div
             id="task-filter-panel"
@@ -835,14 +978,12 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
           >
             <fieldset>
               <legend>Prazo</legend>
+
               {(
                 [
                   { value: "all", label: "Qualquer data" },
                   { value: "today", label: "Hoje" },
-                  {
-                    value: "upcoming",
-                    label: "Próximos dias",
-                  },
+                  { value: "upcoming", label: "Próximos dias" },
                 ] as const
               ).map((option) => (
                 <label key={option.value}>
@@ -850,12 +991,16 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
                     type="radio"
                     name="tasks-date-filter"
                     checked={dateFilter === option.value}
-                    onChange={() => setDateFilter(option.value)}
+                    onChange={() => {
+                      setDateFilter(option.value);
+                      setShowNextWeek(false);
+                    }}
                   />
                   {option.label}
                 </label>
               ))}
             </fieldset>
+
             <button
               type="button"
               className="button primary tasks-filter-apply"
@@ -871,6 +1016,7 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
         error={!modal ? error || acceptanceError : undefined}
         success={success}
       />
+
       {loading ? (
         <p className="tasks-loading">Carregando tarefas…</p>
       ) : ownerFilter === "unassigned" ? (
@@ -882,9 +1028,36 @@ export function Tasks({ dayOnly = false }: { dayOnly?: boolean }) {
           onAssign={assignUnowned}
         />
       ) : filtered.length === 0 ? (
-        <p className="tasks-group-empty">
-          Nenhuma tarefa neste grupo com o prazo selecionado.
-        </p>
+        <section className="tasks-empty-state">
+          <img src="/estrela.png" alt="" className="tasks-empty-image" />
+          {showNextWeek ? (
+            <>
+              <h2>Não há tarefas para a próxima semana.</h2>
+
+              <button type="button" onClick={() => setShowNextWeek(false)}>
+                Voltar às tarefas
+              </button>
+            </>
+          ) : (
+            <>
+              <h2>Semana toda colada!</h2>
+
+              <p>Todas as tarefas da família foram feitas. Bora</p>
+
+              <p>aproveitar o que realmente importa.</p>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setDateFilter("all");
+                  setShowNextWeek(true);
+                }}
+              >
+                Ver a próxima semana
+              </button>
+            </>
+          )}
+        </section>
       ) : (
         <div className="tasks-redesign-list">
           {filtered.map((task) => (
