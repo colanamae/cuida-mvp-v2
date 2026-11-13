@@ -1,0 +1,21 @@
+import { createClient } from 'npm:@supabase/supabase-js@2';
+Deno.serve(async req=>{
+  const h=new Headers({'Content-Type':'application/json','Access-Control-Allow-Headers':'authorization, apikey, content-type, x-client-info','Access-Control-Allow-Methods':'POST, OPTIONS'});
+  const origin=req.headers.get('Origin')||'';
+  const origins=new Set(['http://localhost:5173','https://cuida-mvp-v2.vercel.app',...(Deno.env.get('APP_ORIGIN')||'').split(',').map(s=>s.trim())]);
+  if(origins.has(origin))h.set('Access-Control-Allow-Origin',origin);
+  const response=(body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers:h});
+  if(req.method==='OPTIONS')return new Response(null,{status:204,headers:h});
+  if(req.method!=='POST'||!origins.has(origin))return response({error:'Origem ou método inválido'},403);
+  const token=req.headers.get('Authorization')?.replace(/^Bearer /,'');
+  if(!token)return response({error:'Login obrigatório'},401);
+  const url=Deno.env.get('SUPABASE_URL'), key=Deno.env.get('SUPABASE_ANON_KEY');
+  if(!url||!key)return response({error:'Supabase incompleto'},500);
+  const db=createClient(url,key,{global:{headers:{Authorization:`Bearer ${token}`}},auth:{persistSession:false,autoRefreshToken:false}});
+  const {data:{user}}=await db.auth.getUser(token);
+  if(!user)return response({error:'Sessão inválida'},401);
+  const {household_id}=await req.json().catch(()=>({}));
+  const {data,error}=await db.rpc('request_whatsapp_link',{p_household_id:household_id});
+  if(error)return response({error:error.message},400);
+  return response({code:data,expires_in_seconds:600});
+});

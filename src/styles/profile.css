@@ -1,2 +1,327 @@
-/* Tela de perfil: alinhada aos campos e botões do Design System. */
-.profile-page{max-width:620px;margin-inline:auto}.profile-panel{padding:clamp(20px,4vw,32px)}.profile-identity{display:flex;gap:16px;align-items:center;margin-bottom:26px}.profile-identity h2{margin:0 0 5px;font-size:24px}.profile-identity p{margin:0;color:var(--muted);font-size:14px}.profile-avatar{display:grid;place-items:center;background:#FEB7B7;color:var(--primary);width:62px;height:62px;flex-shrink:0;border-radius:50%}.profile-form{display:flex;flex-direction:column;gap:10px}.profile-form label{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:500;margin-top:8px}.profile-form input{min-height:50px;border-radius:13px;font-size:14px}.profile-form input[readonly]{background:var(--surface);color:var(--muted)}.profile-form small{color:var(--muted);font-size:12px}.profile-form .notice{margin:12px 0 0}.profile-submit{margin-top:16px;width:100%;min-height:50px;font-size:14px;font-weight:700}.profile-signout{margin-top:5px;width:100%}
+/* ==========================================
+   COLA NA MÃE — PÁGINA DE PERFIL
+   ========================================== */
+
+.profile-page {
+  width: 100%;
+  max-width: 620px;
+  margin-inline: auto;
+  min-width: 0;
+}
+
+/* ==========================================
+   DADOS PESSOAIS
+   ========================================== */
+
+.profile-page .profile-panel {
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.profile-page .profile-identity {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 26px;
+}
+
+.profile-page .profile-identity h2 {
+  margin: 0 0 5px;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.profile-page .profile-identity p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.profile-page .profile-avatar {
+  display: grid;
+  place-items: center;
+  background: #feb7b7;
+  color: var(--primary);
+  width: 62px;
+  height: 62px;
+  flex: 0 0 62px;
+  border-radius: 50%;
+}
+
+.profile-page .profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-page .profile-form label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.profile-page .profile-form input {
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+  border-radius: 13px;
+  font-size: 14px;
+}
+
+.profile-page .profile-form input[readonly] {
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.profile-page .profile-form small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.profile-page .profile-form .notice {
+  margin: 12px 0 0;
+}
+
+.profile-page .profile-submit {
+  margin-top: 16px;
+  width: 100%;
+  min-height: 50px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ==========================================
+   SUAS CONEXÕES
+   ========================================== */
+
+.profile-page .profile-integrations {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+  margin-bottom: 28px;
+  min-width: 0;
+}
+
+.profile-page .profile-integrations-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary);
+}
+
+.profile-page .profile-integrations-heading > svg {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+}
+
+.profile-page .profile-integrations-heading > div {
+  min-width: 0;
+}
+
+.profile-page .profile-integrations-heading h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.profile-page .profile-integrations-heading p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   PAINEL WHATSAPP
+   ========================================== */
+
+.profile-page .profile-integrations > .panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: clamp(20px, 4vw, 28px);
+}
+
+.profile-page .profile-integrations > .panel h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--primary);
+}
+
+.profile-page .profile-integrations > .panel p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.profile-page .profile-integrations > .panel .button {
+  min-height: 46px;
+  font-size: 14px;
+}
+
+/* ==========================================
+   CÓDIGO DE VINCULAÇÃO
+   ========================================== */
+
+.profile-page .profile-integrations .notice.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.profile-page .profile-integrations .notice.info code {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  padding: 12px 14px;
+
+  border-radius: 10px;
+  background: var(--surface);
+
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.4px;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.profile-page .profile-integrations .notice.info .button {
+  max-width: 100%;
+}
+
+/* ==========================================
+   FEEDBACK E ESTADOS
+   ========================================== */
+
+.profile-page .profile-integrations .notice {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.profile-page .profile-integrations button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.profile-page .profile-integrations button:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* ==========================================
+   SAIR DA CONTA
+   ========================================== */
+
+.profile-page .profile-signout {
+  margin-top: 5px;
+  width: 100%;
+  min-height: 48px;
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+   ========================================== */
+
+@media (max-width: 720px) {
+  .profile-page {
+    max-width: 100%;
+  }
+
+  .profile-page .profile-identity {
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .profile-page .profile-avatar {
+    width: 52px;
+    height: 52px;
+    flex-basis: 52px;
+  }
+
+  .profile-page .profile-identity h2 {
+    font-size: 21px;
+  }
+
+  .profile-page .profile-identity p {
+    font-size: 13px;
+  }
+
+  .profile-page .profile-integrations {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    gap: 14px;
+  }
+
+  .profile-page .profile-integrations-heading h2 {
+    font-size: 17px;
+  }
+
+  .profile-page .profile-integrations-heading p {
+    font-size: 12px;
+  }
+
+  .profile-page .profile-integrations > .panel {
+    padding: 18px;
+  }
+
+  .profile-page .profile-integrations > .panel h2 {
+    font-size: 17px;
+  }
+
+  .profile-page .profile-integrations > .panel .button {
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .profile-page .profile-integrations .notice.info code {
+    font-size: 12px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  .profile-page .profile-identity {
+    align-items: flex-start;
+  }
+
+  .profile-page .profile-avatar {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
+  }
+
+  .profile-page .profile-identity h2 {
+    font-size: 19px;
+  }
+
+  .profile-page .profile-integrations-heading {
+    gap: 9px;
+  }
+
+  .profile-page .profile-integrations > .panel {
+    padding: 15px;
+  }
+}
