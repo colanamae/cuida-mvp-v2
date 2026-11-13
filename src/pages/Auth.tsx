@@ -1,31 +1,48 @@
 import { useEffect, useState, type FormEvent } from "react";
+
 import { useNavigate, useLocation } from "react-router-dom";
+
 import { Check, Eye, EyeOff, X } from "lucide-react";
+
 import { supabase, configured } from "../services/supabase";
+
 import { Notice, useFeedback } from "../components/UI";
+import "../styles/auth-redesign.css";
 
 const TERMS_VERSION = "2026-11-05-v1";
+
 const PRIVACY_VERSION = "2026-11-05-v1";
 
 const rules = [
   {
     id: "length",
+
     label: "Pelo menos 8 caracteres",
+
     test: (value: string) => value.length >= 8,
   },
+
   {
     id: "lower",
+
     label: "Uma letra minúscula",
+
     test: (value: string) => /[a-záàâãéêíóôõúüç]/.test(value),
   },
+
   {
     id: "upper",
+
     label: "Uma letra maiúscula",
+
     test: (value: string) => /[A-ZÁÀÂÃÉÊÍÓÔÕÚÜÇ]/.test(value),
   },
+
   {
     id: "number",
+
     label: "Um número",
+
     test: (value: string) => /\d/.test(value),
   },
 ];
@@ -34,9 +51,11 @@ type LegalKind = "terms" | "privacy";
 
 function LegalDialog({
   kind,
+
   onClose,
 }: {
   kind: LegalKind;
+
   onClose: () => void;
 }) {
   useEffect(() => {
@@ -45,6 +64,7 @@ function LegalDialog({
     };
 
     document.addEventListener("keydown", onKeyDown);
+
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [onClose]);
 
@@ -68,6 +88,7 @@ function LegalDialog({
           <h2 id="legal-title">
             {terms ? "Termos de uso" : "Aviso de privacidade"}
           </h2>
+
           <button
             type="button"
             className="legal-close"
@@ -86,7 +107,9 @@ function LegalDialog({
               plataforma com respeito e compartilhar apenas informações que
               tenha autorização para registrar.
             </p>
+
             <h3>1. O que a plataforma oferece</h3>
+
             <p>
               Você pode criar uma conta, organizar sua casa, convidar pessoas
               para a rede de cuidado e registrar tarefas e informações do dia a
@@ -94,27 +117,35 @@ function LegalDialog({
               poderão ser disponibilizados futuramente e terão informações
               próprias quando estiverem ativos.
             </p>
+
             <h3>2. Sua conta e seus convites</h3>
+
             <p>
               Use dados verdadeiros e mantenha sua senha em segurança. Convide
               somente pessoas que devem participar do cuidado. Você é
               responsável por conferir as permissões ao compartilhar informações
               sobre outras pessoas, especialmente crianças.
             </p>
+
             <h3>3. Privacidade e respeito</h3>
+
             <p>
               Não publique dados de terceiros sem uma razão legítima e
               autorização adequada. Você deve usar a plataforma de modo
               respeitoso, sem assédio ou uso indevido de informações da rede.
             </p>
+
             <h3>4. Limites do serviço</h3>
+
             <p>
               A Cola é uma ferramenta de organização. Não substitui serviços de
               saúde, aconselhamento profissional ou atendimentos de emergência.
               Recursos e disponibilidade podem mudar conforme a evolução do
               produto.
             </p>
+
             <h3>5. Dúvidas e mudanças</h3>
+
             <p>
               Estes termos são uma versão inicial para validação do MVP.
               Mudanças relevantes deverão ser informadas às pessoas usuárias
@@ -128,21 +159,27 @@ function LegalDialog({
               conta e permitir que a rede de cuidado funcione. As informações
               não devem ficar visíveis para toda a rede automaticamente.
             </p>
+
             <h3>1. Quais dados são usados</h3>
+
             <p>
               No cadastro, recebemos seu nome, e-mail e credenciais de
               autenticação. Durante o uso, você poderá registrar compromissos,
               tarefas, informações da família, gastos e check-ins de bem-estar.
               Alguns dados são sensíveis e exigem cuidados extras.
             </p>
+
             <h3>2. Por que usamos esses dados</h3>
+
             <p>
               Para autenticar sua conta, manter sua organização familiar,
               permitir a colaboração autorizada e proteger o serviço. Dados de
               bem-estar devem permanecer privados para a pessoa que os
               registrou.
             </p>
+
             <h3>3. Quem pode acessar</h3>
+
             <p>
               O acesso entre pessoas da família depende dos vínculos e
               permissões configurados. A infraestrutura de autenticação e banco
@@ -150,14 +187,18 @@ function LegalDialog({
               à operação do serviço. Não forneça informações de crianças a
               pessoas sem autorização.
             </p>
+
             <h3>4. Suas escolhas</h3>
+
             <p>
               Você pode solicitar acesso, correção ou exclusão de seus dados. A
               plataforma tem uma opção de exportação dos dados acessíveis à sua
               conta. Solicitações de exclusão e outros direitos precisam de um
               canal operacional de atendimento antes do lançamento público.
             </p>
+
             <h3>5. Segurança e conservação</h3>
+
             <p>
               O sistema foi projetado com autenticação e políticas de acesso,
               mas a proteção de dados depende também da configuração e dos
@@ -187,41 +228,49 @@ function LegalDialog({
 export function ColaBrand({ mobile = false }: { mobile?: boolean }) {
   return (
     <div
-      className={
-        mobile
-          ? "mobile-brand-auth auth-logo2-cola"
-          : "auth-logo2 auth-logo2-cola"
-      }
+      className={`cola-auth-brand ${mobile ? "cola-auth-brand--mobile" : ""}`}
     >
       <img
-        src="/logo2.png"
-        alt="Cola"
-        className="cola-logo2-image"
-        style={{
-          width: "38px",
-          height: "38px",
-          objectFit: "contain",
-        }}
+        className="cola-auth-brand-symbol"
+        src="/animations/cola-chega-junto.webp"
+        alt=""
+        aria-hidden="true"
+        width={72}
+        height={72}
+        draggable={false}
       />
-      <span style={{ position: "relative", top: "-10px", marginLeft: "5px" }}>
-        Cola
-      </span>
+
+      <img
+        className="cola-auth-brand-wordmark"
+        src="/branding/cola-wordmark.png"
+        alt="Cola"
+        draggable={false}
+      />
     </div>
   );
 }
 
 export function AuthPage() {
   const [register, setRegister] = useState(false);
+
   const [name, setName] = useState("");
+
   const [email, setEmail] = useState("");
+
   const [password, setPassword] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
+
   const [accepted, setAccepted] = useState(false);
+
   const [legal, setLegal] = useState<LegalKind | null>(null);
+
   const [submitted, setSubmitted] = useState(false);
 
   const { error, success, run } = useFeedback();
+
   const navigate = useNavigate();
+
   const location = useLocation();
 
   const redirect = location.search.includes("convite=")
@@ -229,19 +278,26 @@ export function AuthPage() {
     : "/";
 
   const validName = name.trim().length >= 2 && name.trim().length <= 100;
+
   const validPassword = rules.every((rule) => rule.test(password));
+
   const canRegister = validName && validPassword && accepted && !!email.trim();
 
   function toggleMode() {
     setRegister((previous) => !previous);
+
     setPassword("");
+
     setShowPassword(false);
+
     setAccepted(false);
+
     setSubmitted(false);
   }
 
   async function submit(e: FormEvent) {
     e.preventDefault();
+
     setSubmitted(true);
 
     if (register && !canRegister) return;
@@ -251,18 +307,24 @@ export function AuthPage() {
         const response = register
           ? await supabase.auth.signUp({
               email: email.trim(),
+
               password,
+
               options: {
                 data: {
                   display_name: name.trim(),
+
                   terms_version: TERMS_VERSION,
+
                   privacy_version: PRIVACY_VERSION,
+
                   accepted_at: new Date().toISOString(),
                 },
               },
             })
           : await supabase.auth.signInWithPassword({
               email: email.trim(),
+
               password,
             });
 
@@ -271,8 +333,10 @@ export function AuthPage() {
         if (register) {
           navigate("/cadastro/sucesso", {
             replace: true,
+
             state: {
               email: email.trim(),
+
               needsConfirmation: !response.data.session,
             },
           });
@@ -280,6 +344,7 @@ export function AuthPage() {
           navigate(redirect);
         }
       },
+
       register ? undefined : "Bem-vinda!",
     );
 
@@ -295,14 +360,14 @@ export function AuthPage() {
           <span className="eyebrow">
             UMA PLATAFORMA DE CUIDADO COMPARTILHADO
           </span>
+
           <h1>Cuidar é um combinado nosso.</h1>
+
           <p>
             Uma família inteira pode colar no cuidado. Organize a rotina,
             compartilhe responsabilidades e encontre tempo pra você.
           </p>
         </div>
-
-        <small>A experiência da família começa com a Cola.</small>
       </div>
 
       <div className="auth-form-wrap">
@@ -310,8 +375,6 @@ export function AuthPage() {
           <ColaBrand mobile />
 
           <div className="auth-intro">
-            <span className="eyebrow">BEM-VINDA À NOSSA CASA</span>
-
             <h2>
               {register ? (
                 "Vamos começar?"
@@ -327,7 +390,7 @@ export function AuthPage() {
             <p>
               {register
                 ? "Crie sua conta para compartilhar o cuidado com quem você confia."
-                : "Entre na sua conta para ver o que a família combinou."}
+                : "Entre na sua conta para acompanhar os combinados e compartilhar o cuidado."}
             </p>
           </div>
 
@@ -365,7 +428,7 @@ export function AuthPage() {
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              placeholder="voce@exemplo.com"
+              placeholder="seu@email.com"
             />
           </label>
 
@@ -414,6 +477,7 @@ export function AuthPage() {
                 aria-label="Regras da senha"
               >
                 <span className="auth-hint">Sua senha precisa ter:</span>
+
                 <ul>
                   {rules.map((rule) => (
                     <li
@@ -436,6 +500,7 @@ export function AuthPage() {
               <h3 id="auth-consent-title">
                 Antes de começar, uma combinação importante
               </h3>
+
               <p>
                 Usamos seus dados para organizar sua conta e a rede de cuidado.
                 Você decide com quem compartilhar informações da família. Dados
@@ -450,6 +515,7 @@ export function AuthPage() {
                 >
                   Ler os Termos de Uso
                 </button>
+
                 <button
                   type="button"
                   className="legal-link"
@@ -466,6 +532,7 @@ export function AuthPage() {
                   onChange={(event) => setAccepted(event.target.checked)}
                   required
                 />
+
                 <span>
                   Li e concordo com os Termos de Uso e confirmo que li o Aviso
                   de Privacidade.

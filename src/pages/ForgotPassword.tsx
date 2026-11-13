@@ -42,7 +42,7 @@ export function ForgotPasswordPage() {
           </p>
         </div>
 
-        <small>A experiência da família começa com a Cola.</small>
+        <small></small>
       </div>
 
       <div className="auth-form-wrap">
