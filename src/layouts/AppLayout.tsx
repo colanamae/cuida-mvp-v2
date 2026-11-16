@@ -5,6 +5,7 @@ import {
   CalendarDays,
   ClipboardList,
   Home,
+  Bell,
   LogOut,
   Menu,
   MoreHorizontal,
@@ -18,7 +19,7 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { supabase } from "../services/supabase";
 import { ColaAsterisk } from "../components/ColaAsterisk";
-import { NotificationBell } from "../components/NotificationBell";
+import { useNotifications } from "../hooks/useNotifications";
 import "../styles/app-layout-brand.css";
 
 type NavEntry = {
@@ -42,10 +43,7 @@ const comingSoon = [
 function Brand({ compact = false }: { compact?: boolean }) {
   return (
     <div
-      className={`brand brand--cola-layout${
-        compact ? " brand--cola-compact" : ""
-      }`}
-      aria-label="Cola — Cuidar é um combinado nosso"
+      className={`brand brand--cola-layout${compact ? " brand--cola-compact" : ""}`}
     >
       <span className="brand-icon brand-icon--cola-layout" aria-hidden="true">
         <img
@@ -55,7 +53,6 @@ function Brand({ compact = false }: { compact?: boolean }) {
           draggable={false}
         />
       </span>
-
       <span className="brand-text--cola-layout">
         <img
           src="/branding/cola-wordmark.png"
@@ -63,8 +60,6 @@ function Brand({ compact = false }: { compact?: boolean }) {
           className="cola-layout-brand-wordmark"
           draggable={false}
         />
-
-        {/* {!compact && <small>Cuidar é um combinado nosso.</small>} */}
       </span>
     </div>
   );
@@ -90,7 +85,13 @@ function AssistantLink({ onClick }: { onClick?: () => void }) {
   );
 }
 
-function SideNavContent({ onNavigate }: { onNavigate?: () => void }) {
+function SideNavContent({
+  onNavigate,
+  unread,
+}: {
+  onNavigate?: () => void;
+  unread: number;
+}) {
   return (
     <>
       <AssistantLink onClick={onNavigate} />
@@ -109,6 +110,23 @@ function SideNavContent({ onNavigate }: { onNavigate?: () => void }) {
         >
           <Home size={18} aria-hidden="true" />
           <span>Início</span>
+        </NavLink>
+
+        <NavLink
+          to="/notificacoes"
+          onClick={onNavigate}
+          className={({ isActive }) =>
+            `nav-item cola-nav-item cola-notifications-link${isActive ? " active" : ""}`
+          }
+          aria-label={`Notificações${unread ? `, ${unread} não lidas` : ""}`}
+        >
+          <Bell size={18} aria-hidden="true" />
+          <span>Notificações</span>
+          {unread > 0 && (
+            <span className="cola-nav-count">
+              {unread > 99 ? "99+" : unread}
+            </span>
+          )}
         </NavLink>
 
         <span className="cola-nav-heading">Rotina</span>
@@ -155,6 +173,7 @@ function SideNavContent({ onNavigate }: { onNavigate?: () => void }) {
 
 export function AppLayout({ loading = false }: { loading?: boolean }) {
   const { user, household, households, setHousehold } = useAuth();
+  const { unread } = useNotifications();
   const navigate = useNavigate();
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -206,7 +225,7 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
     <div className="app-shell cola-layout-v2">
       <aside className="sidebar cola-sidebar" aria-label="Menu lateral">
         <Brand />
-        <SideNavContent />
+        <SideNavContent unread={unread} />
         <div className="side-footer cola-sidebar-footer">
           <NavLink
             to="/perfil"
@@ -245,7 +264,6 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
             <Brand compact />
           </div>
           <div className="top-actions">
-            <NotificationBell />
             {households.length > 1 && (
               <select
                 aria-label="Selecionar casa"
@@ -318,7 +336,10 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
               </button>
             </div>
             <div className="drawer-content cola-drawer-content">
-              <SideNavContent onNavigate={() => setDrawerOpen(false)} />
+              <SideNavContent
+                unread={unread}
+                onNavigate={() => setDrawerOpen(false)}
+              />
               <NavLink
                 to="/perfil"
                 className="cola-drawer-profile"
