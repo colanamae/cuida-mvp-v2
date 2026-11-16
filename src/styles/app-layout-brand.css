@@ -1,194 +1,428 @@
 /* ==========================================
-   COLA NA MÃE - APP LAYOUT BRAND
-   Estilos isolados da identidade visual
+   COLA NA MÃE — APP LAYOUT V2
+   Escopo isolado: .app-shell.cola-layout-v2
    ========================================== */
+.app-shell.cola-layout-v2 {
+  --cola-nav-wine: #72003c;
+  --cola-nav-ink: #300b24;
+  --cola-nav-text: #70465b;
+  --cola-nav-purple: #eee1ff;
+  --cola-nav-border: #f0e7e4;
+}
 
-/* Marca principal */
-.app-shell .brand--cola-layout {
+/* Sidebar: o posicionamento estrutural permanece no CSS global. */
+.app-shell.cola-layout-v2 .cola-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  min-width: 0;
+  padding: 18px 14px 16px;
+  background: #fffdfa;
+  border-right: 1px solid var(--cola-nav-border);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.app-shell.cola-layout-v2 .brand--cola-layout {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  min-width: 0;
+  flex: 0 0 auto;
+  margin-bottom: 0px;
+}
+.app-shell.cola-layout-v2 .brand-icon--cola-layout {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  padding: 0;
+  background: transparent;
+  color: #c99bff;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.app-shell.cola-layout-v2 .brand-icon--cola-layout svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+.app-shell.cola-layout-v2 .brand-text--cola-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+}
+.app-shell.cola-layout-v2 .brand-text--cola-layout strong {
+  font-family: "Bricolage Grotesque", sans-serif;
+  color: var(--cola-nav-wine);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+.app-shell.cola-layout-v2 .brand-text--cola-layout small {
+  font-size: 10px;
+  color: var(--cola-nav-text);
+  line-height: 1.4;
+}
+
+/* Destaque da assistente, imediatamente abaixo da marca. */
+.app-shell.cola-layout-v2 .cola-assistant-link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 11px 10px;
+  margin: 22px 0 15px;
+  border-radius: 15px;
+  background: #edddff;
+  color: #502094;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+.app-shell.cola-layout-v2 .cola-assistant-link:hover,
+.app-shell.cola-layout-v2 .cola-assistant-link.is-active {
+  background: #e5d0ff;
+  color: #502094;
+}
+.app-shell.cola-layout-v2 .cola-assistant-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 43px;
+  width: 43px;
+  height: 43px;
+  color: #b58af2;
+}
+.app-shell.cola-layout-v2 .cola-assistant-icon svg {
+  display: block;
+  width: 39px;
+  height: 39px;
+}
+.app-shell.cola-layout-v2 .cola-assistant-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 3px;
+}
+.app-shell.cola-layout-v2 .cola-assistant-copy small {
+  color: #653f9f;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.055em;
+}
+.app-shell.cola-layout-v2 .cola-assistant-copy strong {
+  color: #51208c;
+  font-size: 12px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+/* Menu e seções. */
+.app-shell.cola-layout-v2 .cola-side-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  width: 100%;
+}
+.app-shell.cola-layout-v2 .cola-nav-heading {
+  display: block;
+  margin: 16px 7px 7px;
+  color: #a0808e;
+  font-size: 10px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+.app-shell.cola-layout-v2 .cola-nav-item {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  width: 100%;
+  gap: 11px;
+  padding: 10px 12px;
+  min-height: 40px;
+  border-radius: 10px;
+  color: var(--cola-nav-text);
+  background: transparent;
+  font-size: 13px;
+  line-height: 1.25;
+  font-weight: 600;
+  text-decoration: none;
+}
+.app-shell.cola-layout-v2 .cola-nav-item svg {
+  display: block;
+  flex: 0 0 18px;
+}
+.app-shell.cola-layout-v2 a.cola-nav-item:hover {
+  background: #f6ebed;
+  color: var(--cola-nav-wine);
+}
+.app-shell.cola-layout-v2 .cola-nav-item.active {
+  color: var(--cola-nav-wine);
+  background: #f1e3e5;
+  font-weight: 800;
+}
+.app-shell.cola-layout-v2 .cola-nav-disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+.app-shell.cola-layout-v2 .cola-soon-badge {
+  margin-left: auto;
+  padding: 3px 5px;
+  border-radius: 6px;
+  background: #f3e7e0;
+  color: #97717d;
+  font-size: 9px;
+  white-space: nowrap;
+  line-height: 1.1;
+  font-weight: 600;
+}
+
+/* Rodapé do perfil: fixado ao final da coluna sem sobreposição. */
+.app-shell.cola-layout-v2 .cola-sidebar-footer {
+  position: static;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--cola-nav-border);
+}
+.app-shell.cola-layout-v2 .cola-profile-tile {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 8px;
+  width: 100%;
   min-width: 0;
+  text-decoration: none;
+  color: var(--cola-nav-text);
+  border-radius: 12px;
 }
-
-/* Contêiner do símbolo */
-.app-shell .brand-icon--cola-layout {
-  width: 46px;
-  height: 46px;
-  min-width: 46px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-
-  color: var(--cuida-ink);
+.app-shell.cola-layout-v2 .cola-profile-tile:hover,
+.app-shell.cola-layout-v2 .cola-profile-tile.active {
+  background: #f5ebf0;
 }
-
-/* Símbolo */
-.app-shell .brand-icon--cola-layout svg {
-  display: block;
-  width: 42px;
-  height: 42px;
-  flex-shrink: 0;
+.app-shell.cola-layout-v2 .cola-profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 50%;
+  background: var(--cola-nav-wine);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
 }
-
-/* Bloco de textos */
-.app-shell .brand-text--cola-layout {
+.app-shell.cola-layout-v2 .cola-profile-copy {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 3px;
   min-width: 0;
+  flex: 1;
+  gap: 3px;
 }
-
-/* Título */
-.app-shell .brand-text--cola-layout strong {
-  display: block;
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 19px;
-  font-weight: 800;
-  line-height: 1.15;
+.app-shell.cola-layout-v2 .cola-profile-copy strong {
+  font-size: 12px;
   white-space: nowrap;
-  color: var(--primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--cola-nav-ink);
 }
-
-/* Subtítulo */
-.app-shell .brand-text--cola-layout small {
-  display: block;
-  margin: 0;
+.app-shell.cola-layout-v2 .cola-profile-copy small {
   font-size: 10px;
-  font-weight: 400;
-  line-height: 1.35;
-  color: var(--muted);
+  color: #a17d90;
+}
+.app-shell.cola-layout-v2 .cola-profile-chevron {
+  font-size: 23px;
+  color: #a08391;
 }
 
-/* ==========================================
-   CARD CUIDA - RODAPÉ DA SIDEBAR
-   ========================================== */
+/* Header: manter o sino e o seletor de casa à direita. */
+.app-shell.cola-layout-v2 .cola-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-shell.cola-layout-v2 .cola-topbar .top-actions {
+  margin-left: auto;
+}
+.app-shell.cola-layout-v2 .cola-topbar .mobile-brand {
+  display: none;
+}
 
-.app-shell .sidebar .side-cuida-card {
+/* Loading: estrutura equivalente à Home de referência. */
+.app-shell.cola-layout-v2 .cola-loading-skeleton {
+  width: min(100%, 1050px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 18px;
+}
+.app-shell.cola-layout-v2 .cola-skeleton-line,
+.app-shell.cola-layout-v2 .cola-skeleton-card,
+.app-shell.cola-layout-v2 .cola-skeleton-assistant {
+  background: linear-gradient(90deg, #f0e4e2, #fff7f2, #f0e4e2);
+  background-size: 220% 100%;
+  animation: cola-layout-shimmer 1.7s linear infinite;
+  border-radius: 14px;
+}
+.app-shell.cola-layout-v2 .cola-skeleton-short {
+  height: 15px;
+  width: 220px;
+}
+.app-shell.cola-layout-v2 .cola-skeleton-title {
+  height: 42px;
+  width: min(430px, 85%);
+}
+.app-shell.cola-layout-v2 .cola-skeleton-assistant {
+  height: 125px;
+  border-radius: 20px;
+}
+.app-shell.cola-layout-v2 .cola-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.app-shell.cola-layout-v2 .cola-skeleton-card {
+  height: 240px;
+}
+@keyframes cola-layout-shimmer {
+  to {
+    background-position-x: -220%;
+  }
+}
+
+/* Drawer: mesmo conteúdo editorial da sidebar. */
+.app-shell.cola-layout-v2 .cola-mobile-drawer {
+  display: flex;
+  flex-direction: column;
+  background: #fffdfa;
+}
+.app-shell.cola-layout-v2 .cola-mobile-drawer .drawer-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-shell.cola-layout-v2 .cola-mobile-drawer .drawer-head .brand--cola-layout {
+  width: auto;
+}
+.app-shell.cola-layout-v2 .cola-drawer-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+}
+.app-shell.cola-layout-v2 .cola-mobile-drawer .cola-assistant-link {
+  margin-top: 12px;
+}
+.app-shell.cola-layout-v2 .cola-drawer-profile {
   display: flex;
   align-items: center;
   gap: 12px;
-
-  width: 100%;
-  min-height: 78px;
-  padding: 14px;
-  margin-bottom: 61px;
-
-  background: var(--cuida-surface);
-  border-radius: 16px;
-  color: var(--cuida-ink);
-}
-
-/* Ícone Cola */
-.app-shell .sidebar .side-cuida-icon {
-  width: 44px;
-  height: 44px;
-  flex: 0 0 44px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: transparent;
-}
-
-/* Dimensão do símbolo */
-.app-shell .sidebar .side-cuida-icon svg {
-  display: block;
-  width: 40px;
-  height: 40px;
-}
-
-/* Textos */
-.app-shell .sidebar .side-cuida-text {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-
-  min-width: 0;
-  font-size: 17px;
+  padding: 11px 12px;
+  margin-top: 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--cola-nav-wine);
   font-weight: 700;
-  line-height: 1.2;
-  color: var(--cuida-ink);
+  font-size: 13px;
+}
+.app-shell.cola-layout-v2 .cola-drawer-profile:hover {
+  background: #f1e3e5;
+}
+.app-shell.cola-layout-v2 .cola-bottom-center svg {
+  color: #ad7def;
 }
 
-.app-shell .sidebar .side-cuida-text small {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.3;
-  color: var(--cuida-ink);
+@media (max-width: 720px) {
+  .app-shell.cola-layout-v2 .cola-sidebar {
+    display: none;
+  }
+  .app-shell.cola-layout-v2 .cola-topbar .mobile-brand {
+    display: flex;
+    align-items: center;
+  }
+  .app-shell.cola-layout-v2 .brand--cola-compact {
+    gap: 4px;
+    width: auto;
+  }
+  .app-shell.cola-layout-v2 .brand--cola-compact .brand-icon--cola-layout {
+    width: 27px;
+    height: 27px;
+    flex-basis: 27px;
+  }
+  .app-shell.cola-layout-v2 .brand--cola-compact .brand-icon--cola-layout svg {
+    width: 25px;
+    height: 25px;
+  }
+  .app-shell.cola-layout-v2
+    .brand--cola-compact
+    .brand-text--cola-layout
+    strong {
+    font-size: 19px;
+  }
+  .app-shell.cola-layout-v2 .cola-skeleton-grid {
+    grid-template-columns: 1fr;
+  }
+  .app-shell.cola-layout-v2 .cola-skeleton-card {
+    height: 170px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell.cola-layout-v2 .cola-skeleton-line,
+  .app-shell.cola-layout-v2 .cola-skeleton-card,
+  .app-shell.cola-layout-v2 .cola-skeleton-assistant {
+    animation: none;
+  }
 }
 
 /* ==========================================
-   COLA ASTERISK — COMPONENTES UI
+   MARCA COM IMAGENS — correspondente ao Brand do AppLayout
    ========================================== */
-
-/* Banner Cuida */
-.cuida-banner .cuida-flower {
+.app-shell.cola-layout-v2 .cola-layout-brand-flower {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.app-shell.cola-layout-v2 .cola-layout-brand-wordmark {
+  display: block;
+  width: auto;
+  height: 25px;
+  max-width: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+/* Notificações na sidebar e no drawer */
+.app-shell.cola-layout-v2 .cola-notifications-link {
+  position: relative;
+}
+.app-shell.cola-layout-v2 .cola-nav-count {
+  margin-left: auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  flex: 0 0 32px;
-  color: var(--cuida-ink);
+  flex: 0 0 auto;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 99px;
+  background: #72003c;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
 }
-
-.cuida-banner .cuida-flower svg {
-  width: 25px;
-  height: 25px;
-  display: block;
-}
-
-/* Estado vazio */
-.empty > svg {
-  display: block;
-  width: 46px;
-  height: 46px;
-  margin: 0 auto 12px;
-}
-
-/* Carregamento */
-.loading > svg {
-  display: block;
-  width: 35px;
-  height: 35px;
-}
-
-/* ==========================================
-   MOBILE
-   ========================================== */
-
 @media (max-width: 720px) {
-  .app-shell .mobile-brand.brand--cola-layout {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 0;
-  }
-
-  .app-shell .mobile-brand .brand-icon--cola-layout {
-    width: 34px;
-    height: 34px;
-    min-width: 34px;
-  }
-
-  .app-shell .mobile-brand .brand-icon--cola-layout svg {
-    width: 30px;
-    height: 30px;
-  }
-
-  .app-shell .mobile-brand.brand--cola-layout strong {
-    font-size: 17px;
-    line-height: 1.2;
+  .app-shell.cola-layout-v2 .brand--cola-compact .cola-layout-brand-wordmark {
+    height: 21px;
   }
 }
