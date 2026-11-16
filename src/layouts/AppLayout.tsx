@@ -1,18 +1,19 @@
-import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
-  Home,
+  BriefcaseBusiness,
   CalendarDays,
-  Users,
-  Sparkles,
-  Wallet,
-  Utensils,
-  MoreHorizontal,
-  LogOut,
   ClipboardList,
+  Home,
+  LogOut,
   Menu,
-  X,
+  MoreHorizontal,
+  Sparkles,
   UserRound,
+  Users,
+  Utensils,
+  Wallet,
+  X,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { supabase } from "../services/supabase";
@@ -20,261 +21,240 @@ import { ColaAsterisk } from "../components/ColaAsterisk";
 import { NotificationBell } from "../components/NotificationBell";
 import "../styles/app-layout-brand.css";
 
-const navigation = [
-  ["/", "Início", Home],
-  ["/agenda", "Compromissos", CalendarDays],
-  ["/tarefas", "Tarefas", ClipboardList],
-  ["/rede", "Minha rede", Users],
-  ["/sonhos", "Mapa dos sonhos", Sparkles],
-  ["/financas", "Finanças", Wallet],
-  ["/refeicoes", "Refeições", Utensils],
-] as const;
+type NavEntry = {
+  to: string;
+  label: string;
+  icon: typeof Home;
+};
+
+const routineLinks: NavEntry[] = [
+  { to: "/agenda", label: "Compromissos", icon: CalendarDays },
+  { to: "/tarefas", label: "Tarefas", icon: ClipboardList },
+  { to: "/rede", label: "Minha rede", icon: Users },
+];
+
+const comingSoon = [
+  { label: "Mapa dos sonhos", icon: Sparkles },
+  { label: "Finanças", icon: Wallet },
+  { label: "Refeições", icon: Utensils },
+];
+
+function Brand({ compact = false }: { compact?: boolean }) {
+  return (
+    <div
+      className={`brand brand--cola-layout${
+        compact ? " brand--cola-compact" : ""
+      }`}
+      aria-label="Cola — Cuidar é um combinado nosso"
+    >
+      <span className="brand-icon brand-icon--cola-layout" aria-hidden="true">
+        <img
+          src="/logo.png"
+          alt=""
+          className="cola-layout-brand-flower"
+          draggable={false}
+        />
+      </span>
+
+      <span className="brand-text--cola-layout">
+        <img
+          src="/branding/cola-wordmark.png"
+          alt="Cola"
+          className="cola-layout-brand-wordmark"
+          draggable={false}
+        />
+
+        {/* {!compact && <small>Cuidar é um combinado nosso.</small>} */}
+      </span>
+    </div>
+  );
+}
+
+function AssistantLink({ onClick }: { onClick?: () => void }) {
+  return (
+    <NavLink
+      to="/cuida"
+      className={({ isActive }) =>
+        `cola-assistant-link${isActive ? " is-active" : ""}`
+      }
+      onClick={onClick}
+    >
+      <span className="cola-assistant-icon" aria-hidden="true">
+        <ColaAsterisk size={36} />
+      </span>
+      <span className="cola-assistant-copy">
+        <small>ASSISTENTE COLA</small>
+        <strong>Esvazie a sua mente</strong>
+      </span>
+    </NavLink>
+  );
+}
+
+function SideNavContent({ onNavigate }: { onNavigate?: () => void }) {
+  return (
+    <>
+      <AssistantLink onClick={onNavigate} />
+
+      <nav
+        className="cola-side-navigation"
+        aria-label="Navegação do aplicativo"
+      >
+        <NavLink
+          to="/"
+          end
+          onClick={onNavigate}
+          className={({ isActive }) =>
+            `nav-item cola-nav-item${isActive ? " active" : ""}`
+          }
+        >
+          <Home size={18} aria-hidden="true" />
+          <span>Início</span>
+        </NavLink>
+
+        <span className="cola-nav-heading">Rotina</span>
+        {routineLinks.map(({ to, label, icon: Icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            onClick={onNavigate}
+            className={({ isActive }) =>
+              `nav-item cola-nav-item${isActive ? " active" : ""}`
+            }
+          >
+            <Icon size={18} aria-hidden="true" />
+            <span>{label}</span>
+          </NavLink>
+        ))}
+
+        <span className="cola-nav-heading">Áreas da vida</span>
+        <div className="cola-nav-item cola-nav-disabled" aria-disabled="true">
+          <UserRound size={18} aria-hidden="true" />
+          <span>Pessoal</span>
+        </div>
+        <div className="cola-nav-item cola-nav-disabled" aria-disabled="true">
+          <BriefcaseBusiness size={18} aria-hidden="true" />
+          <span>Profissional</span>
+        </div>
+
+        <span className="cola-nav-heading">Em breve</span>
+        {comingSoon.map(({ label, icon: Icon }) => (
+          <div
+            key={label}
+            className="cola-nav-item cola-nav-disabled"
+            aria-disabled="true"
+          >
+            <Icon size={18} aria-hidden="true" />
+            <span>{label}</span>
+            <small className="cola-soon-badge">Em breve</small>
+          </div>
+        ))}
+      </nav>
+    </>
+  );
+}
 
 export function AppLayout({ loading = false }: { loading?: boolean }) {
-  const { household, households, setHousehold } = useAuth();
+  const { user, household, households, setHousehold } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const drawerCloseRef = useRef<HTMLButtonElement>(null);
-  const drawerTriggerRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    setDrawerOpen(false);
-  }, [location.pathname]);
+  const preferredName = String(
+    user?.user_metadata?.preferred_name ||
+      user?.user_metadata?.display_name ||
+      user?.user_metadata?.full_name ||
+      user?.user_metadata?.name ||
+      user?.email?.split("@")[0] ||
+      "Minha conta",
+  );
+  const initial = preferredName.trim().charAt(0).toUpperCase() || "C";
+
+  useEffect(() => setDrawerOpen(false), [location.pathname]);
 
   useEffect(() => {
     if (!drawerOpen) return;
-
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     const onEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setDrawerOpen(false);
-        drawerTriggerRef.current?.focus();
+        triggerRef.current?.focus();
       }
     };
-
     const onResize = () => {
       if (window.innerWidth > 720) setDrawerOpen(false);
     };
-
     document.addEventListener("keydown", onEscape);
     window.addEventListener("resize", onResize);
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    drawerCloseRef.current?.focus();
-
+    closeRef.current?.focus();
     return () => {
+      document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", onEscape);
       window.removeEventListener("resize", onResize);
-      document.body.style.overflow = previousOverflow;
     };
   }, [drawerOpen]);
 
-  if (loading) {
-    return (
-      <div className="app-shell">
-        <aside className="sidebar">
-          <div className="brand brand--cola-layout">
-            <span className="brand-icon brand-icon--cola-layout">
-              <ColaAsterisk size={42} />
-            </span>
-            <div className="brand-text--cola-layout">
-              <strong>Cola</strong>
-              <small>Cuidar é um combinado nosso.</small>
-            </div>
-          </div>
-
-          <div className="side-label">Sua casa</div>
-
-          <nav className="side-nav" aria-hidden="true">
-            {navigation.map(([path, label, Icon], i) => (
-              <div
-                key={path}
-                className={
-                  "nav-item " +
-                  (i === 0 ? "active " : "") +
-                  (i === 5 ? "spaced" : "")
-                }
-              >
-                <Icon size={18} />
-                {label}
-              </div>
-            ))}
-          </nav>
-
-          <div className="side-footer">
-            <div className="side-cuida-card">
-              <span className="side-cuida-icon">
-                <dotlottie-player
-                  src="/cola-animation.lottie"
-                  background="transparent"
-                  speed="1"
-                  autoplay
-                  loop
-                  style={{ width: "44px", height: "44px" }}
-                ></dotlottie-player>
-              </span>
-              <span className="side-cuida-text">
-                Cuida
-                <small>Sempre por aqui</small>
-              </span>
-            </div>
-          </div>
-        </aside>
-
-        <div className="app-right">
-          <header className="topbar">
-            <div className="brand mobile-brand">
-              <span className="brand-icon">
-                <ColaAsterisk size={21} />
-              </span>
-              <strong>Cola</strong>
-            </div>
-          </header>
-
-          <main className="page" aria-label="Carregando conteúdo">
-            <div className="home-loading">
-              <div className="skeleton-line skeleton-eyebrow" />
-              <div className="skeleton-line skeleton-title" />
-              <div className="skeleton-line skeleton-lead" />
-
-              <div className="skeleton-cuida">
-                <div className="skeleton-circle" />
-                <div className="skeleton-cuida-lines">
-                  <div className="skeleton-line" />
-                  <div className="skeleton-line" />
-                </div>
-              </div>
-
-              <div className="skeleton-home-grid">
-                <div className="skeleton-card skeleton-today">
-                  <div>
-                    <div className="skeleton-line skeleton-card-title" />
-                    <div className="skeleton-line skeleton-card-subtitle" />
-                  </div>
-                </div>
-
-                <div className="skeleton-card skeleton-blue">
-                  <div>
-                    <div className="skeleton-line skeleton-card-title" />
-                    <div className="skeleton-line skeleton-card-subtitle" />
-                  </div>
-                </div>
-
-                <div className="skeleton-card skeleton-olive">
-                  <div>
-                    <div className="skeleton-line skeleton-card-title" />
-                    <div className="skeleton-line skeleton-card-subtitle" />
-                  </div>
-                </div>
-
-                <div className="skeleton-card skeleton-white">
-                  <div>
-                    <div className="skeleton-line skeleton-card-title" />
-                    <div className="skeleton-line skeleton-card-subtitle" />
-                  </div>
-                </div>
-
-                <div className="skeleton-card skeleton-peach">
-                  <div>
-                    <div className="skeleton-line skeleton-card-title" />
-                    <div className="skeleton-line skeleton-card-subtitle" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </main>
-        </div>
-      </div>
-    );
+  async function signOut() {
+    const { error } = await supabase.auth.signOut();
+    if (!error) navigate("/entrar", { replace: true });
+    else console.error("Não foi possível sair da conta:", error.message);
   }
 
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <div className="brand brand--cola-layout">
-          <span className="brand-icon brand-icon--cola-layout">
-            <ColaAsterisk size={42} />
-          </span>
-
-          <div className="brand-text--cola-layout">
-            <strong>Cola</strong>
-            <small>Cuidar é um combinado nosso.</small>
-          </div>
-        </div>
-
-        <nav className="side-nav">
-          {navigation.map(([path, label, Icon]) => (
-            <NavLink
-              key={path}
-              to={path}
-              end={path === "/"}
-              className={({ isActive }) =>
-                "nav-item " + (isActive ? "active " : "")
-              }
-            >
-              <Icon size={18} />
-              {label}
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className="side-footer">
+    <div className="app-shell cola-layout-v2">
+      <aside className="sidebar cola-sidebar" aria-label="Menu lateral">
+        <Brand />
+        <SideNavContent />
+        <div className="side-footer cola-sidebar-footer">
           <NavLink
             to="/perfil"
             className={({ isActive }) =>
-              "nav-item" + (isActive ? " active" : "")
+              `cola-profile-tile${isActive ? " active" : ""}`
             }
           >
-            <UserRound size={18} /> Perfil
-          </NavLink>
-          <NavLink to="/cuida" className="side-cuida-card">
-            <span className="side-cuida-icon">
-              <ColaAsterisk size={40} />
+            <span className="cola-profile-avatar" aria-hidden="true">
+              {initial}
             </span>
-
-            <span className="side-cuida-text">
-              Cuida
-              <small>Sempre por aqui</small>
+            <span className="cola-profile-copy">
+              <strong>{preferredName}</strong>
+              <small>Meu perfil</small>
+            </span>
+            <span className="cola-profile-chevron" aria-hidden="true">
+              ›
             </span>
           </NavLink>
         </div>
       </aside>
 
       <div className="app-right">
-        <header className="topbar">
+        <header className="topbar cola-topbar">
           <button
-            ref={drawerTriggerRef}
-            type="button"
+            ref={triggerRef}
             className="drawer-trigger"
-            aria-label="Abrir menu de módulos"
+            type="button"
+            aria-label="Abrir menu"
             aria-expanded={drawerOpen}
             aria-controls="mobile-module-drawer"
             onClick={() => setDrawerOpen(true)}
           >
             <Menu size={23} />
           </button>
-
-          <div className="brand mobile-brand">
-            <span className="brand-icon">
-              <ColaAsterisk size={21} />
-            </span>
-            <strong>Cola</strong>
+          <div className="mobile-brand">
+            <Brand compact />
           </div>
-
           <div className="top-actions">
             <NotificationBell />
-
             {households.length > 1 && (
               <select
                 aria-label="Selecionar casa"
                 value={household?.id || ""}
-                onChange={(e) => setHousehold(e.target.value)}
+                onChange={(event) => setHousehold(event.target.value)}
               >
-                {households.map((h) => (
-                  <option key={h.id} value={h.id}>
-                    {h.name}
+                {households.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
                   </option>
                 ))}
               </select>
@@ -282,8 +262,28 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
           </div>
         </header>
 
-        <main className="page">
-          <Outlet />
+        <main
+          className="page"
+          aria-label={loading ? "Carregando conteúdo" : undefined}
+          aria-busy={loading}
+        >
+          {loading ? (
+            <div
+              className="cola-loading-skeleton"
+              role="status"
+              aria-label="Carregando seu espaço"
+            >
+              <div className="cola-skeleton-line cola-skeleton-short" />
+              <div className="cola-skeleton-line cola-skeleton-title" />
+              <div className="cola-skeleton-assistant" />
+              <div className="cola-skeleton-grid">
+                <div className="cola-skeleton-card" />
+                <div className="cola-skeleton-card" />
+              </div>
+            </div>
+          ) : (
+            <Outlet />
+          )}
         </main>
       </div>
 
@@ -291,110 +291,49 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
         <div className="drawer-layer">
           <button
             className="drawer-backdrop"
+            type="button"
             aria-label="Fechar menu"
             onClick={() => setDrawerOpen(false)}
-            type="button"
           />
-
           <aside
             id="mobile-module-drawer"
-            className="mobile-drawer"
+            className="mobile-drawer cola-mobile-drawer"
             role="dialog"
             aria-modal="true"
-            aria-label="Menu de módulos"
+            aria-label="Menu do aplicativo"
           >
             <div className="drawer-head">
-              <div className="drawer-brand">
-                <span className="drawer-brand-animation">
-                  <img
-                    src="/flor2.png"
-                    alt=""
-                    style={{
-                      width: "49px",
-                      height: "49px",
-                      objectFit: "contain",
-                    }}
-                  />
-                </span>
-
-                <div>
-                  <strong>Cola</strong>
-                  <small>Cuidar é um combinado nosso.</small>
-                </div>
-              </div>
-
+              <Brand />
               <button
-                ref={drawerCloseRef}
-                className="drawer-close"
+                ref={closeRef}
                 type="button"
+                className="drawer-close"
                 aria-label="Fechar menu"
                 onClick={() => {
                   setDrawerOpen(false);
-                  drawerTriggerRef.current?.focus();
+                  triggerRef.current?.focus();
                 }}
               >
                 <X size={22} />
               </button>
             </div>
-
-            <div className="drawer-content">
-              <nav className="drawer-nav" aria-label="Módulos da plataforma">
-                {navigation.map(([path, label, Icon]) => (
-                  <NavLink
-                    key={path}
-                    to={path}
-                    end={path === "/"}
-                    className={({ isActive }) =>
-                      "drawer-link" + (isActive ? " active" : "")
-                    }
-                    onClick={() => setDrawerOpen(false)}
-                  >
-                    <Icon size={20} />
-                    <span>{label}</span>
-                  </NavLink>
-                ))}
-              </nav>
-
+            <div className="drawer-content cola-drawer-content">
+              <SideNavContent onNavigate={() => setDrawerOpen(false)} />
               <NavLink
                 to="/perfil"
-                className={({ isActive }) =>
-                  "drawer-link drawer-profile-link" +
-                  (isActive ? " active" : "")
-                }
+                className="cola-drawer-profile"
                 onClick={() => setDrawerOpen(false)}
               >
-                <UserRound size={20} />
-                <span>Perfil</span>
-              </NavLink>
-
-              <NavLink
-                to="/cuida"
-                className="drawer-cuia-link"
-                onClick={() => setDrawerOpen(false)}
-              >
-                <span className="drawer-cuia-icon">
-                  <img
-                    src="/flor3.png"
-                    alt=""
-                    style={{
-                      width: "55px",
-                      height: "55px",
-                      objectFit: "contain",
-                    }}
-                  />
-                </span>
-                <span>Conversar com a Cola</span>
+                <UserRound size={18} /> Perfil
               </NavLink>
             </div>
-
             <div className="drawer-footer">
               <button
                 type="button"
                 className="drawer-logout"
                 onClick={async () => {
                   setDrawerOpen(false);
-                  await supabase.auth.signOut();
-                  navigate("/entrar");
+                  await signOut();
                 }}
               >
                 <LogOut size={18} /> Sair da conta
@@ -411,50 +350,39 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
               ["/", "Início", Home],
               ["/agenda", "Compromissos", CalendarDays],
             ] as const
-          ).map(([url, label, Icon]) => (
+          ).map(([path, label, Icon]) => (
             <NavLink
-              key={url}
-              to={url}
-              end={url === "/"}
+              key={path}
+              to={path}
+              end={path === "/"}
               className={({ isActive }) =>
-                "bottom-nav-item" + (isActive ? " selected" : "")
+                `bottom-nav-item${isActive ? " selected" : ""}`
               }
             >
               <Icon size={24} strokeWidth={2.2} />
               <small>{label}</small>
             </NavLink>
           ))}
-
           <NavLink
             to="/cuida"
             aria-label="Conversar com a Cola"
             className={({ isActive }) =>
-              "bottom-nav-center" + (isActive ? " selected" : "")
+              `bottom-nav-center cola-bottom-center${isActive ? " selected" : ""}`
             }
           >
             <span className="bottom-nav-center-inner">
-              <img
-                src="/flor2.png"
-                alt=""
-                style={{
-                  width: "75px",
-                  height: "90px",
-                  objectFit: "contain",
-                }}
-              />
+              <ColaAsterisk size={48} />
             </span>
           </NavLink>
-
           <NavLink
             to="/tarefas"
             className={({ isActive }) =>
-              "bottom-nav-item" + (isActive ? " selected" : "")
+              `bottom-nav-item${isActive ? " selected" : ""}`
             }
           >
             <ClipboardList size={24} strokeWidth={2.2} />
             <small>Tarefas</small>
           </NavLink>
-
           <button
             type="button"
             className="bottom-nav-item bottom-nav-more"
