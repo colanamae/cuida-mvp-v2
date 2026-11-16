@@ -239,16 +239,6 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
               <small>Sempre por aqui</small>
             </span>
           </NavLink>
-
-          <button
-            className="logout"
-            onClick={async () => {
-              await supabase.auth.signOut();
-              navigate("/entrar");
-            }}
-          >
-            <LogOut size={17} /> Sair da conta
-          </button>
         </div>
       </aside>
 
