@@ -6,6 +6,7 @@ export type Attachment = {
   type: string;
   size: number;
 };
+
 export type Proposal = {
   id: string;
   kind: "commitment" | "task";
@@ -19,6 +20,7 @@ export type Proposal = {
   assigned_to?: string | null;
   care_profile_id?: string | null;
 };
+
 export type Reply = {
   reply: string;
   proposals: Proposal[];
@@ -26,34 +28,62 @@ export type Reply = {
   assistant_message_id: string;
 };
 
+export type WeeklyInsightPerson = {
+  name: string;
+  thought: number;
+  done: number;
+  planned_tasks: string[];
+  completed_tasks: string[];
+};
+
 export async function invokeCuida<T>(
   body: Record<string, unknown>,
 ): Promise<T> {
-  const { data, error } = await supabase.functions.invoke("cuida", { body });
+  const { data, error } = await supabase.functions.invoke("cuida", {
+    body,
+  });
+
   if (error) {
     const response =
       "context" in error
         ? (error as { context?: Response }).context
         : undefined;
+
     const payload = response
       ? await response
           .clone()
           .json()
           .catch(() => null)
       : null;
+
     const failure = new Error(
       payload?.error ||
         error.message ||
         "Não foi possível conversar com a Cuida.",
     ) as Error & { code?: string; status?: number };
+
     failure.code = payload?.code;
     failure.status = response?.status;
+
     throw failure;
   }
+
   return data as T;
 }
 
+export async function getWeeklyCuidaInsight(
+  householdId: string,
+  people: WeeklyInsightPerson[],
+): Promise<{ reply: string }> {
+  return invokeCuida<{ reply: string }>({
+    action: "weekly-insight",
+    household_id: householdId,
+    people,
+  });
+}
+
 export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+
 const TYPES = new Set([
   "image/jpeg",
   "image/png",
@@ -70,27 +100,38 @@ const TYPES = new Set([
   "audio/wav",
   "audio/x-wav",
 ]);
+
 export function validateAttachment(file: File) {
-  if (!TYPES.has(file.type))
+  if (!TYPES.has(file.type)) {
     throw new Error(
       "Formato não suportado. Envie imagem, PDF, DOCX, TXT ou áudio.",
     );
-  if (file.size > MAX_UPLOAD_BYTES)
+  }
+
+  if (file.size > MAX_UPLOAD_BYTES) {
     throw new Error("O limite é 10 MB por anexo.");
-  if (file.size === 0) throw new Error("O anexo está vazio.");
+  }
+
+  if (file.size === 0) {
+    throw new Error("O anexo está vazio.");
+  }
 }
+
 export async function uploadCuidaFile(
   file: File,
   userId: string,
 ): Promise<Attachment> {
   validateAttachment(file);
+
   const extension =
     file.name
       .split(".")
       .pop()
       ?.toLowerCase()
       .replace(/[^a-z0-9]/g, "") || "bin";
+
   const path = `${userId}/${crypto.randomUUID()}.${extension}`;
+
   const { error } = await supabase.storage
     .from("cuida-private")
     .upload(path, file, {
@@ -98,8 +139,11 @@ export async function uploadCuidaFile(
       upsert: false,
       cacheControl: "0",
     });
-  if (error)
+
+  if (error) {
     throw new Error(`Não foi possível enviar ${file.name}: ${error.message}`);
+  }
+
   return {
     path,
     name: file.name.slice(0, 160),

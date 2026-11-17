@@ -15,6 +15,9 @@ import { CuidaPage } from "../pages/Cuida";
 import { More } from "../pages/More";
 import { Profile } from "../pages/Profile";
 import { ComingSoon } from "../components/ComingSoon";
+import { Meals as MealsPage } from "../pages/Meals";
+import { Records } from "../pages/Records";
+import { WeeklyDistribution } from "../pages/WeeklyDistribution";
 
 export function AppRoutes() {
   const { user, loading, household } = useAuth();
@@ -55,10 +58,12 @@ export function AppRoutes() {
         <Route index element={<Home />} />
         <Route path="dia" element={<Tasks dayOnly />} />
         <Route path="tarefas" element={<Tasks />} />
+        <Route path="registros" element={<Records />} />
+        <Route path="progresso" element={<WeeklyDistribution />} />
         <Route path="agenda" element={<Agenda />} />
         <Route path="rede" element={<Network />} />
         <Route path="eu" element={<Wellbeing />} />
-        <Route path="refeicoes" element={<ComingSoon />} />
+        <Route path="refeicoes" element={<MealsPage />} />{" "}
         <Route path="financas" element={<ComingSoon />} />
         <Route path="sonhos" element={<ComingSoon />} />
         <Route path="conquistas" element={<Achievements />} />

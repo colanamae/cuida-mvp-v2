@@ -13,6 +13,8 @@ import {
   Menu,
   X,
   UserRound,
+  Heart,
+  ChartNoAxesColumn,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { supabase } from "../services/supabase";
@@ -24,6 +26,9 @@ const navigation = [
   ["/", "Início", Home],
   ["/agenda", "Compromissos", CalendarDays],
   ["/tarefas", "Tarefas", ClipboardList],
+  ["/registros", "Registros", ClipboardList],
+  ["/progresso", "Divisão da semana", ChartNoAxesColumn],
+  ["/eu", "Bem-estar", Heart],
   ["/rede", "Minha rede", Users],
   ["/sonhos", "Mapa dos sonhos", Sparkles],
   ["/financas", "Finanças", Wallet],
@@ -94,7 +99,7 @@ export function AppLayout({ loading = false }: { loading?: boolean }) {
                 className={
                   "nav-item " +
                   (i === 0 ? "active " : "") +
-                  (i === 5 ? "spaced" : "")
+                  (i === 6 ? "spaced" : "")
                 }
               >
                 <Icon size={18} />
