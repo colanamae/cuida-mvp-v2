@@ -1,22 +1,9 @@
 import { useState, type FormEvent } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Users } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { api, message } from "../services/api";
-import { Users } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
-
-function ColaAnimationMark() {
-  return (
-    <div className="onboard-art onboard-art-animated" aria-hidden="true">
-      <dotlottie-player
-        src="/cola-animation.lottie"
-        background="transparent"
-        speed="1"
-        autoplay
-        loop
-      ></dotlottie-player>
-    </div>
-  );
-}
+import "../styles/onboarding-refinement.css";
 
 export function Onboarding() {
   const [name, setName] = useState("Nossa casa");
@@ -26,60 +13,35 @@ export function Onboarding() {
   const { refresh } = useAuth();
   const token = params.get("convite");
 
-  async function create(e: FormEvent) {
-    e.preventDefault();
-    setBusy(true);
-    setError("");
+  async function create(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (busy) return;
+    setBusy(true); setError("");
     try {
       if (token) await api.acceptInvite(token);
       else await api.createHousehold(name.trim());
-      await refresh();
-    } catch (e) {
-      setError(message(e));
-    } finally {
-      setBusy(false);
-    }
+      await refresh(); // AppRoutes mostra a Home; questionário aparece como opcional.
+    } catch (error) { setError(message(error)); }
+    finally { setBusy(false); }
   }
-
   return (
-    <div className="onboarding">
-      <ColaAnimationMark />
-
-      <div className="onboard-stack">
+    <main className="onboarding">
+      <section className="onboard-stack" aria-labelledby="onboard-title">
+        <img src="/florzinha.png" className="onboard-art-animated" alt="" aria-hidden="true" />
         <span className="eyebrow">NOSSA REDE, NOSSA CASA</span>
-        <h1>
-          {token ? "Você recebeu um convite!" : "Quem está chegando junto?"}
-        </h1>
-        <p className="onboard-lead">
-          {token
-            ? "Entre na rede familiar usando o convite recebido."
-            : "Vamos criar sua casa. Depois você convida quem cuida com você."}
-        </p>
-
+        <h1 id="onboard-title">{token ? "Você recebeu um convite!" : "Vamos começar pela sua casa?"}</h1>
+        <p className="onboard-lead">{token
+          ? "Aceite o convite para entrar na rede e dividir o cuidado."
+          : "Para organizar tarefas e compromissos, precisamos criar seu espaço familiar. As seis perguntas de personalização são opcionais e você poderá respondê-las depois."}</p>
         <form onSubmit={create} className="onboard-form onboard-form-refined">
-          {!token && (
-            <label>
-              Nome da casa
-              <input
-                required
-                maxLength={80}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </label>
-          )}
-
-          {error && <div className="notice error">{error}</div>}
-
-          <button className="button primary onboard-submit" disabled={busy}>
-            {token ? "Aceitar convite" : "Criar minha casa"} <Users size={18} />
+          {!token && <label>Nome da casa<input required maxLength={80} minLength={1} value={name} onChange={(e)=>setName(e.target.value)} /></label>}
+          {error && <div className="notice error" role="alert">{error}</div>}
+          <button type="submit" className="button primary onboard-submit" disabled={busy || (!token && !name.trim())}>
+            {busy ? "Salvando..." : token ? "Aceitar convite" : "Criar minha casa"} <Users size={18}/>
           </button>
         </form>
-
-        <p className="muted small onboard-footnote">
-          O acesso aos dados é definido por permissões e vínculos de cuidado.
-        </p>
-      </div>
-    </div>
+        <p className="muted small onboard-footnote">Sua casa protege as informações da família. A configuração pessoal da Cola pode ser feita quando você quiser.</p>
+      </section>
+    </main>
   );
 }

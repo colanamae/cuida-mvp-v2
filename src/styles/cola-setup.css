@@ -1,0 +1,84 @@
+/* Cola na Mãe — questionário opcional. Isolado do AppLayout. */
+.cola-setup-page { --setup-wine:#72003c; --setup-ink:#300b24; --setup-muted:#8c526a; --setup-outline:#ead8ce; min-height:100dvh; width:100%; display:flex; align-items:center; justify-content:center; padding:32px 18px; background:#f8eee5; position:relative; isolation:isolate; color:var(--setup-ink); }
+.cola-setup-page::before {content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 72% 44% at 18% 0%,#f0d7f5 0%,transparent 85%),radial-gradient(ellipse 50% 40% at 98% 80%,#ffd9d4 0%,transparent 85%),radial-gradient(ellipse 40% 35% at 0% 100%,#dce7f1 0%,transparent 80%);}
+.cola-setup-page *, .cola-setup-page *::before,.cola-setup-page *::after {box-sizing:border-box;}
+.cola-setup-card {width:min(100%,420px);padding:28px 26px 24px;background:#fffdfa;border:1px solid #f0e6de;border-radius:20px;box-shadow:0 6px 22px #50213c15;}
+.cola-setup-card--welcome {min-height:435px;display:flex;align-items:center;justify-content:center;padding:36px 28px;}
+.cola-setup-welcome {width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;gap:13px;}
+.cola-setup-flower {display:block;width:84px;height:84px;object-fit:contain;margin-bottom:10px;}
+.cola-setup-welcome h1 {font-size:25px;line-height:1.16;letter-spacing:-.035em;color:var(--setup-ink);margin:0;max-width:310px;}
+.cola-setup-welcome p {font-size:13px;line-height:1.55;color:var(--setup-muted);margin:0 0 38px;max-width:300px;}
+.cola-setup-page button,.cola-setup-page input,.cola-setup-page select {font:inherit;}
+.cola-setup-primary {display:flex;justify-content:center;align-items:center;width:100%;min-height:47px;border:0;border-radius:9px;background:var(--setup-wine);color:#fff;font-size:13px;font-weight:750;cursor:pointer;padding:12px 16px;text-decoration:none;}
+.cola-setup-primary:hover:not(:disabled){background:#5b002f;}
+.cola-setup-primary:disabled{opacity:.47;cursor:not-allowed;}
+.cola-setup-link {display:inline-flex;align-items:center;justify-content:center;border:0;background:transparent;color:var(--setup-wine);font-size:12px;font-weight:650;cursor:pointer;padding:8px 10px;text-decoration:none;}
+.cola-setup-link:hover{text-decoration:underline;}
+.cola-setup-secondary{display:flex;justify-content:center;align-items:center;gap:7px;width:100%;min-height:44px;border:1px solid #bc8199;border-radius:8px;color:var(--setup-wine);text-decoration:none;font-size:13px;font-weight:650;}
+.cola-setup-top {display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;margin-bottom:25px;}
+.cola-setup-top>button {display:inline-flex;align-items:center;gap:4px;justify-self:start;background:transparent;border:0;color:var(--setup-wine);font-size:11px;font-weight:650;cursor:pointer;padding:6px 0;}
+.cola-setup-top>button:last-child {justify-self:end;}
+.cola-setup-logo {display:flex;align-items:center;justify-content:center;gap:3px;}
+.cola-setup-logo img:first-child {width:20px;height:20px;object-fit:contain;}
+.cola-setup-logo img:last-child {height:19px;width:auto;object-fit:contain;}
+.cola-setup-intro {margin-bottom:19px;}
+.cola-setup-intro>span {font-size:11px;color:#a07587;display:block;margin:0 0 7px;}
+.cola-setup-intro h1 {font-size:23px;line-height:1.14;letter-spacing:-.035em;color:var(--setup-ink);margin:0 0 10px;font-weight:800;}
+.cola-setup-intro p {font-size:13px;line-height:1.55;color:var(--setup-muted);margin:0;}
+.cola-setup-intro p:empty {display:none;}
+.cola-setup-fields {display:flex;flex-direction:column;gap:12px;padding:16px 13px;border:1px solid var(--setup-outline);border-radius:14px;margin:0;}
+.cola-setup-fields label {display:flex;flex-direction:column;gap:7px;font-weight:650;font-size:12px;color:var(--setup-ink);}
+.cola-setup-fields input,.cola-setup-fields select {min-height:43px;width:100%;padding:10px 11px;border:1px solid #ccb0bc;border-radius:8px;background:transparent;color:var(--setup-ink);font-size:13px;outline:none;}
+.cola-setup-fields input:focus,.cola-setup-fields select:focus {border-color:var(--setup-wine);box-shadow:0 0 0 2px #72003c1a;}
+.cola-setup-fields input::placeholder {color:#a47a8a;}
+.cola-setup-fields small,.cola-setup-caption {font-size:11px;line-height:1.45;color:var(--setup-muted);margin:0;}
+.cola-setup-select-wrap {position:relative;}
+.cola-setup-select-wrap select {appearance:none;padding-right:35px;}
+.cola-setup-select-wrap>svg{position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--setup-wine);}
+.cola-setup-priorities {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;}
+.cola-setup-priorities button {display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;min-height:103px;padding:10px 5px;border:1px solid var(--setup-outline);border-radius:13px;background:#fffdfa;color:var(--setup-wine);cursor:pointer;}
+.cola-setup-priorities button strong {font-size:11px;line-height:1.25;text-align:center;}
+.cola-setup-priorities button.selected {background:var(--setup-wine);border-color:var(--setup-wine);color:white;}
+.cola-setup-options {display:flex;flex-direction:column;gap:9px;}
+.cola-setup-options button {display:flex;align-items:center;gap:11px;min-height:45px;padding:8px 12px;text-align:left;border:1px solid var(--setup-outline);border-radius:10px;background:transparent;color:var(--setup-ink);font-size:13px;cursor:pointer;}
+.cola-setup-options button.selected{border-color:var(--setup-wine);background:#f8eaf0;}
+.cola-setup-option-circle {display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#f4e8e0;color:#8a526b;}
+.cola-setup-option-check {margin-left:auto;color:var(--setup-wine);}
+.cola-setup-pills {display:flex;flex-wrap:wrap;gap:7px;margin-top:4px;}
+.cola-setup-pills button {border:1px solid var(--setup-outline);border-radius:999px;padding:7px 10px;background:white;color:var(--setup-wine);font-size:11px;font-weight:650;cursor:pointer;}
+.cola-setup-pills button.selected {background:var(--setup-wine);color:white;border-color:var(--setup-wine);}
+.cola-setup-label{font-size:12px;font-weight:650;}
+.cola-setup-add {display:flex;justify-content:center;align-items:center;gap:5px;width:100%;min-height:38px;border:1px dashed #d8adbd;border-radius:8px;background:transparent;color:var(--setup-wine);font-size:12px;cursor:pointer;}
+.cola-setup-add:disabled{opacity:.5;cursor:not-allowed;}
+.cola-setup-chips,.cola-setup-invites {display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+.cola-setup-chips>div {display:flex;align-items:center;gap:8px;max-width:100%;width:max-content;border:1px solid var(--setup-outline);border-radius:999px;padding:6px 9px;background:#f7f6ed;color:#70445b;font-size:11px;}
+.cola-setup-chips button {display:grid;place-items:center;border:0;background:none;color:#916d7c;cursor:pointer;padding:0;}
+.cola-setup-invite{display:flex;align-items:center;gap:9px;padding:9px;border:1px solid var(--setup-outline);border-radius:12px;min-width:0;}
+.cola-setup-invite>div {flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;}
+.cola-setup-invite strong {font-size:11px;}
+.cola-setup-invite small{font-size:10px;color:var(--setup-muted);overflow-wrap:anywhere;}
+.cola-setup-invite button{border:0;background:transparent;color:var(--setup-wine);cursor:pointer;}
+.cola-setup-bubble{display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border-radius:50%;background:#eedfff;color:var(--setup-wine);font-size:12px;}
+.cola-setup-field-error {margin:0;color:#bd3450;font-size:11px;line-height:1.5;}
+.cola-setup-good {display:flex;align-items:center;gap:8px;background:#e8f0ce;border-radius:10px;color:#4f5a30;font-size:11px;padding:11px;margin-top:10px;}
+.cola-setup-calendar {display:flex;flex-direction:column;gap:9px;}
+.cola-setup-calendar-row {display:flex;align-items:center;gap:10px;min-height:47px;border:1px solid var(--setup-outline);border-radius:12px;padding:8px 10px;}
+.cola-setup-calendar-row.connected {border-color:var(--setup-wine);}
+.cola-setup-calendar-icon{display:grid;place-items:center;width:30px;height:30px;border-radius:6px;background:#4385f5;color:white;}
+.cola-setup-calendar-icon.outlook{background:#0078c6;}
+.cola-setup-calendar-row strong{font-size:12px;flex:1;}
+.cola-setup-calendar-row>button{border:1px solid var(--setup-wine);color:var(--setup-wine);background:none;border-radius:999px;font-size:11px;padding:7px 11px;cursor:pointer;}
+.cola-setup-calendar-status,.cola-setup-calendar-soon{font-size:10px;white-space:nowrap;border-radius:999px;padding:7px 11px;background:#e3efc8;color:#536138;display:flex;align-items:center;gap:4px;}
+.cola-setup-calendar-soon{background:#f4ebe4;color:#a27a86;}
+.cola-setup-calendar .cola-setup-caption {display:flex;gap:6px;align-items:flex-start;padding:7px 0 0;}
+.cola-setup-alert {display:flex;align-items:flex-start;gap:10px;background:#fde0df;border-radius:11px;padding:13px;margin-top:13px;color:#8b2a37;}
+.cola-setup-alert.offline{background:#fff0b9;color:#6c5622;}
+.cola-setup-alert>svg{flex:0 0 17px;margin-top:2px;}
+.cola-setup-alert strong{display:block;font-size:12px;margin-bottom:4px;}
+.cola-setup-alert p{font-size:11px;line-height:1.45;margin:0;}
+.cola-setup-alert button{margin-top:7px;border:0;background:transparent;text-decoration:underline;color:inherit;cursor:pointer;font-size:11px;font-weight:700;padding:0;}
+.cola-setup-continue{margin-top:18px;}
+.cola-setup-optional{width:100%;margin-top:6px;}
+.cola-setup-page :is(button,a,input,select):focus-visible{outline:3px solid #aa74bc;outline-offset:2px;}
+@media(max-width:550px){.cola-setup-page{padding:20px 11px 56px;align-items:flex-start;}.cola-setup-card{width:100%;padding:23px 17px 20px;border-radius:18px;}.cola-setup-card--welcome{min-height:380px;}.cola-setup-priorities{grid-template-columns:repeat(2,minmax(0,1fr));}.cola-setup-priorities button{min-height:100px;}.cola-setup-intro h1{font-size:21px;}.cola-setup-welcome h1{font-size:22px;}.cola-setup-fields{padding:14px 11px;}}
+@media(prefers-reduced-motion:reduce){.cola-setup-primary{transition:none;}}
