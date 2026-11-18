@@ -145,10 +145,16 @@ function SideNavContent({
         ))}
 
         <span className="cola-nav-heading">Áreas da vida</span>
-        <div className="cola-nav-item cola-nav-disabled" aria-disabled="true">
+        <NavLink
+          to="/pessoal"
+          onClick={onNavigate}
+          className={({ isActive }) =>
+            `nav-item cola-nav-item${isActive ? " active" : ""}`
+          }
+        >
           <UserRound size={18} aria-hidden="true" />
           <span>Pessoal</span>
-        </div>
+        </NavLink>
         <div className="cola-nav-item cola-nav-disabled" aria-disabled="true">
           <BriefcaseBusiness size={18} aria-hidden="true" />
           <span>Profissional</span>

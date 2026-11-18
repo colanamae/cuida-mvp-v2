@@ -17,6 +17,7 @@ import { CuidaPage } from "../pages/Cuida";
 import { More } from "../pages/More";
 import { Profile } from "../pages/Profile";
 import { ComingSoon } from "../components/ComingSoon";
+import { Personal } from "../pages/Personal";
 
 export function AppRoutes() {
   const { user, loading, household } = useAuth();
@@ -51,6 +52,7 @@ export function AppRoutes() {
         <Route path="agenda" element={<Agenda />} />
         <Route path="rede" element={<Network />} />
         <Route path="eu" element={<Wellbeing />} />
+        <Route path="pessoal" element={<Personal />} />
         <Route path="refeicoes" element={<ComingSoon />} />
         <Route path="financas" element={<ComingSoon />} />
         <Route path="sonhos" element={<ComingSoon />} />
